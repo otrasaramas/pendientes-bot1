@@ -6,6 +6,9 @@ const twilio = require("twilio");
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 
+app.get("/", (req, res) => res.send("Bot activo ✅"));
+app.get("/webhook", (req, res) => res.send("Webhook listo ✅"));
+
 // Clientes
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
