@@ -1,6 +1,6 @@
 const express = require("express");
 const { createClient } = require("@supabase/supabase-js");
-const Anthropic = require("@anthropic-ai/sdk");
+const Anthropic = require("@anthropic-ai/sdk").default || require("@anthropic-ai/sdk");
 const twilio = require("twilio");
 
 const app = express();
