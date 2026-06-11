@@ -133,11 +133,25 @@ Tip: de cada grabación larga sacas 3–4 cortes para Reels/TikTok/Shorts.
 - Segmentación: comportamiento **"expatriados – Colombia"** + intereses de Medellín/Colombia, edad 28–45.
 - Idioma: español. Creativos: "cómprale la casa a tu mamá en Robledo", recorrido + confianza.
 
-### 5.3 Presupuesto sugerido (lean, escalable)
-Empieza pequeño para aprender; sube lo que funcione.
-- Arranque: **$15.000–$25.000 COP/día por campaña** (~USD 4–6). Total ~$45.000–75.000/día.
-- Si no puedes con las 3, **arranca solo con la Campaña A** (la familia es el grueso del mercado) y suma B y C en Semana 3.
-- Regla: deja correr cada anuncio **mínimo 3–4 días** antes de juzgar. Apaga el que no trae chats, sube el que sí.
+### 5.3 Presupuesto real: $1.000.000 COP/mes
+
+Con 1M/mes **no se corren 3 campañas a la vez**. La regla es: **concentrar en la familia
+local** (Campaña A) y meter una sola campaña secundaria de "contado" (inversionista/diáspora)
+únicamente en las semanas del lanzamiento. Además, **gastar poco al inicio y más cerca del 5 de julio**.
+
+Reparto del mes (16 jun → 15 jul ≈ ventana de campaña):
+
+| Fase | Días | Campaña A (familia) | Campaña "contado" (#2/#3) | Subtotal |
+|------|------|---------------------|---------------------------|----------|
+| Expectativa (16–22 jun) | 7 | $12.000/día | — | ~$84.000 |
+| Pre-lanzamiento (23 jun–4 jul) | 12 | $25.000/día | $12.000/día | ~$444.000 |
+| Lanzamiento (5–15 jul) | 11 | $25.000/día | $10.000/día | ~$385.000 |
+| **Total** | | | | **~$913.000** |
+
+- Quedan ~$87.000 de colchón para **impulsar el post que mejor funcione**.
+- Si quieres simplificar al máximo: **pon todo en Campaña A** ($30.000–33.000/día) y olvídate de la secundaria. La familia es el 70–80% del mercado.
+- Regla de oro: deja correr cada anuncio **mínimo 3–4 días** antes de juzgar. Apaga el que no trae chats, sube el que sí.
+- La campaña secundaria alterna: en pre-lanzamiento prueba **diáspora (#3)**; en lanzamiento, lo que mejor responda entre #2 y #3 (ambos pagan de contado, tu preferencia).
 
 ### 5.4 Cronograma de pauta
 - **Semana 1 (16–22 jun):** Campaña A en modo "captación/expectativa" (objetivo Mensajes), presupuesto bajo, creativo teaser + antes/después. Meta: llenar lista de interesados.
@@ -195,3 +209,51 @@ Pauta Meta + Marketplace + Grupos + TikTok
 - **Cifras de renta/rentabilidad** para inversionistas: márcalas como estimadas y valídalas con 3–4 comparables reales de El Tirol.
 - **Coherencia de marca/ética:** si entra inversión, empuja **arriendo de largo plazo**, no Airbnb (La Aurora no es zona turística de todas formas).
 - Los **renders sirven para arrancar**, pero apenas tengas fotos/recorrido reales (5 jul), cámbialos: convierten mucho más.
+
+---
+
+## 10. Piezas EXACTAS que debes tener listas (lo haces todo tú)
+
+Todo con el **celular**, en **vertical 9:16**, con **luz de día** (graba entre 9am–3pm con cortinas
+abiertas), audio sin eco, celular firme (apóyalo o usa un trípode barato). De cada video largo
+sacas 3–4 cortes para Reels/TikTok/Shorts.
+
+### A) URGENTE — captúralo YA, antes de que avance la obra (esta semana)
+> Si la remodelación avanza pierdes el contraste del "antes" para siempre. Esto es lo primero.
+- [ ] **Fotos "ANTES"** de cada espacio: cocina, baño, sala, alcoba(s), zona de ropas. 2–3 fotos por espacio.
+- [ ] **Video "ANTES"** recorriendo el apartamento feo (30–60 seg), comentando "así está hoy".
+- [ ] **Foto/video de la fachada** y la entrada de la unidad El Tirol.
+- [ ] **Video caminata al Metrocable** (apartamento → estación La Aurora) mostrando el tiempo.
+- [ ] **Organizar los renders** que ya tienes por espacio (cocina, baño, sala, alcoba, fachada).
+
+### B) DURANTE la obra (16 jun – 4 jul)
+- [ ] **Fotos/clips de avance** cada 2–3 días (para estados de WhatsApp e historias).
+- [ ] **Video de Sara a cámara — presentación** (40–60 seg): quién eres, qué haces, por qué Robledo, "papeles al día". *Pieza de confianza, la más importante para diáspora y familia.*
+- [ ] **Video "arriendo vs. lo tuyo"** (Sara hablando, 30–45 seg).
+
+### C) APENAS ESTÉ LISTO (5 jul) — reemplaza los renders
+- [ ] **Fotos finales reales** de cada espacio: 1 foto amplia + 1–2 de detalle (cocina, baño, pisos, alcobas, sala). ~12–15 fotos buenas.
+- [ ] **Video recorrido completo** del apartamento terminado (60–90 seg).
+- [ ] **Videos ANTES/DESPUÉS** por espacio (cocina, baño, sala, pisos): el formato estrella. Mínimo 2.
+- [ ] **Foto/pieza "ya está listo"** para anunciar la entrega.
+
+### D) Piezas gráficas (en Canva, una sola vez)
+- [ ] **Plantilla con el lema** "Echa raíces en tu barrio" (marca de agua / cierre de videos).
+- [ ] **Ficha del apartamento**: precio $180M, ~46 m², estrato 1-2, "remodelado, listo para entrar", a minutos del Metrocable La Aurora.
+- [ ] **Pieza de números para inversionista**: precio, renta estimada, rentabilidad, valorización. *(cifras marcadas como estimadas)*
+- [ ] **Pieza de cuenta regresiva** ("Faltan X días – Entrega 5 de julio – Solo 2 disponibles").
+
+### Resumen contable de piezas (lo mínimo viable)
+| Tipo | Cantidad mínima | Cuándo |
+|------|-----------------|--------|
+| Fotos "antes" | ~10 | Ya |
+| Video "antes" + caminata al metro | 2 | Ya |
+| Video Sara a cámara (confianza + arriendo) | 2 | Durante |
+| Clips de avance (estados) | 5–6 | Durante |
+| Fotos finales reales | 12–15 | 5 jul |
+| Video recorrido final | 1 | 5 jul |
+| Videos antes/después | 2–4 | 5 jul |
+| Piezas Canva (plantilla, ficha, números, regresiva) | 4 | Una vez |
+
+> Con eso tienes material de sobra para 4 semanas de orgánico **y** los creativos de las 2 campañas
+> (cada campaña necesita 2–3 creativos para que el algoritmo elija el mejor).
