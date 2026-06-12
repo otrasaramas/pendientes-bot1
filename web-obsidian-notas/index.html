@@ -214,8 +214,25 @@
   .btn-ghost { background: transparent; color: var(--maroon); border: 1.5px solid var(--maroon); }
   .btn-sm { padding: 7px 14px; font-size: 11px; }
 
-  .save-row { display: flex; gap: 12px; align-items: center; margin-top: 6px; }
+  .save-row { display: flex; gap: 12px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
   .hint { font-size: 12px; color: var(--maroon-soft); }
+
+  .obsidian-box {
+    margin-top: 20px; border-top: 1.5px dashed var(--line); padding-top: 16px;
+  }
+  .obsidian-box summary {
+    font-family: "Space Mono", monospace; font-size: 12px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--maroon-soft);
+    cursor: pointer; list-style: none; user-select: none;
+  }
+  .obsidian-box summary::-webkit-details-marker { display: none; }
+  .obsidian-box summary:hover { color: var(--maroon); }
+  .obsidian-inner { margin-top: 16px; }
+  .toggle-row {
+    display: flex; align-items: center; gap: 9px;
+    font-family: "Space Mono", monospace; font-size: 12.5px; cursor: pointer;
+  }
+  .toggle-row input { width: 16px; height: 16px; accent-color: var(--maroon); }
 
   /* side preview of latest notes */
   .recent h3 {
@@ -447,9 +464,29 @@
         </div>
 
         <div class="save-row">
-          <button class="btn btn-primary" onclick="saveNote()">Guardar nota</button>
+          <button class="btn btn-primary" onclick="saveNote(false)">Guardar nota</button>
+          <button class="btn btn-ghost" onclick="saveNote(true)">Guardar y enviar a Obsidian ↗</button>
           <span class="hint" id="saveHint"></span>
         </div>
+
+        <details class="obsidian-box" id="obsidianBox">
+          <summary>⚙︎ Conexión con Obsidian</summary>
+          <div class="obsidian-inner">
+            <label class="field" style="margin:0 0 12px;">
+              <span class="lbl">Nombre de tu vault</span>
+              <input type="text" id="vaultName" placeholder="Ej. Mi cerebro" oninput="saveSettings()" />
+            </label>
+            <label class="field" style="margin:0 0 12px;">
+              <span class="lbl">Carpeta dentro del vault (opcional)</span>
+              <input type="text" id="vaultFolder" placeholder="Ej. Index Notes" oninput="saveSettings()" />
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" id="autoSend" onchange="saveSettings()" />
+              <span>Enviar a Obsidian automáticamente al guardar</span>
+            </label>
+            <p class="hint" style="margin-top:10px;">En iPad/iPhone esto abrirá tu app de Obsidian para crear la nota. Necesitas tener Obsidian instalado y el nombre del vault escrito tal cual aparece en la app.</p>
+          </div>
+        </details>
       </div>
 
       <div class="recent">
@@ -496,6 +533,7 @@ const PALETTE = [
 ];
 
 let db = load();
+if (!db.settings) db.settings = { vault: "", folder: "Index Notes", autoSend: false };
 let newCatColor = PALETTE[0];
 let currentCategoryId = null;
 
@@ -518,6 +556,7 @@ function seed() {
       { id: c3, name: "Aprender haciendo", color: "#E6B23E" }
     ],
     subcategories: [],
+    settings: { vault: "", folder: "Index Notes", autoSend: false },
     notes: [
       { id: uid(), body: "Lo bueno de mirar a través del visor de una cámara es que de verdad te ayuda a mirar y a ver. Uno de mis mejores puntos a lo largo de los años ha sido la capacidad de ver.",
         source: "Paul — encontrar inspiración en todas partes", categoryIds: [c1], subcategoryId: null, order: 0, createdAt: Date.now() },
@@ -525,6 +564,71 @@ function seed() {
         source: "Paul — toma de decisiones", categoryIds: [c2], subcategoryId: null, order: 1, createdAt: Date.now() }
     ]
   };
+}
+
+/* ===================== Obsidian integration ===================== */
+function saveSettings() {
+  db.settings.vault = document.getElementById("vaultName").value.trim();
+  db.settings.folder = document.getElementById("vaultFolder").value.trim();
+  db.settings.autoSend = document.getElementById("autoSend").checked;
+  save();
+}
+function loadSettingsForm() {
+  document.getElementById("vaultName").value = db.settings.vault || "";
+  document.getElementById("vaultFolder").value = db.settings.folder || "";
+  document.getElementById("autoSend").checked = !!db.settings.autoSend;
+}
+
+// turn a note into an Obsidian-friendly Markdown file (with YAML frontmatter)
+function noteToMarkdown(n) {
+  const cats = n.categoryIds.map(catById).filter(Boolean).map(c => c.name);
+  const date = new Date(n.createdAt).toISOString().slice(0, 10);
+  const tags = cats.map(c => c.toLowerCase().replace(/\s+/g, "-"));
+  let fm = "---\n";
+  if (n.source) fm += 'fuente: "' + n.source.replace(/"/g, '\\"') + '"\n';
+  if (cats.length) fm += "categorías: [" + cats.map(c => JSON.stringify(c)).join(", ") + "]\n";
+  if (tags.length) fm += "tags: [" + tags.join(", ") + "]\n";
+  fm += "creada: " + date + "\n---\n\n";
+  return fm + n.body + "\n";
+}
+
+// build a safe note title / filename from the body
+function noteTitle(n) {
+  const base = (n.body || "nota").split("\n")[0].slice(0, 48).trim();
+  const clean = base.replace(/[\\/:*?"<>|#^[\]]/g, "").trim() || "nota";
+  const date = new Date(n.createdAt).toISOString().slice(0, 10);
+  return date + " — " + clean;
+}
+
+function sendToObsidian(noteId) {
+  const n = db.notes.find(x => x.id === noteId);
+  if (!n) return;
+  const vault = (db.settings.vault || "").trim();
+  if (!vault) {
+    flash("Primero escribe el nombre de tu vault en ⚙︎ Conexión con Obsidian");
+    const box = document.getElementById("obsidianBox");
+    if (box) box.open = true;
+    return;
+  }
+  const folder = (db.settings.folder || "").trim().replace(/^\/+|\/+$/g, "");
+  const path = (folder ? folder + "/" : "") + noteTitle(n);
+  const url = "obsidian://new?vault=" + encodeURIComponent(vault) +
+    "&file=" + encodeURIComponent(path) +
+    "&content=" + encodeURIComponent(noteToMarkdown(n));
+  window.location.href = url;
+}
+
+function downloadMarkdown(noteId) {
+  const n = db.notes.find(x => x.id === noteId);
+  if (!n) return;
+  const blob = new Blob([noteToMarkdown(n)], { type: "text/markdown;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = noteTitle(n) + ".md";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
 /* ===================== Helpers ===================== */
@@ -548,7 +652,7 @@ function go(view) {
   document.getElementById("view-" + view).classList.add("active");
   document.getElementById("tab-capture").classList.toggle("active", view === "capture");
   document.getElementById("tab-categories").classList.toggle("active", view === "categories" || view === "board");
-  if (view === "capture") { renderChips(); renderRecent(); }
+  if (view === "capture") { renderChips(); renderRecent(); loadSettingsForm(); }
   if (view === "categories") renderCategories();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -597,16 +701,17 @@ function createCategory() {
   renderChips();
 }
 
-function saveNote() {
+function saveNote(toObsidian) {
   const body = document.getElementById("noteBody").value.trim();
   const source = document.getElementById("noteSource").value.trim();
   if (!body) { flash("La nota necesita un texto"); return; }
   if (selectedCats.size === 0) { flash("Elige al menos una categoría"); return; }
-  db.notes.push({
+  const note = {
     id: uid(), body, source,
     categoryIds: [...selectedCats], subcategoryId: null,
     order: db.notes.length, createdAt: Date.now()
-  });
+  };
+  db.notes.push(note);
   save();
   document.getElementById("noteBody").value = "";
   document.getElementById("noteSource").value = "";
@@ -614,6 +719,10 @@ function saveNote() {
   renderChips();
   renderRecent();
   flash("✓ Nota guardada");
+
+  if (toObsidian || db.settings.autoSend) {
+    setTimeout(() => sendToObsidian(note.id), 250);
+  }
 }
 
 function flash(msg) {
@@ -811,6 +920,8 @@ function openNote(noteId) {
     '</div>' +
     '<div class="modal-actions">' +
       '<button class="btn btn-ghost btn-sm" onclick="deleteNote(\'' + n.id + '\')">Eliminar</button>' +
+      '<button class="btn btn-ghost btn-sm" onclick="downloadMarkdown(\'' + n.id + '\')">Exportar .md</button>' +
+      '<button class="btn btn-primary btn-sm" onclick="sendToObsidian(\'' + n.id + '\')">Enviar a Obsidian ↗</button>' +
     '</div>';
   document.getElementById("overlay").classList.add("open");
 }
