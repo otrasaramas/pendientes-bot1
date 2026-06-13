@@ -636,856 +636,880 @@ export const DEMO_READING_DAYS: ReadingDay[] = [
   {
     "id": "rd-1",
     "day": "2026-01-01",
-    "minutes": 33,
-    "pages": null,
+    "minutes": 43,
+    "pages": 31,
     "note": null,
     "created_at": "2026-01-01T00:00:00Z"
   },
   {
     "id": "rd-2",
     "day": "2026-01-03",
-    "minutes": 46,
-    "pages": null,
+    "minutes": 148,
+    "pages": 106,
     "note": null,
     "created_at": "2026-01-03T00:00:00Z"
   },
   {
     "id": "rd-3",
-    "day": "2026-01-04",
-    "minutes": 48,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-01-04T00:00:00Z"
-  },
-  {
-    "id": "rd-4",
     "day": "2026-01-05",
-    "minutes": 42,
-    "pages": null,
+    "minutes": 73,
+    "pages": 52,
     "note": null,
     "created_at": "2026-01-05T00:00:00Z"
   },
   {
-    "id": "rd-5",
+    "id": "rd-4",
     "day": "2026-01-06",
-    "minutes": 21,
-    "pages": null,
+    "minutes": 31,
+    "pages": 22,
     "note": null,
     "created_at": "2026-01-06T00:00:00Z"
   },
   {
+    "id": "rd-5",
+    "day": "2026-01-07",
+    "minutes": 57,
+    "pages": 41,
+    "note": null,
+    "created_at": "2026-01-07T00:00:00Z"
+  },
+  {
     "id": "rd-6",
     "day": "2026-01-08",
-    "minutes": 57,
-    "pages": null,
+    "minutes": 48,
+    "pages": 34,
     "note": null,
     "created_at": "2026-01-08T00:00:00Z"
   },
   {
     "id": "rd-7",
     "day": "2026-01-09",
-    "minutes": 51,
-    "pages": null,
+    "minutes": 136,
+    "pages": 97,
     "note": null,
     "created_at": "2026-01-09T00:00:00Z"
   },
   {
     "id": "rd-8",
+    "day": "2026-01-10",
+    "minutes": 60,
+    "pages": 43,
+    "note": null,
+    "created_at": "2026-01-10T00:00:00Z"
+  },
+  {
+    "id": "rd-9",
+    "day": "2026-01-11",
+    "minutes": 52,
+    "pages": 37,
+    "note": null,
+    "created_at": "2026-01-11T00:00:00Z"
+  },
+  {
+    "id": "rd-10",
     "day": "2026-01-12",
-    "minutes": 54,
-    "pages": null,
+    "minutes": 71,
+    "pages": 51,
     "note": null,
     "created_at": "2026-01-12T00:00:00Z"
   },
   {
-    "id": "rd-9",
+    "id": "rd-11",
     "day": "2026-01-13",
-    "minutes": 50,
-    "pages": null,
+    "minutes": 24,
+    "pages": 17,
     "note": null,
     "created_at": "2026-01-13T00:00:00Z"
   },
   {
-    "id": "rd-10",
+    "id": "rd-12",
     "day": "2026-01-14",
-    "minutes": 57,
-    "pages": null,
+    "minutes": 60,
+    "pages": 43,
     "note": null,
     "created_at": "2026-01-14T00:00:00Z"
   },
   {
-    "id": "rd-11",
+    "id": "rd-13",
     "day": "2026-01-15",
-    "minutes": 34,
-    "pages": null,
+    "minutes": 112,
+    "pages": 80,
     "note": null,
     "created_at": "2026-01-15T00:00:00Z"
   },
   {
-    "id": "rd-12",
+    "id": "rd-14",
     "day": "2026-01-16",
-    "minutes": 37,
-    "pages": null,
+    "minutes": 66,
+    "pages": 47,
     "note": null,
     "created_at": "2026-01-16T00:00:00Z"
   },
   {
-    "id": "rd-13",
+    "id": "rd-15",
+    "day": "2026-01-18",
+    "minutes": 123,
+    "pages": 88,
+    "note": null,
+    "created_at": "2026-01-18T00:00:00Z"
+  },
+  {
+    "id": "rd-16",
+    "day": "2026-01-20",
+    "minutes": 42,
+    "pages": 30,
+    "note": null,
+    "created_at": "2026-01-20T00:00:00Z"
+  },
+  {
+    "id": "rd-17",
     "day": "2026-01-21",
-    "minutes": 27,
-    "pages": null,
+    "minutes": 36,
+    "pages": 26,
     "note": null,
     "created_at": "2026-01-21T00:00:00Z"
   },
   {
-    "id": "rd-14",
-    "day": "2026-01-22",
-    "minutes": 46,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-01-22T00:00:00Z"
-  },
-  {
-    "id": "rd-15",
+    "id": "rd-18",
     "day": "2026-01-23",
-    "minutes": 54,
-    "pages": null,
+    "minutes": 63,
+    "pages": 45,
     "note": null,
     "created_at": "2026-01-23T00:00:00Z"
   },
   {
-    "id": "rd-16",
-    "day": "2026-01-26",
-    "minutes": 58,
-    "pages": null,
+    "id": "rd-19",
+    "day": "2026-01-25",
+    "minutes": 38,
+    "pages": 27,
     "note": null,
-    "created_at": "2026-01-26T00:00:00Z"
+    "created_at": "2026-01-25T00:00:00Z"
   },
   {
-    "id": "rd-17",
+    "id": "rd-20",
     "day": "2026-01-27",
-    "minutes": 30,
-    "pages": null,
+    "minutes": 38,
+    "pages": 27,
     "note": null,
     "created_at": "2026-01-27T00:00:00Z"
   },
   {
-    "id": "rd-18",
+    "id": "rd-21",
     "day": "2026-01-28",
-    "minutes": 55,
-    "pages": null,
+    "minutes": 59,
+    "pages": 42,
     "note": null,
     "created_at": "2026-01-28T00:00:00Z"
   },
   {
-    "id": "rd-19",
-    "day": "2026-01-29",
-    "minutes": 47,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-01-29T00:00:00Z"
-  },
-  {
-    "id": "rd-20",
+    "id": "rd-22",
     "day": "2026-01-30",
-    "minutes": 26,
-    "pages": null,
+    "minutes": 69,
+    "pages": 49,
     "note": null,
     "created_at": "2026-01-30T00:00:00Z"
   },
   {
-    "id": "rd-21",
+    "id": "rd-23",
     "day": "2026-02-01",
-    "minutes": 43,
-    "pages": null,
+    "minutes": 27,
+    "pages": 19,
     "note": null,
     "created_at": "2026-02-01T00:00:00Z"
   },
   {
-    "id": "rd-22",
+    "id": "rd-24",
+    "day": "2026-02-02",
+    "minutes": 120,
+    "pages": 86,
+    "note": null,
+    "created_at": "2026-02-02T00:00:00Z"
+  },
+  {
+    "id": "rd-25",
     "day": "2026-02-03",
-    "minutes": 51,
-    "pages": null,
+    "minutes": 69,
+    "pages": 49,
     "note": null,
     "created_at": "2026-02-03T00:00:00Z"
   },
   {
-    "id": "rd-23",
+    "id": "rd-26",
     "day": "2026-02-04",
-    "minutes": 41,
-    "pages": null,
+    "minutes": 66,
+    "pages": 47,
     "note": null,
     "created_at": "2026-02-04T00:00:00Z"
   },
   {
-    "id": "rd-24",
+    "id": "rd-27",
+    "day": "2026-02-05",
+    "minutes": 59,
+    "pages": 42,
+    "note": null,
+    "created_at": "2026-02-05T00:00:00Z"
+  },
+  {
+    "id": "rd-28",
     "day": "2026-02-06",
-    "minutes": 38,
-    "pages": null,
+    "minutes": 27,
+    "pages": 19,
     "note": null,
     "created_at": "2026-02-06T00:00:00Z"
   },
   {
-    "id": "rd-25",
-    "day": "2026-02-08",
-    "minutes": 39,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-02-08T00:00:00Z"
-  },
-  {
-    "id": "rd-26",
+    "id": "rd-29",
     "day": "2026-02-09",
-    "minutes": 51,
-    "pages": null,
+    "minutes": 64,
+    "pages": 46,
     "note": null,
     "created_at": "2026-02-09T00:00:00Z"
   },
   {
-    "id": "rd-27",
+    "id": "rd-30",
+    "day": "2026-02-10",
+    "minutes": 39,
+    "pages": 28,
+    "note": null,
+    "created_at": "2026-02-10T00:00:00Z"
+  },
+  {
+    "id": "rd-31",
+    "day": "2026-02-11",
+    "minutes": 35,
+    "pages": 25,
+    "note": null,
+    "created_at": "2026-02-11T00:00:00Z"
+  },
+  {
+    "id": "rd-32",
+    "day": "2026-02-12",
+    "minutes": 55,
+    "pages": 39,
+    "note": null,
+    "created_at": "2026-02-12T00:00:00Z"
+  },
+  {
+    "id": "rd-33",
     "day": "2026-02-13",
-    "minutes": 37,
-    "pages": null,
+    "minutes": 67,
+    "pages": 48,
     "note": null,
     "created_at": "2026-02-13T00:00:00Z"
   },
   {
-    "id": "rd-28",
+    "id": "rd-34",
+    "day": "2026-02-14",
+    "minutes": 151,
+    "pages": 108,
+    "note": null,
+    "created_at": "2026-02-14T00:00:00Z"
+  },
+  {
+    "id": "rd-35",
     "day": "2026-02-16",
-    "minutes": 41,
-    "pages": null,
+    "minutes": 45,
+    "pages": 32,
     "note": null,
     "created_at": "2026-02-16T00:00:00Z"
   },
   {
-    "id": "rd-29",
+    "id": "rd-36",
     "day": "2026-02-17",
-    "minutes": 41,
-    "pages": null,
+    "minutes": 109,
+    "pages": 78,
     "note": null,
     "created_at": "2026-02-17T00:00:00Z"
   },
   {
-    "id": "rd-30",
+    "id": "rd-37",
     "day": "2026-02-18",
-    "minutes": 42,
-    "pages": null,
+    "minutes": 27,
+    "pages": 19,
     "note": null,
     "created_at": "2026-02-18T00:00:00Z"
   },
   {
-    "id": "rd-31",
+    "id": "rd-38",
+    "day": "2026-02-19",
+    "minutes": 122,
+    "pages": 87,
+    "note": null,
+    "created_at": "2026-02-19T00:00:00Z"
+  },
+  {
+    "id": "rd-39",
     "day": "2026-02-20",
-    "minutes": 28,
-    "pages": null,
+    "minutes": 24,
+    "pages": 17,
     "note": null,
     "created_at": "2026-02-20T00:00:00Z"
   },
   {
-    "id": "rd-32",
+    "id": "rd-40",
     "day": "2026-02-21",
-    "minutes": 36,
-    "pages": null,
+    "minutes": 63,
+    "pages": 45,
     "note": null,
     "created_at": "2026-02-21T00:00:00Z"
   },
   {
-    "id": "rd-33",
+    "id": "rd-41",
     "day": "2026-02-23",
-    "minutes": 41,
-    "pages": null,
+    "minutes": 119,
+    "pages": 85,
     "note": null,
     "created_at": "2026-02-23T00:00:00Z"
   },
   {
-    "id": "rd-34",
+    "id": "rd-42",
+    "day": "2026-02-24",
+    "minutes": 66,
+    "pages": 47,
+    "note": null,
+    "created_at": "2026-02-24T00:00:00Z"
+  },
+  {
+    "id": "rd-43",
     "day": "2026-02-26",
-    "minutes": 49,
-    "pages": null,
+    "minutes": 20,
+    "pages": 14,
     "note": null,
     "created_at": "2026-02-26T00:00:00Z"
   },
   {
-    "id": "rd-35",
-    "day": "2026-02-28",
-    "minutes": 24,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-02-28T00:00:00Z"
-  },
-  {
-    "id": "rd-36",
-    "day": "2026-03-01",
-    "minutes": 45,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-03-01T00:00:00Z"
-  },
-  {
-    "id": "rd-37",
+    "id": "rd-44",
     "day": "2026-03-03",
-    "minutes": 28,
-    "pages": null,
+    "minutes": 67,
+    "pages": 48,
     "note": null,
     "created_at": "2026-03-03T00:00:00Z"
   },
   {
-    "id": "rd-38",
+    "id": "rd-45",
     "day": "2026-03-04",
-    "minutes": 30,
-    "pages": null,
+    "minutes": 76,
+    "pages": 54,
     "note": null,
     "created_at": "2026-03-04T00:00:00Z"
   },
   {
-    "id": "rd-39",
-    "day": "2026-03-05",
-    "minutes": 31,
-    "pages": null,
+    "id": "rd-46",
+    "day": "2026-03-06",
+    "minutes": 76,
+    "pages": 54,
     "note": null,
-    "created_at": "2026-03-05T00:00:00Z"
+    "created_at": "2026-03-06T00:00:00Z"
   },
   {
-    "id": "rd-40",
-    "day": "2026-03-09",
-    "minutes": 59,
-    "pages": null,
+    "id": "rd-47",
+    "day": "2026-03-10",
+    "minutes": 76,
+    "pages": 54,
     "note": null,
-    "created_at": "2026-03-09T00:00:00Z"
+    "created_at": "2026-03-10T00:00:00Z"
   },
   {
-    "id": "rd-41",
+    "id": "rd-48",
     "day": "2026-03-11",
-    "minutes": 23,
-    "pages": null,
+    "minutes": 20,
+    "pages": 14,
     "note": null,
     "created_at": "2026-03-11T00:00:00Z"
   },
   {
-    "id": "rd-42",
-    "day": "2026-03-13",
-    "minutes": 41,
-    "pages": null,
+    "id": "rd-49",
+    "day": "2026-03-12",
+    "minutes": 66,
+    "pages": 47,
     "note": null,
-    "created_at": "2026-03-13T00:00:00Z"
+    "created_at": "2026-03-12T00:00:00Z"
   },
   {
-    "id": "rd-43",
+    "id": "rd-50",
+    "day": "2026-03-14",
+    "minutes": 127,
+    "pages": 91,
+    "note": null,
+    "created_at": "2026-03-14T00:00:00Z"
+  },
+  {
+    "id": "rd-51",
+    "day": "2026-03-15",
+    "minutes": 69,
+    "pages": 49,
+    "note": null,
+    "created_at": "2026-03-15T00:00:00Z"
+  },
+  {
+    "id": "rd-52",
     "day": "2026-03-16",
-    "minutes": 32,
-    "pages": null,
+    "minutes": 35,
+    "pages": 25,
     "note": null,
     "created_at": "2026-03-16T00:00:00Z"
   },
   {
-    "id": "rd-44",
-    "day": "2026-03-17",
-    "minutes": 21,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-03-17T00:00:00Z"
-  },
-  {
-    "id": "rd-45",
+    "id": "rd-53",
     "day": "2026-03-18",
-    "minutes": 20,
-    "pages": null,
+    "minutes": 76,
+    "pages": 54,
     "note": null,
     "created_at": "2026-03-18T00:00:00Z"
   },
   {
-    "id": "rd-46",
+    "id": "rd-54",
     "day": "2026-03-19",
-    "minutes": 39,
-    "pages": null,
+    "minutes": 71,
+    "pages": 51,
     "note": null,
     "created_at": "2026-03-19T00:00:00Z"
   },
   {
-    "id": "rd-47",
+    "id": "rd-55",
     "day": "2026-03-20",
-    "minutes": 20,
-    "pages": null,
+    "minutes": 111,
+    "pages": 79,
     "note": null,
     "created_at": "2026-03-20T00:00:00Z"
   },
   {
-    "id": "rd-48",
+    "id": "rd-56",
     "day": "2026-03-21",
-    "minutes": 27,
-    "pages": null,
+    "minutes": 53,
+    "pages": 38,
     "note": null,
     "created_at": "2026-03-21T00:00:00Z"
   },
   {
-    "id": "rd-49",
+    "id": "rd-57",
+    "day": "2026-03-22",
+    "minutes": 69,
+    "pages": 49,
+    "note": null,
+    "created_at": "2026-03-22T00:00:00Z"
+  },
+  {
+    "id": "rd-58",
+    "day": "2026-03-23",
+    "minutes": 22,
+    "pages": 16,
+    "note": null,
+    "created_at": "2026-03-23T00:00:00Z"
+  },
+  {
+    "id": "rd-59",
     "day": "2026-03-24",
-    "minutes": 35,
-    "pages": null,
+    "minutes": 76,
+    "pages": 54,
     "note": null,
     "created_at": "2026-03-24T00:00:00Z"
   },
   {
-    "id": "rd-50",
+    "id": "rd-60",
     "day": "2026-03-25",
-    "minutes": 21,
-    "pages": null,
+    "minutes": 35,
+    "pages": 25,
     "note": null,
     "created_at": "2026-03-25T00:00:00Z"
   },
   {
-    "id": "rd-51",
-    "day": "2026-03-26",
-    "minutes": 48,
-    "pages": null,
+    "id": "rd-61",
+    "day": "2026-03-28",
+    "minutes": 76,
+    "pages": 54,
     "note": null,
-    "created_at": "2026-03-26T00:00:00Z"
+    "created_at": "2026-03-28T00:00:00Z"
   },
   {
-    "id": "rd-52",
-    "day": "2026-03-27",
-    "minutes": 48,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-03-27T00:00:00Z"
-  },
-  {
-    "id": "rd-53",
+    "id": "rd-62",
     "day": "2026-03-30",
-    "minutes": 44,
-    "pages": null,
+    "minutes": 18,
+    "pages": 13,
     "note": null,
     "created_at": "2026-03-30T00:00:00Z"
   },
   {
-    "id": "rd-54",
+    "id": "rd-63",
     "day": "2026-03-31",
-    "minutes": 52,
-    "pages": null,
+    "minutes": 53,
+    "pages": 38,
     "note": null,
     "created_at": "2026-03-31T00:00:00Z"
   },
   {
-    "id": "rd-55",
+    "id": "rd-64",
     "day": "2026-04-01",
-    "minutes": 55,
-    "pages": null,
+    "minutes": 49,
+    "pages": 35,
     "note": null,
     "created_at": "2026-04-01T00:00:00Z"
   },
   {
-    "id": "rd-56",
+    "id": "rd-65",
+    "day": "2026-04-03",
+    "minutes": 29,
+    "pages": 21,
+    "note": null,
+    "created_at": "2026-04-03T00:00:00Z"
+  },
+  {
+    "id": "rd-66",
+    "day": "2026-04-04",
+    "minutes": 20,
+    "pages": 14,
+    "note": null,
+    "created_at": "2026-04-04T00:00:00Z"
+  },
+  {
+    "id": "rd-67",
     "day": "2026-04-06",
-    "minutes": 25,
-    "pages": null,
+    "minutes": 63,
+    "pages": 45,
     "note": null,
     "created_at": "2026-04-06T00:00:00Z"
   },
   {
-    "id": "rd-57",
+    "id": "rd-68",
     "day": "2026-04-07",
-    "minutes": 51,
-    "pages": null,
+    "minutes": 62,
+    "pages": 44,
     "note": null,
     "created_at": "2026-04-07T00:00:00Z"
   },
   {
-    "id": "rd-58",
+    "id": "rd-69",
     "day": "2026-04-08",
-    "minutes": 37,
-    "pages": null,
+    "minutes": 70,
+    "pages": 50,
     "note": null,
     "created_at": "2026-04-08T00:00:00Z"
   },
   {
-    "id": "rd-59",
+    "id": "rd-70",
     "day": "2026-04-09",
-    "minutes": 45,
-    "pages": null,
+    "minutes": 76,
+    "pages": 54,
     "note": null,
     "created_at": "2026-04-09T00:00:00Z"
   },
   {
-    "id": "rd-60",
-    "day": "2026-04-11",
-    "minutes": 34,
-    "pages": null,
+    "id": "rd-71",
+    "day": "2026-04-10",
+    "minutes": 71,
+    "pages": 51,
     "note": null,
-    "created_at": "2026-04-11T00:00:00Z"
+    "created_at": "2026-04-10T00:00:00Z"
   },
   {
-    "id": "rd-61",
+    "id": "rd-72",
     "day": "2026-04-12",
-    "minutes": 59,
-    "pages": null,
+    "minutes": 48,
+    "pages": 34,
     "note": null,
     "created_at": "2026-04-12T00:00:00Z"
   },
   {
-    "id": "rd-62",
+    "id": "rd-73",
     "day": "2026-04-14",
-    "minutes": 53,
-    "pages": null,
+    "minutes": 36,
+    "pages": 26,
     "note": null,
     "created_at": "2026-04-14T00:00:00Z"
   },
   {
-    "id": "rd-63",
+    "id": "rd-74",
+    "day": "2026-04-16",
+    "minutes": 21,
+    "pages": 15,
+    "note": null,
+    "created_at": "2026-04-16T00:00:00Z"
+  },
+  {
+    "id": "rd-75",
+    "day": "2026-04-17",
+    "minutes": 18,
+    "pages": 13,
+    "note": null,
+    "created_at": "2026-04-17T00:00:00Z"
+  },
+  {
+    "id": "rd-76",
     "day": "2026-04-18",
-    "minutes": 44,
-    "pages": null,
+    "minutes": 34,
+    "pages": 24,
     "note": null,
     "created_at": "2026-04-18T00:00:00Z"
   },
   {
-    "id": "rd-64",
+    "id": "rd-77",
+    "day": "2026-04-20",
+    "minutes": 31,
+    "pages": 22,
+    "note": null,
+    "created_at": "2026-04-20T00:00:00Z"
+  },
+  {
+    "id": "rd-78",
     "day": "2026-04-21",
-    "minutes": 27,
-    "pages": null,
+    "minutes": 21,
+    "pages": 15,
     "note": null,
     "created_at": "2026-04-21T00:00:00Z"
   },
   {
-    "id": "rd-65",
+    "id": "rd-79",
     "day": "2026-04-22",
-    "minutes": 37,
-    "pages": null,
+    "minutes": 112,
+    "pages": 80,
     "note": null,
     "created_at": "2026-04-22T00:00:00Z"
   },
   {
-    "id": "rd-66",
-    "day": "2026-04-23",
-    "minutes": 49,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-04-23T00:00:00Z"
-  },
-  {
-    "id": "rd-67",
+    "id": "rd-80",
     "day": "2026-04-24",
-    "minutes": 50,
-    "pages": null,
+    "minutes": 18,
+    "pages": 13,
     "note": null,
     "created_at": "2026-04-24T00:00:00Z"
   },
   {
-    "id": "rd-68",
+    "id": "rd-81",
     "day": "2026-04-25",
-    "minutes": 21,
-    "pages": null,
+    "minutes": 112,
+    "pages": 80,
     "note": null,
     "created_at": "2026-04-25T00:00:00Z"
   },
   {
-    "id": "rd-69",
-    "day": "2026-04-27",
-    "minutes": 40,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-04-27T00:00:00Z"
-  },
-  {
-    "id": "rd-70",
+    "id": "rd-82",
     "day": "2026-04-28",
-    "minutes": 56,
-    "pages": null,
+    "minutes": 64,
+    "pages": 46,
     "note": null,
     "created_at": "2026-04-28T00:00:00Z"
   },
   {
-    "id": "rd-71",
+    "id": "rd-83",
     "day": "2026-04-29",
-    "minutes": 31,
-    "pages": null,
+    "minutes": 62,
+    "pages": 44,
     "note": null,
     "created_at": "2026-04-29T00:00:00Z"
   },
   {
-    "id": "rd-72",
+    "id": "rd-84",
     "day": "2026-04-30",
-    "minutes": 44,
-    "pages": null,
+    "minutes": 25,
+    "pages": 18,
     "note": null,
     "created_at": "2026-04-30T00:00:00Z"
   },
   {
-    "id": "rd-73",
-    "day": "2026-05-01",
-    "minutes": 30,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-01T00:00:00Z"
-  },
-  {
-    "id": "rd-74",
-    "day": "2026-05-02",
-    "minutes": 29,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-02T00:00:00Z"
-  },
-  {
-    "id": "rd-75",
+    "id": "rd-85",
     "day": "2026-05-03",
-    "minutes": 56,
-    "pages": null,
+    "minutes": 28,
+    "pages": 20,
     "note": null,
     "created_at": "2026-05-03T00:00:00Z"
   },
   {
-    "id": "rd-76",
+    "id": "rd-86",
     "day": "2026-05-04",
-    "minutes": 49,
-    "pages": null,
+    "minutes": 25,
+    "pages": 18,
     "note": null,
     "created_at": "2026-05-04T00:00:00Z"
   },
   {
-    "id": "rd-77",
-    "day": "2026-05-05",
-    "minutes": 45,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-05T00:00:00Z"
-  },
-  {
-    "id": "rd-78",
+    "id": "rd-87",
     "day": "2026-05-06",
-    "minutes": 47,
-    "pages": null,
+    "minutes": 146,
+    "pages": 104,
     "note": null,
     "created_at": "2026-05-06T00:00:00Z"
   },
   {
-    "id": "rd-79",
+    "id": "rd-88",
     "day": "2026-05-07",
-    "minutes": 30,
-    "pages": null,
+    "minutes": 73,
+    "pages": 52,
     "note": null,
     "created_at": "2026-05-07T00:00:00Z"
   },
   {
-    "id": "rd-80",
-    "day": "2026-05-08",
-    "minutes": 20,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-08T00:00:00Z"
-  },
-  {
-    "id": "rd-81",
+    "id": "rd-89",
     "day": "2026-05-09",
-    "minutes": 25,
-    "pages": null,
+    "minutes": 56,
+    "pages": 40,
     "note": null,
     "created_at": "2026-05-09T00:00:00Z"
   },
   {
-    "id": "rd-82",
-    "day": "2026-05-10",
-    "minutes": 45,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-10T00:00:00Z"
-  },
-  {
-    "id": "rd-83",
-    "day": "2026-05-11",
-    "minutes": 22,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-11T00:00:00Z"
-  },
-  {
-    "id": "rd-84",
-    "day": "2026-05-12",
-    "minutes": 37,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-12T00:00:00Z"
-  },
-  {
-    "id": "rd-85",
+    "id": "rd-90",
     "day": "2026-05-13",
-    "minutes": 39,
-    "pages": null,
+    "minutes": 38,
+    "pages": 27,
     "note": null,
     "created_at": "2026-05-13T00:00:00Z"
   },
   {
-    "id": "rd-86",
+    "id": "rd-91",
     "day": "2026-05-14",
-    "minutes": 58,
-    "pages": null,
+    "minutes": 77,
+    "pages": 55,
     "note": null,
     "created_at": "2026-05-14T00:00:00Z"
   },
   {
-    "id": "rd-87",
+    "id": "rd-92",
     "day": "2026-05-15",
-    "minutes": 58,
-    "pages": null,
+    "minutes": 46,
+    "pages": 33,
     "note": null,
     "created_at": "2026-05-15T00:00:00Z"
   },
   {
-    "id": "rd-88",
+    "id": "rd-93",
     "day": "2026-05-18",
-    "minutes": 46,
-    "pages": null,
+    "minutes": 76,
+    "pages": 54,
     "note": null,
     "created_at": "2026-05-18T00:00:00Z"
   },
   {
-    "id": "rd-89",
-    "day": "2026-05-20",
-    "minutes": 42,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-20T00:00:00Z"
-  },
-  {
-    "id": "rd-90",
-    "day": "2026-05-21",
-    "minutes": 49,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-21T00:00:00Z"
-  },
-  {
-    "id": "rd-91",
-    "day": "2026-05-24",
-    "minutes": 58,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-05-24T00:00:00Z"
-  },
-  {
-    "id": "rd-92",
+    "id": "rd-94",
     "day": "2026-05-25",
-    "minutes": 20,
-    "pages": null,
+    "minutes": 73,
+    "pages": 52,
     "note": null,
     "created_at": "2026-05-25T00:00:00Z"
   },
   {
-    "id": "rd-93",
-    "day": "2026-05-26",
-    "minutes": 33,
-    "pages": null,
+    "id": "rd-95",
+    "day": "2026-05-27",
+    "minutes": 36,
+    "pages": 26,
     "note": null,
-    "created_at": "2026-05-26T00:00:00Z"
+    "created_at": "2026-05-27T00:00:00Z"
   },
   {
-    "id": "rd-94",
+    "id": "rd-96",
     "day": "2026-05-28",
-    "minutes": 21,
-    "pages": null,
+    "minutes": 31,
+    "pages": 22,
     "note": null,
     "created_at": "2026-05-28T00:00:00Z"
   },
   {
-    "id": "rd-95",
+    "id": "rd-97",
+    "day": "2026-05-29",
+    "minutes": 46,
+    "pages": 33,
+    "note": null,
+    "created_at": "2026-05-29T00:00:00Z"
+  },
+  {
+    "id": "rd-98",
+    "day": "2026-05-30",
+    "minutes": 36,
+    "pages": 26,
+    "note": null,
+    "created_at": "2026-05-30T00:00:00Z"
+  },
+  {
+    "id": "rd-99",
     "day": "2026-06-01",
-    "minutes": 40,
-    "pages": null,
+    "minutes": 71,
+    "pages": 51,
     "note": null,
     "created_at": "2026-06-01T00:00:00Z"
   },
   {
-    "id": "rd-96",
-    "day": "2026-06-02",
-    "minutes": 35,
-    "pages": null,
-    "note": null,
-    "created_at": "2026-06-02T00:00:00Z"
-  },
-  {
-    "id": "rd-97",
+    "id": "rd-100",
     "day": "2026-06-03",
-    "minutes": 51,
-    "pages": null,
+    "minutes": 59,
+    "pages": 42,
     "note": null,
     "created_at": "2026-06-03T00:00:00Z"
   },
   {
-    "id": "rd-98",
+    "id": "rd-101",
     "day": "2026-06-04",
-    "minutes": 23,
-    "pages": null,
+    "minutes": 101,
+    "pages": 72,
     "note": null,
     "created_at": "2026-06-04T00:00:00Z"
   },
   {
-    "id": "rd-99",
+    "id": "rd-102",
     "day": "2026-06-05",
-    "minutes": 30,
-    "pages": null,
+    "minutes": 32,
+    "pages": 23,
     "note": null,
     "created_at": "2026-06-05T00:00:00Z"
   },
   {
-    "id": "rd-100",
+    "id": "rd-103",
     "day": "2026-06-06",
-    "minutes": 56,
-    "pages": null,
+    "minutes": 29,
+    "pages": 21,
     "note": null,
     "created_at": "2026-06-06T00:00:00Z"
   },
   {
-    "id": "rd-101",
+    "id": "rd-104",
     "day": "2026-06-07",
-    "minutes": 30,
-    "pages": null,
+    "minutes": 144,
+    "pages": 103,
     "note": null,
     "created_at": "2026-06-07T00:00:00Z"
   },
   {
-    "id": "rd-102",
+    "id": "rd-105",
     "day": "2026-06-08",
-    "minutes": 20,
-    "pages": null,
+    "minutes": 127,
+    "pages": 91,
     "note": null,
     "created_at": "2026-06-08T00:00:00Z"
   },
   {
-    "id": "rd-103",
+    "id": "rd-106",
     "day": "2026-06-09",
-    "minutes": 30,
-    "pages": null,
+    "minutes": 18,
+    "pages": 13,
     "note": null,
     "created_at": "2026-06-09T00:00:00Z"
   },
   {
-    "id": "rd-104",
+    "id": "rd-107",
     "day": "2026-06-10",
-    "minutes": 52,
-    "pages": null,
+    "minutes": 71,
+    "pages": 51,
     "note": null,
     "created_at": "2026-06-10T00:00:00Z"
   },
   {
-    "id": "rd-105",
+    "id": "rd-108",
     "day": "2026-06-11",
-    "minutes": 43,
-    "pages": null,
+    "minutes": 148,
+    "pages": 106,
     "note": null,
     "created_at": "2026-06-11T00:00:00Z"
   },
   {
-    "id": "rd-106",
+    "id": "rd-109",
     "day": "2026-06-12",
-    "minutes": 26,
-    "pages": null,
+    "minutes": 98,
+    "pages": 70,
     "note": null,
     "created_at": "2026-06-12T00:00:00Z"
   },
   {
-    "id": "rd-107",
+    "id": "rd-110",
     "day": "2026-06-13",
-    "minutes": 58,
-    "pages": null,
+    "minutes": 25,
+    "pages": 18,
     "note": null,
     "created_at": "2026-06-13T00:00:00Z"
   }

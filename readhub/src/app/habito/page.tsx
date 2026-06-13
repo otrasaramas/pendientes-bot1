@@ -46,7 +46,11 @@ export default async function HabitoPage({
         </div>
       </header>
 
-      <HabitTracker year={year} readDays={days.map((d) => d.day)} stats={stats} />
+      <HabitTracker
+        year={year}
+        readDays={days.map((d) => ({ day: d.day, pages: d.pages }))}
+        stats={stats}
+      />
     </div>
   );
 }

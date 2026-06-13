@@ -66,6 +66,9 @@ export interface ReadingStats {
   thisMonth: number;
   daysElapsed: number;
   totalMinutes: number;
+  totalPages: number;
+  avgPages: number;
+  pagesThisMonth: number;
 }
 
 const dayStr = (d: Date) => d.toISOString().slice(0, 10);
@@ -103,15 +106,20 @@ export function computeReadingStats(
   }
 
   const month = today.getMonth();
-  const thisMonth = isCurrentYear
-    ? days.filter((d) => new Date(d.day + "T00:00:00").getMonth() === month).length
-    : 0;
+  const inThisMonth = (d: ReadingDay) =>
+    new Date(d.day + "T00:00:00").getMonth() === month;
+  const thisMonth = isCurrentYear ? days.filter(inThisMonth).length : 0;
 
   const startOfYear = new Date(year, 0, 1);
   const end = isCurrentYear ? today : new Date(year, 11, 31);
   const daysElapsed = Math.floor((end.getTime() - startOfYear.getTime()) / 86400000) + 1;
 
   const totalMinutes = days.reduce((s, d) => s + (d.minutes ?? 0), 0);
+  const totalPages = days.reduce((s, d) => s + (d.pages ?? 0), 0);
+  const avgPages = set.size > 0 ? Math.round(totalPages / set.size) : 0;
+  const pagesThisMonth = isCurrentYear
+    ? days.filter(inThisMonth).reduce((s, d) => s + (d.pages ?? 0), 0)
+    : 0;
 
   return {
     daysThisYear: set.size,
@@ -120,6 +128,9 @@ export function computeReadingStats(
     thisMonth,
     daysElapsed,
     totalMinutes,
+    totalPages,
+    avgPages,
+    pagesThisMonth,
   };
 }
 

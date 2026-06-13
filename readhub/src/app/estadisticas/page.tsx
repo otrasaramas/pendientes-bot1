@@ -5,11 +5,13 @@ import StatsCharts from "@/components/StatsCharts";
 
 export const dynamic = "force-dynamic";
 
-function Big({ label, value }: { label: string; value: string | number }) {
+const TINTS = ["#bcd0ec", "#f1c3d8", "#f2d35e", "#aecfb0", "#e6b98f", "#d9c9ec"];
+
+function Big({ label, value, i }: { label: string; value: string | number; i: number }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-4 text-center">
-      <p className="text-3xl font-semibold">{value}</p>
-      <p className="text-sm text-muted">{label}</p>
+    <div className="rounded-2xl p-4 text-center" style={{ background: TINTS[i % TINTS.length] + "66" }}>
+      <p className="font-serif text-3xl">{value}</p>
+      <p className="kicker mt-1">{label}</p>
     </div>
   );
 }
@@ -31,12 +33,12 @@ export default async function EstadisticasPage() {
       ) : (
         <>
           <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            <Big label="Libros" value={stats.total} />
-            <Big label="Leídos" value={stats.leido} />
-            <Big label="% Ficción" value={`${stats.fictionPct}%`} />
-            <Big label="Páginas leídas" value={stats.pagesRead.toLocaleString("es")} />
-            <Big label="Valoración media" value={stats.avgRating ?? "—"} />
-            <Big label="Leídos este año" value={stats.finishedThisYear} />
+            <Big i={0} label="Libros" value={stats.total} />
+            <Big i={1} label="Leídos" value={stats.leido} />
+            <Big i={2} label="% Ficción" value={`${stats.fictionPct}%`} />
+            <Big i={3} label="Páginas leídas" value={stats.pagesRead.toLocaleString("es")} />
+            <Big i={4} label="Valoración media" value={stats.avgRating ?? "—"} />
+            <Big i={5} label="Leídos este año" value={stats.finishedThisYear} />
           </section>
 
           <StatsCharts stats={stats} />

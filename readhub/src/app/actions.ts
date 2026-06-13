@@ -104,6 +104,35 @@ export async function toggleReadingDay(day: string): Promise<boolean> {
   return true;
 }
 
+/**
+ * Registra las páginas leídas en un día. Si pages > 0, marca el día como leído
+ * (inserta o actualiza). Si pages es 0/null, elimina el registro de ese día.
+ * Devuelve las páginas guardadas (0 si se quitó).
+ */
+export async function setReadingPages(
+  day: string,
+  pages: number | null,
+): Promise<number> {
+  const sb = getSupabase();
+  const p = pages && pages > 0 ? Math.round(pages) : 0;
+
+  if (p === 0) {
+    const { error } = await sb.from("reading_log").delete().eq("day", day);
+    if (error) throw new Error(error.message);
+    revalidatePath("/habito");
+    revalidatePath("/");
+    return 0;
+  }
+
+  const { error } = await sb
+    .from("reading_log")
+    .upsert({ day, pages: p }, { onConflict: "day" });
+  if (error) throw new Error(error.message);
+  revalidatePath("/habito");
+  revalidatePath("/");
+  return p;
+}
+
 /** Actualiza detalles (minutos/nota) de un día ya marcado. */
 export async function updateReadingDay(
   day: string,

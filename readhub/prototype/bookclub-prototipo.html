@@ -29,8 +29,8 @@
   main{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
   h1.page{font-family:var(--serif);font-size:40px;margin:.1em 0 0}
   h2.sec{font-family:var(--serif);font-size:26px;margin:0 0 12px}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px}
-  .hero{padding:34px;border-radius:18px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:22px}
+  .hero{padding:34px;border-radius:28px;background:linear-gradient(135deg,var(--soft),var(--surface));border:0}
   .hero h1{font-family:var(--serif);font-size:clamp(40px,9vw,64px);line-height:1;margin:6px 0 0}
   .hero h1 i{color:var(--primary)}
   .btn{font-family:var(--mono);font-size:12px;letter-spacing:.04em;border-radius:999px;padding:11px 20px;cursor:pointer;border:1px solid var(--primary)}
@@ -40,7 +40,9 @@
   .stats{grid-template-columns:repeat(2,1fr)}
   @media(min-width:640px){.stats{grid-template-columns:repeat(3,1fr)}}
   @media(min-width:980px){.stats{grid-template-columns:repeat(5,1fr)}}
-  .stat{padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
+  .stat{padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--border)}
+  .cellbox{width:18px;height:18px;display:flex;align-items:center;justify-content:center}
+  .dotc{display:block;border-radius:50%}
   .stat .v{font-family:var(--serif);font-size:30px}
   .books{grid-template-columns:repeat(2,1fr)}
   @media(min-width:520px){.books{grid-template-columns:repeat(3,1fr)}}
@@ -178,7 +180,7 @@ function renderInicio(){
       <button class="btn ghost" onclick="go('recomendar')">✦ RECOMIÉNDAME</button></div>
   </section>
   <section class="grid stats" style="margin-top:24px">
-    ${stat(BOOKS.length,"Libros en total")}${stat(por,"Por leer")}${stat(ley,"Leyendo")}${stat(lei,"Leído")}${stat("🔥 13","Racha")}
+    ${stat(BOOKS.length,"Libros en total",null,"#bcd0ec")}${stat(por,"Por leer",null,"#f2d35e")}${stat(ley,"Leyendo",null,"#aecfb0")}${stat(lei,"Leído",null,"#f1c3d8")}${stat("🔥 13","Racha",null,"#e6b98f")}
   </section>
   ${leyendo.length?`<section style="margin-top:28px"><h2 class="sec">Leyendo ahora</h2><div class="grid books">${leyendo.map(x=>miniCard(x.b,x.i)).join("")}</div></section>`:""}
   <section style="margin-top:28px;display:grid;gap:24px;grid-template-columns:1fr">
@@ -187,7 +189,7 @@ function renderInicio(){
   </section>`;
 }
 function miniCard(b,i){const[bg,fg]=color(b);return `<button class="bk" style="background:${bg};color:${fg};aspect-ratio:auto;min-height:84px" onclick="openBook(${i})"><span class="t" style="font-size:13px">“${esc(b.title)}”</span><span class="m">${esc(b.author||"")}</span></button>`;}
-function stat(v,l,h){return `<div class="stat"><div class="v">${v}</div><div class="kicker" style="margin-top:4px">${l}</div>${h?`<div style="font-size:12px;color:var(--muted);margin-top:3px">${h}</div>`:""}</div>`;}
+function stat(v,l,h,tint){return `<div class="stat" style="${tint?`background:${tint}66;border:0`:""}"><div class="v">${v}</div><div class="kicker" style="margin-top:4px">${l}</div>${h?`<div style="font-size:12px;color:var(--muted);margin-top:3px">${h}</div>`:""}</div>`;}
 
 function renderBiblioteca(){
   const chips=["todos","por_leer","leyendo","leido"];
@@ -208,30 +210,46 @@ function renderTablero(){
     return `<div class="col"><h3 style="color:${STATUS[s].color}">${l} · ${items.length}</h3>${items.map(x=>{const[bg,fg]=color(x.b);return `<div class="kcard" onclick="openBook(${x.i})"><div class="kc-cov" style="background:${bg};color:${fg}">“${esc(x.b.title).slice(0,22)}”</div><div><div style="font-size:13px;font-weight:600;line-height:1.15">${esc(x.b.title)}</div><div style="font-size:11px;color:var(--muted)">${esc(x.b.author||"")}</div></div></div>`;}).join("")||'<p style="color:var(--muted);font-size:13px">Vacío</p>'}</div>`;}).join("")}</div>`;
 }
 
+function pagesFor(ds){return 12+(hash(ds)%58);} // páginas pseudo para el demo
 function renderHabito(){
-  const set=new Set(READ_DAYS);const today="2026-06-13";
+  const today="2026-06-13";
+  const pmap={};READ_DAYS.forEach(ds=>pmap[ds]=pagesFor(ds));
+  const vals=Object.values(pmap);const maxP=Math.max(1,...vals);const totalP=vals.reduce((a,b)=>a+b,0);
+  const avg=READ_DAYS.length?Math.round(totalP/READ_DAYS.length):0;
+  const MES=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
   const start=new Date(2026,0,1);const off=(start.getDay()+6)%7;const cur=new Date(2026,0,1-off);const end=new Date(2026,11,31);
   const weeks=[];while(cur<=end){const w=[];for(let i=0;i<7;i++){w.push(new Date(cur));cur.setDate(cur.getDate()+1);}weeks.push(w);}
   const toS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-  const hm=weeks.map(w=>`<div class="wk">${w.map(d=>{const ds=toS(d);const inY=d.getFullYear()===2026;const fut=ds>today;const on=set.has(ds);return `<div class="cell ${!inY?"":on?"on":fut?"future":""}" title="${ds}" style="${!inY?"background:transparent":""}"></div>`;}).join("")}</div>`).join("");
+  const months=weeks.map((w,wi)=>{const f=w.find(d=>d.getFullYear()===2026);const show=f&&f.getDate()<=7;return `<span style="width:18px;display:inline-block;font-family:var(--mono);font-size:9px;color:var(--muted)">${show?MES[f.getMonth()]:""}</span>`;}).join("");
+  const hm=weeks.map(w=>`<div class="wk">${w.map(d=>{const ds=toS(d);const inY=d.getFullYear()===2026;const fut=ds>today;const on=pmap[ds]!=null;const sz=on?Math.round(7+Math.sqrt(pmap[ds]/maxP)*12):5;return `<div class="cellbox" title="${ds}${on?` · ${pmap[ds]} págs`:""}">${inY?`<span class="dotc" style="width:${sz}px;height:${sz}px;background:${on?'var(--primary)':fut?'#e6dcc8':'#d8cdb6'}"></span>`:""}</div>`;}).join("")}</div>`).join("");
   return `<header><div class="kicker">Marca los días que lees</div><h1 class="page">Hábito de lectura</h1></header>
-  <div class="card" style="padding:24px;text-align:center;margin-top:16px">
-    <p class="serif" style="font-size:18px;margin:0 0 12px">¿Leíste hoy?</p>
-    <button class="btn fill" style="background:var(--accent);border-color:var(--accent)" onclick="this.textContent=this.textContent.includes('✅')?'📖 Marcar que leí hoy':'✅ ¡Leíste hoy!'">✅ ¡Leíste hoy!</button>
-    <p style="color:var(--muted);font-size:13px;margin-top:10px">🔥 Racha actual: <b>13</b> días seguidos</p>
+  <div class="hero" style="margin-top:16px;padding:26px">
+    <div class="kicker">Registro de hoy</div>
+    <h2 class="serif" style="font-size:24px;margin:6px 0 4px">¿Cuántas páginas leíste hoy?</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px">
+      <input class="search" type="number" style="width:120px" placeholder="páginas"/>
+      <button class="btn fill" onclick="alert('En la app real esto guarda las páginas de hoy ✍️')">GUARDAR</button>
+      <button class="chip">+15</button><button class="chip">+25</button><button class="chip">+40</button>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-top:12px">🔥 Racha actual: <b>13</b> días seguidos</p>
   </div>
   <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px">
-    ${stat(set.size,"Días leídos")}${stat("🔥 13","Racha actual")}${stat("🏆 19","Racha más larga")}${stat(13,"Este mes")}
+    ${stat(READ_DAYS.length,"Días leídos",null,"#f1c3d8")}${stat("🔥 13","Racha actual",null,"#f2d35e")}${stat(totalP.toLocaleString("es"),"Páginas del año",null,"#bcd0ec")}${stat(avg,"Prom. páginas/día",null,"#aecfb0")}
   </div>
-  <div class="card" style="padding:20px;margin-top:16px"><div class="hm">${hm}</div>
-    <div style="text-align:right;font-size:11px;color:var(--muted);margin-top:8px">Menos <span class="cell" style="display:inline-block;vertical-align:middle"></span> <span class="cell on" style="display:inline-block;vertical-align:middle"></span> Más</div></div>`;
+  <div class="card" style="padding:22px;margin-top:16px">
+    <div class="kicker" style="margin-bottom:10px">Cada punto es un día · tamaño = páginas leídas</div>
+    <div style="overflow-x:auto"><div><div style="display:flex;gap:1px;margin-bottom:2px">${months}</div><div class="hm">${hm}</div></div></div>
+    <div style="text-align:right;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:10px">menos
+      <span class="dotc" style="display:inline-block;width:7px;height:7px;background:var(--primary);vertical-align:middle"></span>
+      <span class="dotc" style="display:inline-block;width:12px;height:12px;background:var(--primary);vertical-align:middle"></span>
+      <span class="dotc" style="display:inline-block;width:17px;height:17px;background:var(--primary);vertical-align:middle"></span> más páginas</div></div>`;
 }
 
 function renderEstadisticas(){
   const f=fictionPct();const gc=genreCounts();const max=Math.max(...gc.map(x=>x[1]),1);
   return `<header><div class="kicker">Tus hábitos de lectura</div><h1 class="page">Estadísticas</h1></header>
   <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px">
-    ${stat(BOOKS.length,"Libros")}${stat(BOOKS.filter(b=>b.status==="leido").length,"Leídos")}${stat(f+"%","% Ficción")}${stat("704","Páginas leídas")}</div>
+    ${stat(BOOKS.length,"Libros",null,"#bcd0ec")}${stat(BOOKS.filter(b=>b.status==="leido").length,"Leídos",null,"#f1c3d8")}${stat(f+"%","% Ficción",null,"#f2d35e")}${stat("704","Páginas leídas",null,"#aecfb0")}</div>
   <div class="grid" style="grid-template-columns:1fr;gap:14px;margin-top:16px">
     <div class="card" style="padding:20px"><h3 class="serif">Ficción vs. No ficción</h3>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">

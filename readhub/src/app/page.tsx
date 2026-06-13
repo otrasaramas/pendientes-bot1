@@ -8,9 +8,19 @@ import BookCover from "@/components/BookCover";
 
 export const dynamic = "force-dynamic";
 
-function Stat({ label, value, hint }: { label: string; value: string | number; hint?: string }) {
+function Stat({
+  label,
+  value,
+  hint,
+  tint,
+}: {
+  label: string;
+  value: string | number;
+  hint?: string;
+  tint: string;
+}) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-4">
+    <div className="rounded-2xl p-4" style={{ background: tint + "66" }}>
       <p className="font-serif text-3xl">{value}</p>
       <p className="kicker mt-1">{label}</p>
       {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
@@ -57,11 +67,11 @@ export default async function HomePage() {
       ) : (
         <>
           <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            <Stat label="Libros en total" value={stats.total} />
-            <Stat label={STATUS_META.por_leer.label} value={stats.porLeer} hint="📚 en cola" />
-            <Stat label={STATUS_META.leyendo.label} value={stats.leyendo} hint="📖 en curso" />
-            <Stat label={STATUS_META.leido.label} value={stats.leido} hint={`🏆 ${stats.finishedThisYear} este año`} />
-            <Stat label="Racha" value={`🔥 ${readingStats.currentStreak}`} hint={`${readingStats.daysThisYear} días leídos`} />
+            <Stat tint="#bcd0ec" label="Libros en total" value={stats.total} />
+            <Stat tint="#f2d35e" label={STATUS_META.por_leer.label} value={stats.porLeer} hint="📚 en cola" />
+            <Stat tint="#aecfb0" label={STATUS_META.leyendo.label} value={stats.leyendo} hint="📖 en curso" />
+            <Stat tint="#f1c3d8" label={STATUS_META.leido.label} value={stats.leido} hint={`🏆 ${stats.finishedThisYear} este año`} />
+            <Stat tint="#e6b98f" label="Racha" value={`🔥 ${readingStats.currentStreak}`} hint={`${readingStats.daysThisYear} días leídos`} />
           </section>
 
           {reading.length > 0 && (
