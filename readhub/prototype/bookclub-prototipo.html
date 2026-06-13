@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>bookclub de sara · prototipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f3eede; --surface:#fbf7ec; --ink:#2b241d; --muted:#8a7e6c;
+    --border:#e3d9c4; --primary:#bb4a2c; --soft:#ecdfc7; --accent:#6f8f76; --maroon:#5c2e34;
+    --serif:"Playfair Display",Georgia,serif; --mono:"Space Mono",monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .serif{font-family:var(--serif)}
+  .kicker{font-family:var(--mono);text-transform:uppercase;letter-spacing:.14em;font-size:.68rem;color:var(--muted)}
+  header.nav{position:sticky;top:0;z-index:30;background:rgba(251,247,236,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--border)}
+  .navwrap{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+  .logo{font-family:var(--serif);font-size:24px;line-height:1}
+  .logo i{color:var(--primary)}
+  .navlinks{display:flex;flex-wrap:wrap;gap:4px;list-style:none;margin:0;padding:0}
+  .navlinks button{font-family:var(--mono);font-size:11px;letter-spacing:.04em;border:0;background:transparent;color:var(--muted);padding:5px 11px;border-radius:999px;cursor:pointer}
+  .navlinks button.active{background:var(--primary);color:#fff}
+  main{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
+  h1.page{font-family:var(--serif);font-size:40px;margin:.1em 0 0}
+  h2.sec{font-family:var(--serif);font-size:26px;margin:0 0 12px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px}
+  .hero{padding:34px;border-radius:18px}
+  .hero h1{font-family:var(--serif);font-size:clamp(40px,9vw,64px);line-height:1;margin:6px 0 0}
+  .hero h1 i{color:var(--primary)}
+  .btn{font-family:var(--mono);font-size:12px;letter-spacing:.04em;border-radius:999px;padding:11px 20px;cursor:pointer;border:1px solid var(--primary)}
+  .btn.fill{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .btn.ghost{background:transparent;color:var(--primary)}
+  .grid{display:grid;gap:14px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  @media(min-width:640px){.stats{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:980px){.stats{grid-template-columns:repeat(6,1fr)}}
+  .stat{padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
+  .stat .v{font-family:var(--serif);font-size:30px}
+  .books{grid-template-columns:repeat(2,1fr)}
+  @media(min-width:520px){.books{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:760px){.books{grid-template-columns:repeat(4,1fr)}}
+  @media(min-width:980px){.books{grid-template-columns:repeat(5,1fr)}}
+  .bk{aspect-ratio:3/4;border-radius:8px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;border:0;text-align:left;position:relative;box-shadow:0 1px 2px rgba(0,0,0,.06);transition:transform .15s,box-shadow .15s}
+  .bk:hover{transform:translateY(-4px);box-shadow:0 8px 18px rgba(0,0,0,.12)}
+  .bk .t{font-family:var(--serif);font-size:15px;line-height:1.15}
+  .bk .m{font-family:var(--mono);font-size:10px;opacity:.85;line-height:1.2}
+  .bk .dot{position:absolute;top:9px;right:9px;width:8px;height:8px;border-radius:999px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}
+  .chip{font-family:var(--mono);font-size:11px;border:0;background:var(--surface);color:var(--muted);padding:6px 12px;border-radius:999px;cursor:pointer}
+  .chip.active{background:var(--primary);color:#fff}
+  input.search,select.sel{font-family:var(--sans);font-size:14px;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:10px 12px;outline:none}
+  input.search{width:100%}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+  .genrow{display:flex;justify-content:space-between;background:var(--surface);border-radius:10px;padding:7px 12px;font-size:14px;margin-bottom:6px}
+  /* detail overlay */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;justify-content:flex-end;z-index:40}
+  .panel{width:100%;max-width:420px;height:100%;overflow:auto;background:var(--bg);box-shadow:-4px 0 20px rgba(0,0,0,.2)}
+  .panel .ph{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border)}
+  .panel .pb{padding:18px;display:flex;flex-direction:column;gap:16px}
+  .x{font-size:26px;border:0;background:transparent;cursor:pointer;color:var(--muted)}
+  .bigcover{width:120px;height:176px;border-radius:10px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;flex:0 0 auto}
+  .statusbtns{display:flex;gap:8px}
+  .statusbtns button{flex:1;font-family:var(--mono);font-size:11px;padding:9px 4px;border-radius:10px;border:1px solid var(--border);background:transparent;cursor:pointer;color:var(--muted)}
+  /* kanban */
+  .kb{display:grid;gap:14px;grid-template-columns:1fr}
+  @media(min-width:820px){.kb{grid-template-columns:repeat(3,1fr)}}
+  .col{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px;min-height:120px}
+  .col h3{font-family:var(--serif);margin:0 0 10px;font-size:18px}
+  .kcard{display:flex;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px;margin-bottom:8px}
+  .kc-cov{width:34px;height:48px;border-radius:5px;flex:0 0 auto;padding:4px;font-family:var(--serif);font-size:8px;overflow:hidden}
+  /* heatmap */
+  .hm{display:flex;gap:3px;overflow-x:auto;padding-bottom:6px}
+  .wk{display:flex;flex-direction:column;gap:3px}
+  .cell{width:14px;height:14px;border-radius:3px;background:var(--soft)}
+  .cell.on{background:var(--accent)}
+  .cell.future{background:#eee5d2;opacity:.5}
+  /* charts */
+  .bar{height:14px;border-radius:7px;background:var(--primary)}
+  .donut{width:160px;height:160px;border-radius:50%}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:13px;margin-right:14px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+  /* quiz */
+  .qopt{display:block;width:100%;text-align:left;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:13px 16px;margin-bottom:8px;cursor:pointer;font-size:14px}
+  .qopt:hover{border-color:var(--primary);background:var(--soft)}
+  .rec{display:grid;gap:14px}
+  @media(min-width:760px){.rec{grid-template-columns:repeat(3,1fr)}}
+  /* annotate */
+  #annLayer{position:absolute;top:0;left:0;width:100%;height:0;z-index:25;pointer-events:none}
+  .pin{position:absolute;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:999px;background:var(--primary);color:#fff;font-family:var(--mono);font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.3);pointer-events:auto;cursor:pointer;border:2px solid #fff}
+  .annctrl{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+  .annbtn{font-family:var(--mono);font-size:12px;border:0;border-radius:999px;padding:11px 16px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+  .annbtn.on{background:var(--primary);color:#fff}
+  .annbtn.off{background:var(--maroon);color:#fff}
+  .annbtn.sec{background:var(--surface);color:var(--ink);border:1px solid var(--border)}
+  body.annotating{cursor:crosshair}
+  body.annotating main *{cursor:crosshair}
+  .annpanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:55;display:none;justify-content:center;align-items:flex-start;padding:24px}
+  .annpanel .box{background:var(--bg);border-radius:14px;max-width:560px;width:100%;max-height:80vh;overflow:auto;padding:20px;margin-top:5vh}
+  .anrow{border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:14px;display:flex;gap:10px;justify-content:space-between}
+  .tag{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase}
+  .editpop{position:absolute;transform:translate(-50%,8px);z-index:60;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px;box-shadow:0 6px 18px rgba(0,0,0,.2);pointer-events:auto;width:230px}
+  .editpop textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:6px;font-family:var(--sans);font-size:13px;resize:vertical;min-height:54px}
+  .editpop .row{display:flex;gap:6px;justify-content:flex-end;margin-top:6px}
+  .editpop button{font-family:var(--mono);font-size:11px;border:0;border-radius:8px;padding:6px 10px;cursor:pointer}
+  .banner{background:var(--maroon);color:#fff;font-family:var(--mono);font-size:11px;text-align:center;padding:6px;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="banner">PROTOTIPO · datos de muestra · sin guardado ni IA · usa “Anotar” para marcar cambios</div>
+<header class="nav">
+  <div class="navwrap">
+    <div class="logo">bookclub <i>de sara</i></div>
+    <ul class="navlinks" id="navlinks"></ul>
+  </div>
+</header>
+<main id="content"></main>
+<div id="annLayer"></div>
+
+<div class="annctrl">
+  <button class="annbtn sec" id="btnList" style="display:none">📝 Ver anotaciones (<span id="annCount">0</span>)</button>
+  <button class="annbtn off" id="btnAnnotate">✎ Anotar: OFF</button>
+</div>
+
+<div class="annpanel" id="annPanel">
+  <div class="box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 class="serif" style="margin:0">Mis anotaciones</h2>
+      <button class="x" onclick="toggleAnnPanel(false)">×</button>
+    </div>
+    <div id="annList"></div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn fill" onclick="copyAnnotations()">📋 Copiar anotaciones</button>
+      <button class="btn ghost" onclick="clearAnnotations()">Borrar todas</button>
+    </div>
+    <p class="kicker" style="margin-top:10px">Pega el texto copiado en el chat para que Clau aplique los cambios.</p>
+  </div>
+</div>
+
+<script>
+const BOOKS = [{"title": "Chatter: The Voice in Our Head, Why It Matters, and How to Harness It", "author": "Ethan Kross", "genre": "Psicología & Neurociencia", "is_fiction": false, "status": "leido"}, {"title": "Elastic: Unlocking Your Brain's Ability to Embrace Change", "author": "Leonard Mlodinow", "genre": "Psicología & Neurociencia", "is_fiction": false, "status": "leyendo"}, {"title": "The Brain That Changes Itself: Stories of Personal Triumph from the Frontiers of Neuroscience", "author": "Norman Doidge", "genre": "Psicología & Neurociencia", "is_fiction": false, "status": "por_leer"}, {"title": "Neuro Thinking: How Your Brain Decides and Learn", "author": "Cole Payton", "genre": "Psicología & Neurociencia", "is_fiction": false, "status": "por_leer"}, {"title": "The Science Behind Procrastination: How Your Brain Tricks You", "author": "Chloe Parkin", "genre": "Psicología & Neurociencia", "is_fiction": false, "status": "por_leer"}, {"title": "A Brain That Breathes: Essential Habits for an Overwhelming World", "author": "Jodi Wilson", "genre": "Psicología & Neurociencia", "is_fiction": false, "status": "leido"}, {"title": "El Arte de Crear Recuerdos: Cómo Hacer de tu Memoria un Aliado para Ser Más Feliz", "author": "Meik Wiking", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}, {"title": "El Hábito del Monje: Pequeños Pasos para Transformar tu Vida", "author": "Sonia Rico", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}, {"title": "Don't Believe Everything You Think: Why Your Thinking is the Beginning & End of Suffering", "author": "Joseph Nguyen", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}, {"title": "Mind to Matter: The Astonishing Science of How Your Thoughts Shape Your Life", "author": "Dawson Church", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}, {"title": "Less Mess Less Stress: Minimalist Routines to Declutter Your Life", "author": "Zoe McKey", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}, {"title": "A Little More Social: How Small Choices Create Unexpected Happiness, Health, and Connection", "author": "Nicholas Epley", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}, {"title": "Life is a Brief Opportunity for Joy", "author": "Will Meyerhofer", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}, {"title": "El Revolucionario Mundo de los Probióticos: Qué Son, Cómo Funcionan y para Qué Sirven", "author": "Dra. Olalla Otero", "genre": "Salud", "is_fiction": false, "status": "por_leer"}, {"title": "Do No Harm: Stories of Life, Death, and Brain Surgery", "author": "Henry Marsh", "genre": "Salud", "is_fiction": false, "status": "por_leer"}, {"title": "The Science of Meditation: How to Change Your Brain, Mind and Body", "author": "Daniel Goleman & Richard J. Davidson", "genre": "Salud", "is_fiction": false, "status": "por_leer"}, {"title": "Either/Or: A Fragment of Life", "author": "Søren Kierkegaard", "genre": "Filosofía", "is_fiction": false, "status": "por_leer"}, {"title": "Farmaconomía: Cómo las Grandes Farmacéuticas Contribuyen al Deterioro de la Salud Global", "author": "Nick Dearden", "genre": "Sociedad & Política", "is_fiction": false, "status": "por_leer"}, {"title": "Sin Velo: Cómo el Privilegio de Occidente Permitió Ignorar la Represión en el Mundo Musulmán", "author": "Yasmine Mohammed", "genre": "Sociedad & Política", "is_fiction": false, "status": "leido"}, {"title": "Astrophysics for People in a Hurry", "author": "Neil deGrasse Tyson", "genre": "Ciencia", "is_fiction": false, "status": "leyendo"}, {"title": "The Meaning of It All: Thoughts of a Citizen-Scientist", "author": "Richard P. Feynman", "genre": "Ciencia", "is_fiction": false, "status": "por_leer"}, {"title": "A Brief History of Intelligence: Evolution, AI, and the Five Breakthroughs That Made Our Brains", "author": "Max Bennett", "genre": "Ciencia", "is_fiction": false, "status": "por_leer"}, {"title": "Amarse con los Ojos Abiertos: El Desarrollo Personal a Través de la Pareja", "author": "Jorge Bucay & Silvia Salinas", "genre": "Relaciones", "is_fiction": false, "status": "por_leer"}, {"title": "Nada se Opone a la Noche", "author": "Delphine de Vigan", "genre": "Ficción", "is_fiction": true, "status": "por_leer"}, {"title": "The Girl in the Green Dress: A True Story of Resilience and Recovery from Trauma", "author": "Jeni Haynes & Dr. George Blair-West", "genre": "Ficción", "is_fiction": true, "status": "por_leer"}, {"title": "How to Manifest Instantly", "author": "Autor por determinar", "genre": "Desarrollo Personal & Bienestar", "is_fiction": false, "status": "por_leer"}];
+const READ_DAYS = ["2026-01-01", "2026-01-02", "2026-01-04", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-10", "2026-01-11", "2026-01-12", "2026-01-13", "2026-01-15", "2026-01-16", "2026-01-19", "2026-01-20", "2026-01-22", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-29", "2026-01-30", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-13", "2026-02-14", "2026-02-16", "2026-02-19", "2026-02-21", "2026-02-22", "2026-02-24", "2026-02-25", "2026-02-26", "2026-02-27", "2026-03-03", "2026-03-04", "2026-03-05", "2026-03-06", "2026-03-10", "2026-03-11", "2026-03-12", "2026-03-17", "2026-03-18", "2026-03-19", "2026-03-20", "2026-03-22", "2026-03-23", "2026-03-24", "2026-03-26", "2026-03-27", "2026-03-28", "2026-03-30", "2026-03-31", "2026-04-01", "2026-04-05", "2026-04-06", "2026-04-07", "2026-04-10", "2026-04-11", "2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-26", "2026-05-01", "2026-05-02", "2026-05-03", "2026-05-04", "2026-05-05", "2026-05-06", "2026-05-07", "2026-05-08", "2026-05-09", "2026-05-10", "2026-05-11", "2026-05-12", "2026-05-13", "2026-05-14", "2026-05-15", "2026-05-18", "2026-05-19", "2026-05-20", "2026-05-21", "2026-05-22", "2026-05-25", "2026-05-26", "2026-05-27", "2026-05-28", "2026-05-29", "2026-05-30", "2026-06-01", "2026-06-02", "2026-06-04", "2026-06-05", "2026-06-07", "2026-06-08", "2026-06-09", "2026-06-10", "2026-06-11", "2026-06-12", "2026-06-13"];
+
+const PALETTE=[["#f0bf2b","#3a2d12"],["#f3a884","#5a2f1f"],["#e2673f","#fbf2e7"],["#a9722e","#fbf2e7"],["#2f6fae","#eef4fb"],["#c5d2c2","#2c3a2e"],["#1f2f5e","#e9ecf6"],["#d8a7a0","#4a2723"],["#21402f","#e7efe5"],["#9c3b2e","#f7e9df"]];
+const GENRE_COLOR={"Desarrollo Personal & Bienestar":0,"Psicología & Neurociencia":4,"Salud":5,"Ciencia":1,"Sociedad & Política":6,"Ficción":2,"Filosofía":3,"Relaciones":7};
+const STATUS={por_leer:{label:"Por leer",color:"#a9722e"},leyendo:{label:"Leyendo",color:"#6f8f76"},leido:{label:"Leído",color:"#bb4a2c"}};
+function hash(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h;}
+function color(b){const g=(b.genre||"").trim();if(g in GENRE_COLOR)return PALETTE[GENRE_COLOR[g]];return PALETTE[hash(g||b.title)%PALETTE.length];}
+function esc(s){return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+const PAGES=[["inicio","Inicio"],["biblioteca","Biblioteca"],["agregar","Agregar"],["tablero","Tablero"],["habito","Hábito"],["estadisticas","Estadísticas"],["recomendar","Recomiéndame"]];
+let current="inicio";
+let filterStatus="todos", searchQ="";
+
+function genreCounts(){const m={};BOOKS.forEach(b=>{if(b.genre)m[b.genre]=(m[b.genre]||0)+1});return Object.entries(m).sort((a,b)=>b[1]-a[1]);}
+function fictionPct(){const c=BOOKS.filter(b=>b.is_fiction!=null);const f=c.filter(b=>b.is_fiction).length;return c.length?Math.round(f/c.length*100):0;}
+
+function bookCard(b,i){const[bg,fg]=color(b);return `<button class="bk" style="background:${bg};color:${fg}" onclick="openBook(${i})">
+  <span class="dot" style="background:${STATUS[b.status].color}"></span>
+  <span class="t">“${esc(b.title)}”</span>
+  <span class="m">${esc(b.author||"")}</span></button>`;}
+
+function renderInicio(){
+  const por=BOOKS.filter(b=>b.status==="por_leer").length, ley=BOOKS.filter(b=>b.status==="leyendo").length, lei=BOOKS.filter(b=>b.status==="leido").length;
+  const leyendo=BOOKS.map((b,i)=>({b,i})).filter(x=>x.b.status==="leyendo").slice(0,4);
+  const recientes=BOOKS.slice(0,6).map((b,i)=>({b,i}));
+  return `<section class="card hero">
+    <div class="kicker">La biblioteca personal de Sara</div>
+    <h1>bookclub <i>de sara</i></h1>
+    <p style="color:var(--muted);max-width:560px">Guarda tus libros, clasifícalos con ayuda de IA, sigue tu hábito de lectura y descubre qué leer a continuación.</p>
+    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn fill" onclick="go('agregar')">+ AGREGAR LIBRO</button>
+      <button class="btn ghost" onclick="go('recomendar')">✦ RECOMIÉNDAME</button></div>
+  </section>
+  <section class="grid stats" style="margin-top:24px">
+    ${stat(BOOKS.length,"Libros en total")}${stat(por,"Por leer")}${stat(ley,"Leyendo")}${stat(lei,"Leído")}${stat(fictionPct()+"%","% Ficción")}${stat("🔥 13","Racha")}
+  </section>
+  ${leyendo.length?`<section style="margin-top:28px"><h2 class="sec">Leyendo ahora</h2><div class="grid books">${leyendo.map(x=>miniCard(x.b,x.i)).join("")}</div></section>`:""}
+  <section style="margin-top:28px;display:grid;gap:24px;grid-template-columns:1fr">
+    <div><h2 class="sec">Añadidos recientemente</h2><div class="grid books">${recientes.map(x=>bookCard(x.b,x.i)).join("")}</div></div>
+    <div><h2 class="sec">Por género</h2>${genreCounts().map(([g,n])=>`<div class="genrow"><span style="color:var(--muted)">${esc(g)}</span><b>${n}</b></div>`).join("")}</div>
+  </section>`;
+}
+function miniCard(b,i){const[bg,fg]=color(b);return `<button class="bk" style="background:${bg};color:${fg};aspect-ratio:auto;min-height:84px" onclick="openBook(${i})"><span class="t" style="font-size:13px">“${esc(b.title)}”</span><span class="m">${esc(b.author||"")}</span></button>`;}
+function stat(v,l,h){return `<div class="stat"><div class="v">${v}</div><div class="kicker" style="margin-top:4px">${l}</div>${h?`<div style="font-size:12px;color:var(--muted);margin-top:3px">${h}</div>`:""}</div>`;}
+
+function renderBiblioteca(){
+  const chips=["todos","por_leer","leyendo","leido"];
+  const list=BOOKS.map((b,i)=>({b,i})).filter(x=>{
+    if(filterStatus!=="todos"&&x.b.status!==filterStatus)return false;
+    if(searchQ){const h=(x.b.title+" "+(x.b.author||"")+" "+(x.b.genre||"")).toLowerCase();if(!h.includes(searchQ.toLowerCase()))return false;}
+    return true;});
+  return `<header><div class="kicker">${BOOKS.length} libros · toca uno para ver</div><h1 class="page">Biblioteca</h1></header>
+  <div class="toolbar" style="margin-top:14px"><input class="search" placeholder="🔎 Buscar por título, autor, género…" value="${esc(searchQ)}" oninput="searchQ=this.value;rerenderInto()"/></div>
+  <div class="chips">${chips.map(c=>`<button class="chip ${filterStatus===c?"active":""}" onclick="filterStatus='${c}';rerenderInto()">${c==="todos"?"Todos":STATUS[c].label} (${c==="todos"?BOOKS.length:BOOKS.filter(b=>b.status===c).length})</button>`).join("")}</div>
+  <div class="grid books">${list.map(x=>bookCard(x.b,x.i)).join("")||'<p style="color:var(--muted)">Sin resultados.</p>'}</div>`;
+}
+
+function renderTablero(){
+  const cols=[["por_leer","Por leer"],["leyendo","Leyendo"],["leido","Leído"]];
+  return `<header><div class="kicker">Por leer · leyendo · leído</div><h1 class="page">Tablero</h1></header>
+  <div class="kb" style="margin-top:16px">${cols.map(([s,l])=>{const items=BOOKS.map((b,i)=>({b,i})).filter(x=>x.b.status===s);
+    return `<div class="col"><h3 style="color:${STATUS[s].color}">${l} · ${items.length}</h3>${items.map(x=>{const[bg,fg]=color(x.b);return `<div class="kcard" onclick="openBook(${x.i})"><div class="kc-cov" style="background:${bg};color:${fg}">“${esc(x.b.title).slice(0,22)}”</div><div><div style="font-size:13px;font-weight:600;line-height:1.15">${esc(x.b.title)}</div><div style="font-size:11px;color:var(--muted)">${esc(x.b.author||"")}</div></div></div>`;}).join("")||'<p style="color:var(--muted);font-size:13px">Vacío</p>'}</div>`;}).join("")}</div>`;
+}
+
+function renderHabito(){
+  const set=new Set(READ_DAYS);const today="2026-06-13";
+  const start=new Date(2026,0,1);const off=(start.getDay()+6)%7;const cur=new Date(2026,0,1-off);const end=new Date(2026,11,31);
+  const weeks=[];while(cur<=end){const w=[];for(let i=0;i<7;i++){w.push(new Date(cur));cur.setDate(cur.getDate()+1);}weeks.push(w);}
+  const toS=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const hm=weeks.map(w=>`<div class="wk">${w.map(d=>{const ds=toS(d);const inY=d.getFullYear()===2026;const fut=ds>today;const on=set.has(ds);return `<div class="cell ${!inY?"":on?"on":fut?"future":""}" title="${ds}" style="${!inY?"background:transparent":""}"></div>`;}).join("")}</div>`).join("");
+  return `<header><div class="kicker">Marca los días que lees</div><h1 class="page">Hábito de lectura</h1></header>
+  <div class="card" style="padding:24px;text-align:center;margin-top:16px">
+    <p class="serif" style="font-size:18px;margin:0 0 12px">¿Leíste hoy?</p>
+    <button class="btn fill" style="background:var(--accent);border-color:var(--accent)" onclick="this.textContent=this.textContent.includes('✅')?'📖 Marcar que leí hoy':'✅ ¡Leíste hoy!'">✅ ¡Leíste hoy!</button>
+    <p style="color:var(--muted);font-size:13px;margin-top:10px">🔥 Racha actual: <b>13</b> días seguidos</p>
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px">
+    ${stat(set.size,"Días leídos")}${stat("🔥 13","Racha actual")}${stat("🏆 19","Racha más larga")}${stat(13,"Este mes")}
+  </div>
+  <div class="card" style="padding:20px;margin-top:16px"><div class="hm">${hm}</div>
+    <div style="text-align:right;font-size:11px;color:var(--muted);margin-top:8px">Menos <span class="cell" style="display:inline-block;vertical-align:middle"></span> <span class="cell on" style="display:inline-block;vertical-align:middle"></span> Más</div></div>`;
+}
+
+function renderEstadisticas(){
+  const f=fictionPct();const gc=genreCounts();const max=Math.max(...gc.map(x=>x[1]),1);
+  return `<header><div class="kicker">Tus hábitos de lectura</div><h1 class="page">Estadísticas</h1></header>
+  <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px">
+    ${stat(BOOKS.length,"Libros")}${stat(BOOKS.filter(b=>b.status==="leido").length,"Leídos")}${stat(f+"%","% Ficción")}${stat("704","Páginas leídas")}</div>
+  <div class="grid" style="grid-template-columns:1fr;gap:14px;margin-top:16px">
+    <div class="card" style="padding:20px"><h3 class="serif">Ficción vs. No ficción</h3>
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div class="donut" style="background:conic-gradient(var(--primary) 0 ${f}%, var(--soft) ${f}% 100%)"></div>
+      <div class="legend"><span><span class="sw" style="background:var(--primary)"></span>Ficción ${f}%</span><span><span class="sw" style="background:var(--soft)"></span>No ficción ${100-f}%</span></div></div></div>
+    <div class="card" style="padding:20px"><h3 class="serif">Libros por género</h3>
+      ${gc.map(([g,n])=>`<div style="margin:8px 0"><div style="font-size:12px;color:var(--muted);margin-bottom:3px">${esc(g)} · ${n}</div><div class="bar" style="width:${Math.round(n/max*100)}%"></div></div>`).join("")}</div>
+  </div>`;
+}
+
+let quizStep=0;const QUIZ=[{q:"¿Cómo te sientes hoy?",o:["Evadirme y soñar","Aprender algo nuevo","Emoción y tensión","Algo reconfortante"]},{q:"¿Ficción o realidad?",o:["Ficción","No ficción","Me da igual"]},{q:"¿Qué ritmo te apetece?",o:["Trepidante","Pausado","Equilibrado"]},{q:"¿Cuánto tiempo tienes?",o:["Poco","Bastante","Lo que sea"]},{q:"¿Tema que te llame?",o:["Crecimiento personal","Mente y cerebro","Sociedad","Sorpréndeme"]}];
+function renderRecomendar(){
+  if(quizStep>=QUIZ.length){const recs=BOOKS.filter(b=>b.status==="por_leer").slice(0,3);
+    return `<header style="text-align:center"><div class="kicker">Recomiéndame</div><h1 class="page">Tus 3 recomendaciones</h1></header>
+    <div class="rec" style="margin-top:18px">${recs.map((b,k)=>{const[bg,fg]=color(b);return `<div class="card" style="padding:18px"><div style="font-size:28px">${["🥇","🥈","🥉"][k]}</div><div class="serif" style="font-size:18px;margin-top:6px">${esc(b.title)}</div><div style="font-size:13px;color:var(--muted)">${esc(b.author||"")}</div><span style="display:inline-block;margin-top:8px;font-size:11px;background:var(--soft);color:var(--maroon);padding:2px 8px;border-radius:999px">📚 En tu biblioteca</span><p style="font-size:14px;margin-top:10px">Encaja con lo que buscas hoy: una lectura que conecta con tu ánimo y tus temas favoritos.</p></div>`;}).join("")}</div>
+    <div style="text-align:center;margin-top:18px"><button class="btn ghost" onclick="quizStep=0;rerenderInto()">🔄 Volver a empezar</button></div>`;}
+  const cur=QUIZ[quizStep];
+  return `<header style="text-align:center"><div class="kicker">Recomiéndame</div><h1 class="page">¿Qué leo ahora?</h1></header>
+  <div style="max-width:520px;margin:18px auto 0"><div style="display:flex;gap:6px;margin-bottom:14px">${QUIZ.map((_,i)=>`<div style="height:6px;flex:1;border-radius:99px;background:${i<=quizStep?"var(--primary)":"var(--border)"}"></div>`).join("")}</div>
+  <div class="card" style="padding:22px"><div class="kicker">Pregunta ${quizStep+1} de ${QUIZ.length}</div><h2 class="serif" style="margin:6px 0 16px;font-size:22px">${cur.q}</h2>
+  ${cur.o.map(o=>`<button class="qopt" onclick="quizStep++;rerenderInto()">${o}</button>`).join("")}</div></div>`;
+}
+
+function renderAgregar(){
+  return `<header><div class="kicker">Nuevo libro</div><h1 class="page">Agregar</h1><p style="color:var(--muted)">Por foto de la portada, por título o manualmente. La IA propone los datos y tú confirmas.</p></header>
+  <div class="chips" style="margin-top:14px"><button class="chip active">📷 Por foto de portada</button><button class="chip">🔎 Por título</button><button class="chip">✍️ Manual</button></div>
+  <div class="card" style="padding:24px;border-style:dashed;text-align:center"><p style="color:var(--muted)">Sube o toma una foto de la portada. La IA detectará el libro y rellenará los datos para que los revises antes de guardar.</p>
+  <button class="btn fill" style="margin-top:10px">Elegir imagen</button><p class="kicker" style="margin-top:12px">(En el prototipo esto es solo visual)</p></div>`;
+}
+
+const RENDER={inicio:renderInicio,biblioteca:renderBiblioteca,agregar:renderAgregar,tablero:renderTablero,habito:renderHabito,estadisticas:renderEstadisticas,recomendar:renderRecomendar};
+function rerenderInto(){document.getElementById("content").innerHTML=RENDER[current]();drawPins();}
+function go(p){current=p;quizStep= p==="recomendar"?0:quizStep;window.scrollTo(0,0);buildNav();rerenderInto();}
+
+function buildNav(){document.getElementById("navlinks").innerHTML=PAGES.map(([id,l])=>`<li><button class="${current===id?"active":""}" onclick="go('${id}')">${l}</button></li>`).join("");}
+
+/* ---- book detail ---- */
+function openBook(i){const b=BOOKS[i];const[bg,fg]=color(b);const s=STATUS[b.status];
+  const o=document.createElement("div");o.className="overlay";o.onclick=e=>{if(e.target===o)o.remove();};
+  o.innerHTML=`<div class="panel"><div class="ph"><h2 class="serif" style="margin:0">Detalle</h2><button class="x" onclick="this.closest('.overlay').remove()">×</button></div>
+   <div class="pb"><div style="display:flex;gap:16px">
+     <div class="bigcover" style="background:${bg};color:${fg}"><span class="serif" style="font-size:14px">“${esc(b.title)}”</span><span class="m" style="font-family:var(--mono);font-size:9px;opacity:.8">${esc(b.author||"")}</span></div>
+     <div><h3 class="serif" style="font-size:20px;margin:0">${esc(b.title)}</h3><div style="color:var(--muted)">${esc(b.author||"")}</div>
+       <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">${b.is_fiction!=null?`<span style="font-size:11px;background:var(--soft);color:var(--maroon);padding:2px 8px;border-radius:99px">${b.is_fiction?"Ficción":"No ficción"}</span>`:""}${b.genre?`<span style="font-size:11px;background:var(--soft);color:var(--maroon);padding:2px 8px;border-radius:99px">${esc(b.genre)}</span>`:""}</div>
+       <div style="margin-top:10px;color:#e0a">★★★★☆</div></div></div>
+     <div><div class="kicker">Estado de lectura</div><div class="statusbtns" style="margin-top:6px">
+       ${Object.entries(STATUS).map(([k,v])=>`<button style="${b.status===k?`background:${v.color};color:#fff;border-color:transparent`:""}">${v.label}</button>`).join("")}</div></div>
+     <div><div class="kicker">Sinopsis</div><p style="font-size:14px">Aquí iría la sinopsis del libro (la IA la completa al agregarlo).</p></div>
+     <div style="display:flex;gap:10px"><button class="btn fill">✏️ Editar</button><button class="btn ghost" style="border-color:#c66;color:#c33">🗑 Borrar</button></div>
+   </div></div>`;
+  document.body.appendChild(o);
+}
+
+/* ---- ANNOTATIONS ---- */
+let annotating=false;
+let annotations=JSON.parse(localStorage.getItem("bc_annot")||"[]");
+function saveAnn(){localStorage.setItem("bc_annot",JSON.stringify(annotations));document.getElementById("annCount").textContent=annotations.length;document.getElementById("btnList").style.display=annotations.length?"block":"none";}
+function pageName(id){return (PAGES.find(p=>p[0]===id)||["",id])[1];}
+function drawPins(){
+  const layer=document.getElementById("annLayer");layer.style.height=document.body.scrollHeight+"px";
+  layer.innerHTML=annotations.filter(a=>a.page===current).map((a)=>{const idx=annotations.indexOf(a)+1;return `<div class="pin" style="left:${a.x}px;top:${a.y}px" title="${esc(a.text)}" onclick="viewPin(${annotations.indexOf(a)})">${idx}</div>`;}).join("");
+}
+function viewPin(i){alert("Anotación "+(i+1)+":\n"+annotations[i].text);}
+document.getElementById("btnAnnotate").onclick=function(){annotating=!annotating;document.body.classList.toggle("annotating",annotating);this.textContent="✎ Anotar: "+(annotating?"ON":"OFF");this.className="annbtn "+(annotating?"on":"off");};
+document.getElementById("content").addEventListener("click",function(e){
+  if(!annotating)return;
+  if(e.target.closest(".editpop"))return;
+  e.preventDefault();e.stopPropagation();
+  const x=e.pageX, y=e.pageY;
+  document.querySelectorAll(".editpop").forEach(p=>p.remove());
+  const pop=document.createElement("div");pop.className="editpop";pop.style.left=x+"px";pop.style.top=y+"px";
+  pop.innerHTML=`<textarea placeholder="¿Qué cambiar aquí?"></textarea><div class="row"><button style="background:var(--soft)" onclick="this.closest('.editpop').remove()">Cancelar</button><button style="background:var(--primary);color:#fff" onclick="addAnn(this,${x},${y})">Guardar</button></div>`;
+  document.body.appendChild(pop);pop.querySelector("textarea").focus();
+},true);
+function addAnn(btn,x,y){const t=btn.closest(".editpop").querySelector("textarea").value.trim();btn.closest(".editpop").remove();if(!t)return;annotations.push({page:current,x,y,text:t,when:new Date().toISOString().slice(0,16).replace("T"," ")});saveAnn();drawPins();}
+function toggleAnnPanel(show){const p=document.getElementById("annPanel");p.style.display=show?"flex":"none";if(show)renderAnnList();}
+document.getElementById("btnList").onclick=()=>toggleAnnPanel(true);
+function renderAnnList(){document.getElementById("annList").innerHTML=annotations.length?annotations.map((a,i)=>`<div class="anrow"><div><span class="tag">#${i+1} · ${pageName(a.page)}</span><div>${esc(a.text)}</div></div><button class="x" onclick="annotations.splice(${i},1);saveAnn();renderAnnList();drawPins()">×</button></div>`).join(""):'<p style="color:var(--muted)">Aún no hay anotaciones. Activa “Anotar” y toca sobre la pantalla.</p>';}
+function copyAnnotations(){if(!annotations.length){alert("No hay anotaciones todavía.");return;}
+  const txt="Anotaciones de bookclub de sara:\n\n"+annotations.map((a,i)=>`${i+1}. [${pageName(a.page)}] ${a.text}`).join("\n");
+  navigator.clipboard.writeText(txt).then(()=>alert("¡Copiado! Pega el texto en el chat con Clau.")).catch(()=>{prompt("Copia este texto y pégalo en el chat:",txt);});}
+function clearAnnotations(){if(confirm("¿Borrar todas las anotaciones?")){annotations=[];saveAnn();renderAnnList();drawPins();}}
+
+/* init */
+buildNav();rerenderInto();saveAnn();
+window.addEventListener("resize",drawPins);
+</script>
+</body>
+</html>
