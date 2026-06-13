@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getBooks, computeStats } from "@/lib/queries";
+import { getBooks, computeStats, getReadingDays, computeReadingStats } from "@/lib/queries";
 import { isReady } from "@/lib/supabase";
 import { STATUS_META } from "@/lib/categories";
 import SetupNotice from "@/components/SetupNotice";
@@ -27,8 +27,10 @@ export default async function HomePage() {
     );
   }
 
-  const books = await getBooks();
+  const year = new Date().getFullYear();
+  const [books, readingDays] = await Promise.all([getBooks(), getReadingDays(year)]);
   const stats = computeStats(books);
+  const readingStats = computeReadingStats(readingDays, year);
   const reading = books.filter((b) => b.status === "leyendo").slice(0, 4);
   const recent = [...books]
     .sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at))
@@ -53,12 +55,13 @@ export default async function HomePage() {
         </div>
       ) : (
         <>
-          <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             <Stat label="Libros en total" value={stats.total} />
             <Stat label={STATUS_META.por_leer.label} value={stats.porLeer} hint="📚 en cola" />
             <Stat label={STATUS_META.leyendo.label} value={stats.leyendo} hint="📖 en curso" />
             <Stat label={STATUS_META.leido.label} value={stats.leido} hint={`🏆 ${stats.finishedThisYear} este año`} />
             <Stat label="% Ficción" value={`${stats.fictionPct}%`} hint={`${stats.fiction} de ${stats.fiction + stats.nonFiction}`} />
+            <Stat label="Racha" value={`🔥 ${readingStats.currentStreak}`} hint={`${readingStats.daysThisYear} días leídos`} />
           </section>
 
           {reading.length > 0 && (

@@ -13,6 +13,8 @@ Construido con **Next.js 16** (App Router), **Supabase** (base de datos) y la
 - **Agregar** — por foto de la portada 📷, por título 🔎 o manualmente ✍️. La IA propone
   los datos y la clasificación, y tú confirmas antes de guardar.
 - **Tablero** — columnas Por leer / Leyendo / Leído con arrastrar y soltar.
+- **Hábito** — tracker de lectura tipo "calendario de rachas": marca los días que lees,
+  ve el año completo, tu racha actual, la racha más larga y los días leídos.
 - **Estadísticas** — gráficos: ficción vs. no ficción, por género, por estado, valoraciones.
 - **Recomiéndame** — un cuestionario de 5 preguntas y 3 sugerencias personalizadas.
 
@@ -78,6 +80,16 @@ En este modo las pantallas se ven con tus libros de ejemplo. Las acciones que es
 2. En [vercel.com](https://vercel.com) importa el proyecto y elige la carpeta raíz `readhub`.
 3. Añade las mismas variables de entorno del `.env.local` en *Settings → Environment Variables*.
 4. Deploy.
+
+## Instalarla en el celular (PWA)
+
+ReadHub es una **PWA instalable**. Una vez desplegada (con tu URL de Vercel):
+
+- **Android (Chrome):** abre la URL → menú ⋮ → *Instalar app* / *Añadir a pantalla de inicio*.
+- **iPhone (Safari):** abre la URL → botón *Compartir* → *Añadir a pantalla de inicio*.
+
+Queda con su ícono, abre a pantalla completa (sin barra del navegador) y el "shell" básico
+funciona aunque no tengas conexión.
 
 ## Nota de seguridad
 

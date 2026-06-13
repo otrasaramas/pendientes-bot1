@@ -26,6 +26,16 @@ export interface Book {
 /** Campos editables por el usuario al crear o actualizar un libro. */
 export type BookInput = Partial<Omit<Book, "id" | "created_at" | "position">>;
 
+/** Un día registrado en el tracker de lectura. */
+export interface ReadingDay {
+  id: string;
+  day: string; // YYYY-MM-DD
+  minutes: number | null;
+  pages: number | null;
+  note: string | null;
+  created_at: string;
+}
+
 /** Resultado del análisis de IA sobre una portada o un título. */
 export interface BookAnalysis {
   title: string;

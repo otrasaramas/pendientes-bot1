@@ -1,0 +1,13 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#9a6b4f"/>
+  <g transform="translate(96 120)">
+    <!-- libro abierto -->
+    <path d="M160 36 C120 8 56 8 16 28 V236 C56 216 120 216 160 244 Z" fill="#f7f3ec"/>
+    <path d="M160 36 C200 8 264 8 304 28 V236 C264 216 200 216 160 244 Z" fill="#f0e4d8"/>
+    <path d="M160 36 V244" stroke="#9a6b4f" stroke-width="10" stroke-linecap="round"/>
+    <g stroke="#b08968" stroke-width="9" stroke-linecap="round">
+      <path d="M44 64 H132"/><path d="M44 100 H132"/><path d="M44 136 H132"/>
+      <path d="M188 64 H276"/><path d="M188 100 H276"/><path d="M188 136 H276"/>
+    </g>
+  </g>
+</svg>

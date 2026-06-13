@@ -10,6 +10,7 @@ function revalidateAll() {
   revalidatePath("/tablero");
   revalidatePath("/estadisticas");
   revalidatePath("/recomendar");
+  revalidatePath("/habito");
 }
 
 function cleanInput(input: BookInput): BookInput {
@@ -75,6 +76,45 @@ export async function setBookRating(id: string, rating: number | null) {
     .eq("id", id);
   if (error) throw new Error(error.message);
   revalidateAll();
+}
+
+// ── Tracker de lectura ──────────────────────────────────────────────────────
+
+/** Marca/desmarca un día como leído. Devuelve el nuevo estado (true = leído). */
+export async function toggleReadingDay(day: string): Promise<boolean> {
+  const sb = getSupabase();
+  const { data: existing, error: selErr } = await sb
+    .from("reading_log")
+    .select("id")
+    .eq("day", day)
+    .maybeSingle();
+  if (selErr) throw new Error(selErr.message);
+
+  if (existing) {
+    const { error } = await sb.from("reading_log").delete().eq("id", existing.id);
+    if (error) throw new Error(error.message);
+    revalidatePath("/habito");
+    revalidatePath("/");
+    return false;
+  }
+  const { error } = await sb.from("reading_log").insert({ day });
+  if (error) throw new Error(error.message);
+  revalidatePath("/habito");
+  revalidatePath("/");
+  return true;
+}
+
+/** Actualiza detalles (minutos/nota) de un día ya marcado. */
+export async function updateReadingDay(
+  day: string,
+  patch: { minutes?: number | null; pages?: number | null; note?: string | null },
+) {
+  const { error } = await getSupabase()
+    .from("reading_log")
+    .update(patch)
+    .eq("day", day);
+  if (error) throw new Error(error.message);
+  revalidatePath("/habito");
 }
 
 /** Reordena/mueve un libro dentro del tablero. */

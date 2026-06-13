@@ -1,6 +1,6 @@
 import "server-only";
 import { getSupabase, isSupabaseConfigured } from "./supabase";
-import type { Book, BookStatus } from "./types";
+import type { Book, BookStatus, ReadingDay } from "./types";
 
 /** Modo demo: muestra datos de muestra sin necesidad de base de datos real. */
 const DEMO = process.env.READHUB_DEMO === "1";
@@ -38,6 +38,89 @@ export async function getBooksByStatus(
 ): Promise<Book[]> {
   const all = await getBooks();
   return all.filter((b) => b.status === status);
+}
+
+// ── Tracker de lectura ──────────────────────────────────────────────────────
+
+/** Días registrados (ordenados) dentro del año indicado. */
+export async function getReadingDays(year: number): Promise<ReadingDay[]> {
+  if (DEMO) {
+    const { DEMO_READING_DAYS } = await import("./demo");
+    return DEMO_READING_DAYS.filter((d) => d.day.startsWith(String(year)));
+  }
+  if (!isSupabaseConfigured) return [];
+  const { data, error } = await getSupabase()
+    .from("reading_log")
+    .select("*")
+    .gte("day", `${year}-01-01`)
+    .lte("day", `${year}-12-31`)
+    .order("day", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as ReadingDay[];
+}
+
+export interface ReadingStats {
+  daysThisYear: number;
+  currentStreak: number;
+  longestStreak: number;
+  thisMonth: number;
+  daysElapsed: number;
+  totalMinutes: number;
+}
+
+const dayStr = (d: Date) => d.toISOString().slice(0, 10);
+
+export function computeReadingStats(
+  days: ReadingDay[],
+  year: number,
+): ReadingStats {
+  const set = new Set(days.map((d) => d.day));
+  const today = new Date();
+  const isCurrentYear = today.getFullYear() === year;
+
+  // Racha más larga dentro del set.
+  const sorted = [...set].sort();
+  let longest = 0;
+  let run = 0;
+  let prev: Date | null = null;
+  for (const s of sorted) {
+    const d = new Date(s + "T00:00:00");
+    if (prev && (d.getTime() - prev.getTime()) / 86400000 === 1) run += 1;
+    else run = 1;
+    longest = Math.max(longest, run);
+    prev = d;
+  }
+
+  // Racha actual (hacia atrás desde hoy o ayer).
+  let currentStreak = 0;
+  if (isCurrentYear) {
+    const cursor = new Date(today);
+    if (!set.has(dayStr(cursor))) cursor.setDate(cursor.getDate() - 1); // permite contar si aún no marcó hoy
+    while (set.has(dayStr(cursor))) {
+      currentStreak += 1;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+  }
+
+  const month = today.getMonth();
+  const thisMonth = isCurrentYear
+    ? days.filter((d) => new Date(d.day + "T00:00:00").getMonth() === month).length
+    : 0;
+
+  const startOfYear = new Date(year, 0, 1);
+  const end = isCurrentYear ? today : new Date(year, 11, 31);
+  const daysElapsed = Math.floor((end.getTime() - startOfYear.getTime()) / 86400000) + 1;
+
+  const totalMinutes = days.reduce((s, d) => s + (d.minutes ?? 0), 0);
+
+  return {
+    daysThisYear: set.size,
+    currentStreak,
+    longestStreak: longest,
+    thisMonth,
+    daysElapsed,
+    totalMinutes,
+  };
 }
 
 // ── Estadísticas derivadas (se calculan en memoria sobre el set completo) ──

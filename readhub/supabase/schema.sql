@@ -51,3 +51,20 @@ create index if not exists books_genre_idx  on books (genre);
 --  por usuario aquí.
 -- ─────────────────────────────────────────────────────────────────────────
 alter table books enable row level security;
+
+-- ─────────────────────────────────────────────────────────────────────────
+--  Tracker de lectura: un registro por día en que leíste.
+--  La existencia de la fila = "leí ese día". minutes/pages/note son opcionales.
+-- ─────────────────────────────────────────────────────────────────────────
+create table if not exists reading_log (
+  id         uuid primary key default gen_random_uuid(),
+  day        date not null unique,
+  minutes    integer,
+  pages      integer,
+  note       text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists reading_log_day_idx on reading_log (day);
+
+alter table reading_log enable row level security;

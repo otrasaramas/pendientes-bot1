@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/biblioteca", label: "Biblioteca", emoji: "📚" },
   { href: "/agregar", label: "Agregar", emoji: "➕" },
   { href: "/tablero", label: "Tablero", emoji: "🗂️" },
+  { href: "/habito", label: "Hábito", emoji: "🔥" },
   { href: "/estadisticas", label: "Estadísticas", emoji: "📊" },
   { href: "/recomendar", label: "Recomiéndame", emoji: "✨" },
 ];
