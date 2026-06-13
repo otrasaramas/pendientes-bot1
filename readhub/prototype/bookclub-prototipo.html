@@ -155,7 +155,12 @@ function hash(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0
 function color(b){const g=(b.genre||"").trim();if(g in GENRE_COLOR)return PALETTE[GENRE_COLOR[g]];return PALETTE[hash(g||b.title)%PALETTE.length];}
 function esc(s){return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 
-const PAGES=[["inicio","Inicio"],["biblioteca","Biblioteca"],["agregar","Agregar"],["tablero","Tablero"],["habito","Hábito"],["estadisticas","Estadísticas"],["recomendar","Recomiéndame"]];
+const REVIEWS=[
+  {i:0,rating:5,liked:true,pace:"medio",loved:["Las ideas","Lo que aprendí"],moods:["Reflexiva","Inspirada"],review:"Me cambió la forma de hablarme a mí misma."},
+  {i:5,rating:4,liked:true,pace:"lento",loved:["La escritura","Las emociones"],moods:["Reflexiva","Conmovida"],review:"Calmado y necesario para tiempos abrumadores."},
+  {i:18,rating:4,liked:true,pace:"lento",loved:["Las ideas"],moods:["Reflexiva"],review:"Denso pero brillante."},
+];
+const PAGES=[["inicio","Inicio"],["biblioteca","Biblioteca"],["agregar","Agregar"],["tablero","Tablero"],["diario","Diario"],["habito","Hábito"],["estadisticas","Estadísticas"],["recomendar","Recomiéndame"]];
 let current="inicio";
 let filterStatus="todos", searchQ="";
 
@@ -280,7 +285,50 @@ function renderAgregar(){
   <button class="btn fill" style="margin-top:10px">Elegir imagen</button><p class="kicker" style="margin-top:12px">(En el prototipo esto es solo visual)</p></div>`;
 }
 
-const RENDER={inicio:renderInicio,biblioteca:renderBiblioteca,agregar:renderAgregar,tablero:renderTablero,habito:renderHabito,estadisticas:renderEstadisticas,recomendar:renderRecomendar};
+function tasteProfile(){
+  const liked=[],loved=[],moods=[];
+  REVIEWS.forEach(r=>{const b=BOOKS[r.i];if((r.liked||r.rating>=4)&&b.genre)liked.push(b.genre);loved.push(...r.loved);moods.push(...r.moods);});
+  const top=arr=>{const m={};arr.forEach(x=>m[x]=(m[x]||0)+1);return Object.entries(m).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);};
+  const avg=REVIEWS.length?(REVIEWS.reduce((s,r)=>s+r.rating,0)/REVIEWS.length).toFixed(1):"—";
+  return {liked:top(liked),loved:top(loved),moods:top(moods),avg,n:REVIEWS.length};
+}
+function profBit(t,items){return `<div style="background:rgba(255,255,255,.55);border-radius:16px;padding:12px"><div class="kicker">${t}</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${items.length?items.map(i=>`<span style="background:var(--soft);color:var(--maroon);font-size:12px;padding:3px 10px;border-radius:99px">${esc(i)}</span>`).join(""):'<span style="color:var(--muted);font-size:12px">—</span>'}</div></div>`;}
+function predictDemo(){
+  const sel=document.getElementById("predSel");const i=parseInt(sel.value,10);if(isNaN(i))return;
+  const b=BOOKS[i];const p=tasteProfile();
+  const match=p.liked.includes(b.genre)?88:(b.is_fiction===false?64:52);
+  const col=match>=70?"#6f8f76":match>=45?"#e6b98f":"#bb4a2c";
+  const verdict=match>=70?"Probablemente te encante":match>=45?"Quizá te guste":"Tal vez no sea para ti";
+  const reasons=[p.liked.includes(b.genre)?`Es de ${b.genre}, uno de tus géneros favoritos.`:`No es de tus géneros más leídos (${p.liked.slice(0,2).join(", ")}).`,`Valoras sobre todo: ${p.loved.slice(0,2).join(", ")}.`,`Sueles buscar sentirte ${p.moods.slice(0,2).join(", ")}.`];
+  document.getElementById("predResult").innerHTML=`<div style="margin-top:16px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--surface);border-radius:18px;padding:18px"><div style="display:flex;flex-direction:column;align-items:center"><div style="width:92px;height:92px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:28px">${match}%</div><span class="kicker" style="margin-top:6px">afinidad</span></div><div style="flex:1;min-width:200px"><div class="serif" style="font-size:20px">${verdict}</div><ul style="margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14px">${reasons.map(r=>`<li>${esc(r)}</li>`).join("")}</ul></div></div>`;
+}
+function openReviewDemo(i){const b=BOOKS[i];const[bg,fg]=color(b);const o=document.createElement("div");o.className="overlay";o.style.justifyContent="center";o.style.alignItems="flex-start";o.style.overflow="auto";o.onclick=e=>{if(e.target===o)o.remove();};
+  const chips=arr=>arr.map(x=>`<button class="chip" onclick="this.classList.toggle('active')">${x}</button>`).join("");
+  o.innerHTML=`<div style="max-width:520px;width:100%;margin:24px;background:var(--bg);border-radius:24px;padding:22px" onclick="event.stopPropagation()">
+   <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:60px;height:88px;border-radius:8px;padding:8px;background:${bg};color:${fg}"><span class="serif" style="font-size:11px">“${esc(b.title)}”</span></div><div style="flex:1"><div class="kicker">Reflexión de lectura</div><div class="serif" style="font-size:20px">${esc(b.title)}</div></div><button class="x" onclick="this.closest('.overlay').remove()">×</button></div>
+   <div style="margin-top:14px"><div class="kicker">¿Qué nota le das?</div><div style="font-size:28px;color:#e0a000">★★★★☆</div></div>
+   <div style="margin-top:12px"><div class="kicker" style="margin-bottom:6px">¿Qué fue lo que más te gustó?</div><div style="display:flex;gap:6px;flex-wrap:wrap">${chips(["La historia","Los personajes","Las ideas","La escritura","El ritmo","Las emociones","Lo que aprendí","El final"])}</div></div>
+   <div style="margin-top:12px"><div class="kicker" style="margin-bottom:6px">¿Cómo te hizo sentir?</div><div style="display:flex;gap:6px;flex-wrap:wrap">${chips(["Inspirada","Conmovida","Entretenida","Reflexiva","Enganchada","Sorprendida"])}</div></div>
+   <div style="margin-top:12px"><div class="kicker" style="margin-bottom:6px">Tu reseña en una línea</div><textarea class="search" style="width:100%;min-height:54px"></textarea></div>
+   <button class="btn fill" style="margin-top:14px" onclick="alert('En la app real esto guarda tu reseña y marca el libro como leído ✍️');this.closest('.overlay').remove()">GUARDAR RESEÑA</button>
+  </div>`;document.body.appendChild(o);}
+function renderDiario(){
+  const p=tasteProfile();const cands=BOOKS.map((b,i)=>({b,i})).filter(x=>x.b.status!=="leido");
+  return `<header><div class="kicker">Diario de lecturas</div><h1 class="page">Reseñas</h1><p style="color:var(--muted)">Registra tus libros terminados con una reflexión corta. Con eso aprendo tu gusto y predigo si el próximo te gustará.</p></header>
+  <section class="hero" style="margin-top:16px;padding:26px">
+    <div class="kicker">Tu perfil de lectura</div><h2 class="serif" style="font-size:24px;margin:6px 0 10px">${p.n} reseñas · nota media ${p.avg}/5</h2>
+    <div class="grid" style="grid-template-columns:1fr;gap:10px">${profBit("Géneros que amas",p.liked)}${profBit("Lo que más valoras",p.loved)}${profBit("Buscas sentirte",p.moods)}</div>
+    <button class="btn fill" style="margin-top:14px" onclick="openReviewDemo(0)">+ REGISTRAR LECTURA TERMINADA</button>
+  </section>
+  <section class="card" style="padding:24px;margin-top:16px">
+    <div class="kicker">Predicción</div><h2 class="serif" style="font-size:22px;margin:6px 0 2px">¿Me gustará mi próximo libro?</h2>
+    <p style="color:var(--muted);font-size:14px;margin:0 0 10px">Elige un libro de tu lista y estimo tu afinidad según tu historial.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><select id="predSel" class="sel" style="flex:1;min-width:220px"><option value="">Elige un libro…</option>${cands.map(x=>`<option value="${x.i}">${esc(x.b.title)}</option>`).join("")}</select><button class="btn fill" onclick="predictDemo()">PREDECIR</button></div>
+    <div id="predResult"></div>
+  </section>
+  <section style="margin-top:20px"><h2 class="sec">Mis reseñas</h2><div class="grid" style="grid-template-columns:1fr;gap:14px">${REVIEWS.map(r=>{const b=BOOKS[r.i];const[bg,fg]=color(b);return `<div class="card" style="padding:16px;display:flex;gap:16px;cursor:pointer" onclick="openReviewDemo(${r.i})"><div style="width:80px;height:112px;border-radius:10px;padding:10px;flex:0 0 auto;background:${bg};color:${fg};display:flex;flex-direction:column;justify-content:space-between"><span class="serif" style="font-size:13px">“${esc(b.title)}”</span><span style="font-family:var(--mono);font-size:9px;opacity:.8">${esc(b.author||"")}</span></div><div style="flex:1"><div style="color:#e0a000">${"★".repeat(r.rating)}<span style="color:#d9cdbb">${"★".repeat(5-r.rating)}</span> ${r.liked?"❤":""}</div><p style="font-style:italic;font-size:14px;margin:6px 0">“${esc(r.review)}”</p><div style="display:flex;gap:6px;flex-wrap:wrap">${r.loved.map(l=>`<span style="background:var(--soft);color:var(--maroon);font-size:11px;padding:2px 8px;border-radius:99px">${esc(l)}</span>`).join("")}</div></div></div>`;}).join("")}</div></section>`;
+}
+const RENDER={inicio:renderInicio,biblioteca:renderBiblioteca,agregar:renderAgregar,tablero:renderTablero,diario:renderDiario,habito:renderHabito,estadisticas:renderEstadisticas,recomendar:renderRecomendar};
 function rerenderInto(){document.getElementById("content").innerHTML=RENDER[current]();drawPins();}
 function go(p){current=p;quizStep= p==="recomendar"?0:quizStep;window.scrollTo(0,0);buildNav();rerenderInto();}
 

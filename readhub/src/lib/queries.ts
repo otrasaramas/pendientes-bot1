@@ -1,6 +1,6 @@
 import "server-only";
 import { getSupabase, isSupabaseConfigured } from "./supabase";
-import type { Book, BookStatus, ReadingDay } from "./types";
+import type { Book, BookStatus, ReadingDay, Review } from "./types";
 
 /** Modo demo: muestra datos de muestra sin necesidad de base de datos real. */
 const DEMO = process.env.READHUB_DEMO === "1";
@@ -38,6 +38,86 @@ export async function getBooksByStatus(
 ): Promise<Book[]> {
   const all = await getBooks();
   return all.filter((b) => b.status === status);
+}
+
+// ── Diario de lecturas (reseñas) ────────────────────────────────────────────
+
+export async function getReviews(): Promise<Review[]> {
+  if (DEMO) {
+    const { DEMO_REVIEWS } = await import("./demo");
+    return DEMO_REVIEWS;
+  }
+  if (!isSupabaseConfigured) return [];
+  const { data, error } = await getSupabase()
+    .from("reviews")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as Review[];
+}
+
+export interface TasteProfile {
+  reviewed: number;
+  avgRating: number | null;
+  likedPct: number;
+  topGenres: { name: string; count: number }[];
+  topLoved: { name: string; count: number }[];
+  topMoods: { name: string; count: number }[];
+  pace: string | null;
+  /** Resumen en texto para alimentar la IA. */
+  summary: string;
+}
+
+export function computeTasteProfile(
+  reviews: Review[],
+  books: Book[],
+): TasteProfile {
+  const byId = new Map(books.map((b) => [b.id, b]));
+  const reviewed = reviews.length;
+
+  const rated = reviews.filter((r) => typeof r.rating === "number");
+  const avgRating =
+    rated.length > 0
+      ? Math.round((rated.reduce((s, r) => s + (r.rating ?? 0), 0) / rated.length) * 10) / 10
+      : null;
+
+  const likedCount = reviews.filter((r) => r.liked === true).length;
+  const likedPct = reviewed > 0 ? Math.round((likedCount / reviewed) * 100) : 0;
+
+  const tally = (items: string[]) => {
+    const m = new Map<string, number>();
+    items.forEach((i) => i && m.set(i, (m.get(i) ?? 0) + 1));
+    return [...m.entries()]
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  // Géneros de los libros que le gustaron (liked o rating>=4).
+  const likedGenres: string[] = [];
+  for (const r of reviews) {
+    const liked = r.liked === true || (r.rating ?? 0) >= 4;
+    const g = byId.get(r.book_id)?.genre;
+    if (liked && g) likedGenres.push(g);
+  }
+  const topGenres = tally(likedGenres).slice(0, 5);
+  const topLoved = tally(reviews.flatMap((r) => r.loved ?? [])).slice(0, 5);
+  const topMoods = tally(reviews.flatMap((r) => r.moods ?? [])).slice(0, 5);
+
+  const paceTally = tally(reviews.map((r) => r.pace ?? "").filter(Boolean));
+  const pace = paceTally[0]?.name ?? null;
+
+  const summary = [
+    reviewed > 0 ? `${reviewed} libros reseñados` : "sin reseñas aún",
+    avgRating != null ? `nota media ${avgRating}/5` : "",
+    topGenres.length ? `géneros favoritos: ${topGenres.map((g) => g.name).join(", ")}` : "",
+    topLoved.length ? `valora sobre todo: ${topLoved.map((l) => l.name).join(", ")}` : "",
+    topMoods.length ? `busca sentirse: ${topMoods.map((m) => m.name).join(", ")}` : "",
+    pace ? `ritmo preferido: ${pace}` : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
+
+  return { reviewed, avgRating, likedPct, topGenres, topLoved, topMoods, pace, summary };
 }
 
 // ── Tracker de lectura ──────────────────────────────────────────────────────

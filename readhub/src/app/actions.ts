@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getSupabase } from "@/lib/supabase";
-import type { BookInput, BookStatus } from "@/lib/types";
+import type { BookInput, BookStatus, ReviewInput } from "@/lib/types";
 
 function revalidateAll() {
   revalidatePath("/");
@@ -11,6 +11,7 @@ function revalidateAll() {
   revalidatePath("/estadisticas");
   revalidatePath("/recomendar");
   revalidatePath("/habito");
+  revalidatePath("/diario");
 }
 
 function cleanInput(input: BookInput): BookInput {
@@ -74,6 +75,43 @@ export async function setBookRating(id: string, rating: number | null) {
     .from("books")
     .update({ rating })
     .eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidateAll();
+}
+
+// ── Diario de lecturas (reseñas) ────────────────────────────────────────────
+
+/**
+ * Guarda (inserta o actualiza) la reseña de un libro y lo marca como leído.
+ */
+export async function saveReview(bookId: string, input: ReviewInput) {
+  const sb = getSupabase();
+  const row = {
+    book_id: bookId,
+    rating: input.rating ?? null,
+    liked: input.liked ?? null,
+    pace: input.pace ?? null,
+    loved: input.loved ?? [],
+    moods: input.moods ?? [],
+    would_recommend: input.would_recommend ?? null,
+    review: input.review?.trim() || null,
+  };
+  const { error } = await sb.from("reviews").upsert(row, { onConflict: "book_id" });
+  if (error) throw new Error(error.message);
+
+  // Marca el libro como leído y sincroniza la valoración.
+  const patch: BookInput = {
+    status: "leido",
+    date_finished: new Date().toISOString().slice(0, 10),
+  };
+  if (input.rating != null) patch.rating = input.rating;
+  await sb.from("books").update(patch).eq("id", bookId);
+
+  revalidateAll();
+}
+
+export async function deleteReview(bookId: string) {
+  const { error } = await getSupabase().from("reviews").delete().eq("book_id", bookId);
   if (error) throw new Error(error.message);
   revalidateAll();
 }

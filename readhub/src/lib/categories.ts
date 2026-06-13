@@ -50,3 +50,32 @@ export const STATUS_META: Record<
 };
 
 export const STATUS_ORDER: BookStatus[] = ["por_leer", "leyendo", "leido"];
+
+// ── Diario de lecturas: opciones de las preguntas de reflexión ──────────────
+export const LOVED_OPTIONS = [
+  "La historia",
+  "Los personajes",
+  "Las ideas",
+  "La escritura",
+  "El ritmo",
+  "Las emociones",
+  "Lo que aprendí",
+  "El final",
+];
+
+export const MOOD_OPTIONS = [
+  "Inspirada",
+  "Conmovida",
+  "Entretenida",
+  "Reflexiva",
+  "Enganchada",
+  "Incómoda",
+  "Aburrida",
+  "Sorprendida",
+];
+
+export const PACE_OPTIONS = [
+  { value: "lento", label: "Lento" },
+  { value: "medio", label: "Medio" },
+  { value: "rapido", label: "Rápido" },
+];

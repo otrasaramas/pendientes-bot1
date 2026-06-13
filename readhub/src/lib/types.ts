@@ -36,6 +36,31 @@ export interface ReadingDay {
   created_at: string;
 }
 
+/** Reseña/reflexión de un libro terminado (estilo Letterboxd). */
+export interface Review {
+  id: string;
+  book_id: string;
+  created_at: string;
+  rating: number | null;
+  liked: boolean | null;
+  pace: string | null; // lento | medio | rapido
+  loved: string[];
+  moods: string[];
+  would_recommend: boolean | null;
+  review: string | null;
+}
+
+/** Datos editables de una reseña. */
+export type ReviewInput = {
+  rating?: number | null;
+  liked?: boolean | null;
+  pace?: string | null;
+  loved?: string[];
+  moods?: string[];
+  would_recommend?: boolean | null;
+  review?: string | null;
+};
+
 /** Resultado del análisis de IA sobre una portada o un título. */
 export interface BookAnalysis {
   title: string;

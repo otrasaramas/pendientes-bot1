@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/biblioteca", label: "Biblioteca" },
   { href: "/agregar", label: "Agregar" },
   { href: "/tablero", label: "Tablero" },
+  { href: "/diario", label: "Diario" },
   { href: "/habito", label: "Hábito" },
   { href: "/estadisticas", label: "Estadísticas" },
   { href: "/recomendar", label: "Recomiéndame" },

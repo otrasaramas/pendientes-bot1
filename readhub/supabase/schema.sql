@@ -68,3 +68,25 @@ create table if not exists reading_log (
 create index if not exists reading_log_day_idx on reading_log (day);
 
 alter table reading_log enable row level security;
+
+-- ─────────────────────────────────────────────────────────────────────────
+--  Diario de lecturas (estilo Letterboxd): una reseña/reflexión por libro
+--  terminado. Alimenta el perfil de gusto y las predicciones.
+-- ─────────────────────────────────────────────────────────────────────────
+create table if not exists reviews (
+  id          uuid primary key default gen_random_uuid(),
+  book_id     uuid not null references books(id) on delete cascade,
+  created_at  timestamptz not null default now(),
+  rating      integer check (rating between 1 and 5),
+  liked       boolean,
+  pace        text,                       -- lento | medio | rapido
+  loved       text[] not null default '{}',  -- qué fue lo que más gustó
+  moods       text[] not null default '{}',  -- cómo te hizo sentir
+  would_recommend boolean,
+  review      text,                       -- reseña en una línea
+  unique (book_id)
+);
+
+create index if not exists reviews_book_idx on reviews (book_id);
+
+alter table reviews enable row level security;

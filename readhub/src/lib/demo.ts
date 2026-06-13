@@ -1514,3 +1514,27 @@ export const DEMO_READING_DAYS: ReadingDay[] = [
     "created_at": "2026-06-13T00:00:00Z"
   }
 ];
+
+import type { Review } from "./types";
+
+/** Reseñas de muestra (libros 'leído') para el modo demo. */
+export const DEMO_REVIEWS: Review[] = [
+  {
+    id: "rv-1", book_id: "demo-1", created_at: "2026-05-20T00:00:00Z",
+    rating: 5, liked: true, pace: "medio",
+    loved: ["Las ideas", "Lo que aprendí"], moods: ["Reflexiva", "Inspirada"],
+    would_recommend: true, review: "Me cambió la forma de hablarme a mí misma.",
+  },
+  {
+    id: "rv-2", book_id: "demo-6", created_at: "2026-04-28T00:00:00Z",
+    rating: 4, liked: true, pace: "lento",
+    loved: ["La escritura", "Las emociones"], moods: ["Reflexiva", "Conmovida"],
+    would_recommend: true, review: "Calmado y necesario para tiempos abrumadores.",
+  },
+  {
+    id: "rv-3", book_id: "demo-19", created_at: "2026-03-15T00:00:00Z",
+    rating: 4, liked: true, pace: "lento",
+    loved: ["Las ideas"], moods: ["Reflexiva"],
+    would_recommend: false, review: "Denso pero brillante.",
+  },
+];
