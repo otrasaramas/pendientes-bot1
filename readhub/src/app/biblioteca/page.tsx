@@ -1,12 +1,12 @@
 import { getBooks } from "@/lib/queries";
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { isReady } from "@/lib/supabase";
 import SetupNotice from "@/components/SetupNotice";
 import BibliotecaClient from "@/components/BibliotecaClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function BibliotecaPage() {
-  if (!isSupabaseConfigured) return <SetupNotice />;
+  if (!isReady) return <SetupNotice />;
   const books = await getBooks();
 
   return (

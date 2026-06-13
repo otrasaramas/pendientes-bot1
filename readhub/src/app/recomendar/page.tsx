@@ -1,4 +1,4 @@
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { isReady } from "@/lib/supabase";
 import SetupNotice from "@/components/SetupNotice";
 import RecommendQuiz from "@/components/RecommendQuiz";
 
@@ -13,7 +13,7 @@ export default function RecomendarPage() {
           Responde 5 preguntas rápidas y te propongo 3 lecturas de tu lista pendiente.
         </p>
       </header>
-      {isSupabaseConfigured ? <RecommendQuiz /> : <SetupNotice />}
+      {isReady ? <RecommendQuiz /> : <SetupNotice />}
     </div>
   );
 }

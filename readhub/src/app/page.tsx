@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getBooks, computeStats } from "@/lib/queries";
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { isReady } from "@/lib/supabase";
 import { STATUS_META } from "@/lib/categories";
 import SetupNotice from "@/components/SetupNotice";
 import BookCover from "@/components/BookCover";
@@ -18,7 +18,7 @@ function Stat({ label, value, hint }: { label: string; value: string | number; h
 }
 
 export default async function HomePage() {
-  if (!isSupabaseConfigured) {
+  if (!isReady) {
     return (
       <div className="space-y-6">
         <Hero />

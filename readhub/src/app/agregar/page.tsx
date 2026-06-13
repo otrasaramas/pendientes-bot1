@@ -1,4 +1,4 @@
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { isReady } from "@/lib/supabase";
 import SetupNotice from "@/components/SetupNotice";
 import AddBookForm from "@/components/AddBookForm";
 
@@ -13,7 +13,7 @@ export default function AgregarPage() {
           Por foto de la portada, por título o manualmente. La IA propone los datos y tú confirmas.
         </p>
       </header>
-      {isSupabaseConfigured ? <AddBookForm /> : <SetupNotice />}
+      {isReady ? <AddBookForm /> : <SetupNotice />}
     </div>
   );
 }

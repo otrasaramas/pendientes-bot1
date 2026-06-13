@@ -61,6 +61,17 @@ El script detecta automáticamente columnas comunes en español/inglés (título
 género, estado, valoración, páginas, año, etc.). Si alguna no se reconoce, edita el objeto
 `FIELD_ALIASES` dentro del script.
 
+## Modo demo (previsualizar sin base de datos)
+
+Para ver la app poblada con datos de muestra (tu hoja de cálculo) sin configurar Supabase:
+
+```bash
+READHUB_DEMO=1 npm run dev
+```
+
+En este modo las pantallas se ven con tus libros de ejemplo. Las acciones que escriben
+(guardar, editar, recomendar con IA) necesitan la configuración real.
+
 ## Desplegar en Vercel
 
 1. Sube el repositorio a GitHub.

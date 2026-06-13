@@ -1,12 +1,12 @@
 import { getBooks } from "@/lib/queries";
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { isReady } from "@/lib/supabase";
 import SetupNotice from "@/components/SetupNotice";
 import KanbanBoard from "@/components/KanbanBoard";
 
 export const dynamic = "force-dynamic";
 
 export default async function TableroPage() {
-  if (!isSupabaseConfigured) return <SetupNotice />;
+  if (!isReady) return <SetupNotice />;
   const books = await getBooks();
 
   return (

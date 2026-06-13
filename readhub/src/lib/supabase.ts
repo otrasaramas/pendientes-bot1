@@ -12,6 +12,12 @@ const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export const isSupabaseConfigured = Boolean(url && serviceKey);
 
+/** Modo demo (datos de muestra, sin base de datos real). */
+export const isDemo = process.env.READHUB_DEMO === "1";
+
+/** La app puede mostrar contenido si hay Supabase configurado o estamos en demo. */
+export const isReady = isSupabaseConfigured || isDemo;
+
 let client: SupabaseClient | null = null;
 
 export function getSupabase(): SupabaseClient {

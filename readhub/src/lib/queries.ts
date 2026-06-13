@@ -2,8 +2,15 @@ import "server-only";
 import { getSupabase, isSupabaseConfigured } from "./supabase";
 import type { Book, BookStatus } from "./types";
 
+/** Modo demo: muestra datos de muestra sin necesidad de base de datos real. */
+const DEMO = process.env.READHUB_DEMO === "1";
+
 /** Devuelve todos los libros ordenados. Lista vacía si no hay configuración. */
 export async function getBooks(): Promise<Book[]> {
+  if (DEMO) {
+    const { DEMO_BOOKS } = await import("./demo");
+    return DEMO_BOOKS;
+  }
   if (!isSupabaseConfigured) return [];
   const { data, error } = await getSupabase()
     .from("books")

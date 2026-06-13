@@ -1,5 +1,5 @@
 import { getBooks, computeStats } from "@/lib/queries";
-import { isSupabaseConfigured } from "@/lib/supabase";
+import { isReady } from "@/lib/supabase";
 import SetupNotice from "@/components/SetupNotice";
 import StatsCharts from "@/components/StatsCharts";
 
@@ -15,7 +15,7 @@ function Big({ label, value }: { label: string; value: string | number }) {
 }
 
 export default async function EstadisticasPage() {
-  if (!isSupabaseConfigured) return <SetupNotice />;
+  if (!isReady) return <SetupNotice />;
   const books = await getBooks();
   const stats = computeStats(books);
 
