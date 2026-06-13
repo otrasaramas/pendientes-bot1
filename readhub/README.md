@@ -22,6 +22,8 @@ Construido con **Next.js 16** (App Router), **Supabase** (base de datos) y la
 
 1. Crea un proyecto en [supabase.com](https://supabase.com).
 2. En **SQL Editor**, pega y ejecuta el contenido de [`supabase/schema.sql`](./supabase/schema.sql).
+3. (Opcional) Para cargar tus 26 libros ya existentes, ejecuta también
+   [`supabase/seed.sql`](./supabase/seed.sql) — es tu hoja de cálculo convertida a SQL.
 
 ### 2. Variables de entorno
 
@@ -45,7 +47,10 @@ npm run dev      # http://localhost:3000
 
 ### 4. Importar tu hoja de cálculo (opcional)
 
-Exporta tu hoja como **CSV** y ejecuta:
+**La forma más fácil** ya está hecha: ejecuta `supabase/seed.sql` (paso 1.3) y tendrás
+tus libros cargados sin más.
+
+Si en el futuro quieres importar otra hoja, expórtala como **CSV** y ejecuta:
 
 ```bash
 node scripts/import-csv.mjs ruta/a/mis-libros.csv --dry   # ver el mapeo sin escribir

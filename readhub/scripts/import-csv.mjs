@@ -70,7 +70,7 @@ const norm = (s) =>
 const FIELD_ALIASES = {
   title: ["titulo", "title", "nombre", "libro", "name"],
   author: ["autor", "author", "escritor", "autora", "writer"],
-  genre: ["genero", "genre", "categoria principal", "género"],
+  genre: ["genero", "genre", "categoria principal", "género", "categoria", "category"],
   categories: ["categorias", "categories", "etiquetas", "tags", "temas"],
   is_fiction: ["ficcion", "fiction", "tipo", "ficcion/no ficcion"],
   status: ["estado", "status", "situacion"],
