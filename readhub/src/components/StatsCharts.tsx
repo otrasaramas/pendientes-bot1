@@ -13,8 +13,11 @@ import {
   Legend,
 } from "recharts";
 import type { LibraryStats } from "@/lib/queries";
+import { getBookColor } from "@/lib/colors";
 
-const COLORS = ["#9a6b4f", "#6b9080", "#8e7dbe", "#c08552", "#5e7a8f", "#a05c5c", "#b0975f"];
+const COLORS = ["#bb4a2c", "#6f8f76", "#a9722e", "#2f6fae", "#d8a7a0", "#f0bf2b", "#1f2f5e"];
+
+const genreColor = (name: string) => getBookColor({ title: name, genre: name }).bg;
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -80,13 +83,22 @@ export default function StatsCharts({ stats }: { stats: LibraryStats }) {
 
       <Panel title="Libros por género">
         {genreData.length ? (
-          <ResponsiveContainer width="100%" height={Math.max(220, genreData.length * 34)}>
-            <BarChart data={genreData} layout="vertical" margin={{ left: 10, right: 20 }}>
-              <XAxis type="number" allowDecimals={false} hide />
-              <YAxis type="category" dataKey="name" width={130} tick={{ fontSize: 12 }} />
+          <ResponsiveContainer width="100%" height={280}>
+            <PieChart>
+              <Pie
+                data={genreData}
+                dataKey="count"
+                nameKey="name"
+                outerRadius={95}
+                paddingAngle={2}
+              >
+                {genreData.map((g) => (
+                  <Cell key={g.name} fill={genreColor(g.name)} />
+                ))}
+              </Pie>
               <Tooltip />
-              <Bar dataKey="count" radius={[0, 6, 6, 0]} fill="#9a6b4f" />
-            </BarChart>
+              <Legend wrapperStyle={{ fontSize: 12 }} />
+            </PieChart>
           </ResponsiveContainer>
         ) : (
           <p className="text-sm text-muted">Aún no hay géneros registrados.</p>

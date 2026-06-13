@@ -39,7 +39,7 @@
   .grid{display:grid;gap:14px}
   .stats{grid-template-columns:repeat(2,1fr)}
   @media(min-width:640px){.stats{grid-template-columns:repeat(3,1fr)}}
-  @media(min-width:980px){.stats{grid-template-columns:repeat(6,1fr)}}
+  @media(min-width:980px){.stats{grid-template-columns:repeat(5,1fr)}}
   .stat{padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
   .stat .v{font-family:var(--serif);font-size:30px}
   .books{grid-template-columns:repeat(2,1fr)}
@@ -163,7 +163,7 @@ function fictionPct(){const c=BOOKS.filter(b=>b.is_fiction!=null);const f=c.filt
 function bookCard(b,i){const[bg,fg]=color(b);return `<button class="bk" style="background:${bg};color:${fg}" onclick="openBook(${i})">
   <span class="dot" style="background:${STATUS[b.status].color}"></span>
   <span class="t">“${esc(b.title)}”</span>
-  <span class="m">${esc(b.author||"")}</span></button>`;}
+  <span class="m">${b.genre?`<span style="display:block;text-transform:uppercase;opacity:.7;margin-bottom:3px">${esc(b.genre)}</span>`:""}${esc(b.author||"")}</span></button>`;}
 
 function renderInicio(){
   const por=BOOKS.filter(b=>b.status==="por_leer").length, ley=BOOKS.filter(b=>b.status==="leyendo").length, lei=BOOKS.filter(b=>b.status==="leido").length;
@@ -178,12 +178,12 @@ function renderInicio(){
       <button class="btn ghost" onclick="go('recomendar')">✦ RECOMIÉNDAME</button></div>
   </section>
   <section class="grid stats" style="margin-top:24px">
-    ${stat(BOOKS.length,"Libros en total")}${stat(por,"Por leer")}${stat(ley,"Leyendo")}${stat(lei,"Leído")}${stat(fictionPct()+"%","% Ficción")}${stat("🔥 13","Racha")}
+    ${stat(BOOKS.length,"Libros en total")}${stat(por,"Por leer")}${stat(ley,"Leyendo")}${stat(lei,"Leído")}${stat("🔥 13","Racha")}
   </section>
   ${leyendo.length?`<section style="margin-top:28px"><h2 class="sec">Leyendo ahora</h2><div class="grid books">${leyendo.map(x=>miniCard(x.b,x.i)).join("")}</div></section>`:""}
   <section style="margin-top:28px;display:grid;gap:24px;grid-template-columns:1fr">
     <div><h2 class="sec">Añadidos recientemente</h2><div class="grid books">${recientes.map(x=>bookCard(x.b,x.i)).join("")}</div></div>
-    <div><h2 class="sec">Por género</h2>${genreCounts().map(([g,n])=>`<div class="genrow"><span style="color:var(--muted)">${esc(g)}</span><b>${n}</b></div>`).join("")}</div>
+    <div><h2 class="sec">Por género</h2>${(()=>{const gc=genreCounts();const mx=Math.max(...gc.map(x=>x[1]),1);return gc.map(([g,n])=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">${esc(g)}</span><b style="font-family:var(--mono)">${n}</b></div><div style="height:10px;border-radius:99px;background:var(--soft);overflow:hidden"><div style="height:100%;width:${Math.round(n/mx*100)}%;border-radius:99px;background:${color({genre:g,title:g})[0]}"></div></div></div>`).join("")})()}</div>
   </section>`;
 }
 function miniCard(b,i){const[bg,fg]=color(b);return `<button class="bk" style="background:${bg};color:${fg};aspect-ratio:auto;min-height:84px" onclick="openBook(${i})"><span class="t" style="font-size:13px">“${esc(b.title)}”</span><span class="m">${esc(b.author||"")}</span></button>`;}
@@ -238,7 +238,7 @@ function renderEstadisticas(){
       <div class="donut" style="background:conic-gradient(var(--primary) 0 ${f}%, var(--soft) ${f}% 100%)"></div>
       <div class="legend"><span><span class="sw" style="background:var(--primary)"></span>Ficción ${f}%</span><span><span class="sw" style="background:var(--soft)"></span>No ficción ${100-f}%</span></div></div></div>
     <div class="card" style="padding:20px"><h3 class="serif">Libros por género</h3>
-      ${gc.map(([g,n])=>`<div style="margin:8px 0"><div style="font-size:12px;color:var(--muted);margin-bottom:3px">${esc(g)} · ${n}</div><div class="bar" style="width:${Math.round(n/max*100)}%"></div></div>`).join("")}</div>
+      ${(()=>{const total=gc.reduce((s,x)=>s+x[1],0)||1;let acc=0;const segs=gc.map(([g,n])=>{const a=acc/total*100;acc+=n;return `${color({genre:g,title:g})[0]} ${a}% ${acc/total*100}%`;}).join(",");const legend=gc.map(([g,n])=>`<span style="display:inline-flex;align-items:center;gap:6px"><span class="sw" style="background:${color({genre:g,title:g})[0]}"></span>${esc(g)} (${n})</span>`).join("");return `<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap"><div class="donut" style="background:conic-gradient(${segs})"></div><div style="display:flex;flex-direction:column;gap:7px;font-size:13px">${legend}</div></div>`;})()}</div>
   </div>`;
 }
 

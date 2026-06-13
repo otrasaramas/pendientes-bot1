@@ -27,7 +27,12 @@ export default function BookCard({
         “{book.title}”
       </p>
       <div className="font-mono text-[10px] leading-tight" style={{ color: fg }}>
-        {book.author && <span className="block opacity-80">{book.author}</span>}
+        {book.genre && (
+          <span className="mb-1 block uppercase tracking-wide opacity-70 line-clamp-2">
+            {book.genre}
+          </span>
+        )}
+        {book.author && <span className="block opacity-90 line-clamp-1">{book.author}</span>}
         {book.year && <span className="mt-1 block text-[13px]">{book.year}</span>}
       </div>
     </button>

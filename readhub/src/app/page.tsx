@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getBooks, computeStats, getReadingDays, computeReadingStats } from "@/lib/queries";
 import { isReady } from "@/lib/supabase";
 import { STATUS_META } from "@/lib/categories";
+import { getBookColor } from "@/lib/colors";
 import SetupNotice from "@/components/SetupNotice";
 import BookCover from "@/components/BookCover";
 
@@ -55,12 +56,11 @@ export default async function HomePage() {
         </div>
       ) : (
         <>
-          <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             <Stat label="Libros en total" value={stats.total} />
             <Stat label={STATUS_META.por_leer.label} value={stats.porLeer} hint="📚 en cola" />
             <Stat label={STATUS_META.leyendo.label} value={stats.leyendo} hint="📖 en curso" />
             <Stat label={STATUS_META.leido.label} value={stats.leido} hint={`🏆 ${stats.finishedThisYear} este año`} />
-            <Stat label="% Ficción" value={`${stats.fictionPct}%`} hint={`${stats.fiction} de ${stats.fiction + stats.nonFiction}`} />
             <Stat label="Racha" value={`🔥 ${readingStats.currentStreak}`} hint={`${readingStats.daysThisYear} días leídos`} />
           </section>
 
@@ -103,13 +103,27 @@ export default async function HomePage() {
 
             <div>
               <h2 className="mb-3 font-serif text-2xl">Por género</h2>
-              <div className="space-y-1.5">
-                {stats.byGenre.slice(0, 8).map((g) => (
-                  <div key={g.name} className="flex items-center justify-between rounded-lg bg-surface px-3 py-1.5 text-sm">
-                    <span className="text-muted">{g.name}</span>
-                    <span className="font-medium">{g.count}</span>
-                  </div>
-                ))}
+              <div className="space-y-2.5">
+                {(() => {
+                  const max = Math.max(...stats.byGenre.map((g) => g.count), 1);
+                  return stats.byGenre.slice(0, 8).map((g) => (
+                    <div key={g.name}>
+                      <div className="mb-1 flex items-center justify-between text-xs">
+                        <span className="text-muted">{g.name}</span>
+                        <span className="font-mono font-bold">{g.count}</span>
+                      </div>
+                      <div className="h-2.5 overflow-hidden rounded-full bg-primary-soft">
+                        <div
+                          className="h-full rounded-full transition-all"
+                          style={{
+                            width: `${Math.round((g.count / max) * 100)}%`,
+                            background: getBookColor({ title: g.name, genre: g.name }).bg,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ));
+                })()}
                 {stats.byGenre.length === 0 && (
                   <p className="text-sm text-muted">Sin géneros aún.</p>
                 )}
