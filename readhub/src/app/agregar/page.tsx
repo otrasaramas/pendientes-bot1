@@ -8,8 +8,9 @@ export default function AgregarPage() {
   return (
     <div className="space-y-5">
       <header>
-        <h1 className="font-serif text-2xl font-bold">➕ Agregar libro</h1>
-        <p className="text-muted">
+        <p className="kicker">Nuevo libro</p>
+        <h1 className="font-serif text-4xl">Agregar</h1>
+        <p className="mt-1 text-muted">
           Por foto de la portada, por título o manualmente. La IA propone los datos y tú confirmas.
         </p>
       </header>

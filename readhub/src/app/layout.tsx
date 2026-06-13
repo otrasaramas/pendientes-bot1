@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Playfair_Display, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
@@ -9,15 +9,28 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+});
+
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "ReadHub · Tu centro de lecturas",
+  title: "bookclub de sara",
   description:
-    "Organiza, clasifica y descubre tu próxima lectura. Tu biblioteca personal con estadísticas y recomendaciones por IA.",
+    "La biblioteca personal de Sara: organiza tus libros, sigue tu hábito de lectura y descubre tu próxima lectura.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "ReadHub",
+    title: "bookclub de sara",
   },
   icons: {
     icon: "/icon-192.png",
@@ -35,15 +48,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${geistSans.variable} h-full antialiased`}>
+    <html
+      lang="es"
+      className={`${geistSans.variable} ${playfair.variable} ${spaceMono.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
         <ServiceWorkerRegister />
         <Nav />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
           {children}
         </main>
-        <footer className="border-t border-border py-6 text-center text-sm text-muted">
-          ReadHub · hecho con cariño para tus libros 📚
+        <footer className="kicker border-t border-border py-6 text-center">
+          bookclub de sara · hecho con cariño
         </footer>
       </body>
     </html>

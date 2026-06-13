@@ -22,8 +22,8 @@ export default async function EstadisticasPage() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="font-serif text-2xl font-bold">📊 Estadísticas</h1>
-        <p className="text-muted">Una mirada a tus hábitos de lectura.</p>
+        <p className="kicker">Tus hábitos de lectura</p>
+        <h1 className="font-serif text-4xl">Estadísticas</h1>
       </header>
 
       {books.length === 0 ? (

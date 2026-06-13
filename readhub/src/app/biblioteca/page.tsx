@@ -12,8 +12,8 @@ export default async function BibliotecaPage() {
   return (
     <div className="space-y-5">
       <header>
-        <h1 className="font-serif text-2xl font-bold">📚 Mi biblioteca</h1>
-        <p className="text-muted">{books.length} libros guardados. Toca uno para ver o editar.</p>
+        <p className="kicker">{books.length} libros · toca uno para ver o editar</p>
+        <h1 className="font-serif text-4xl">Biblioteca</h1>
       </header>
       <BibliotecaClient books={books} />
     </div>

@@ -188,7 +188,7 @@ export default function AddBookForm() {
         <div className="rounded-xl border border-border bg-surface p-6">
           <div className="mb-4 flex items-start gap-4">
             <div className="h-28 w-20 shrink-0 overflow-hidden rounded-md shadow">
-              <BookCover book={{ title: form.title || "Nuevo libro", author: form.author, cover_url: form.cover_url }} />
+              <BookCover book={{ title: form.title || "Nuevo libro", author: form.author, cover_url: form.cover_url, genre: form.genre }} />
             </div>
             <div className="flex-1">
               <h2 className="font-serif text-lg font-semibold">

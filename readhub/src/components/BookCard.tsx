@@ -1,7 +1,6 @@
 import type { Book } from "@/lib/types";
 import { STATUS_META } from "@/lib/categories";
-import BookCover from "./BookCover";
-import StarRating from "./StarRating";
+import { getBookColor } from "@/lib/colors";
 
 export default function BookCard({
   book,
@@ -10,36 +9,26 @@ export default function BookCard({
   book: Book;
   onClick?: () => void;
 }) {
+  const { bg, fg } = getBookColor(book);
   const status = STATUS_META[book.status];
+
   return (
     <button
       onClick={onClick}
-      className="group flex flex-col overflow-hidden rounded-xl border border-border bg-surface text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+      style={{ background: bg, color: fg }}
+      className="group relative flex aspect-[3/4] flex-col justify-between rounded-md p-3 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
     >
-      <div className="relative aspect-[2/3] w-full overflow-hidden bg-primary-soft">
-        <BookCover book={book} />
-        <span
-          className="absolute right-2 top-2 rounded-full px-2 py-0.5 text-[11px] font-medium text-white shadow"
-          style={{ background: status.color }}
-        >
-          {status.emoji} {status.label}
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col gap-1 p-3">
-        <h3 className="font-serif text-sm leading-tight font-semibold line-clamp-2">
-          {book.title}
-        </h3>
-        {book.author && <p className="text-xs text-muted line-clamp-1">{book.author}</p>}
-        <div className="mt-auto flex items-center justify-between pt-1">
-          {book.genre ? (
-            <span className="rounded-full bg-primary-soft px-2 py-0.5 text-[11px] text-primary line-clamp-1">
-              {book.genre}
-            </span>
-          ) : (
-            <span />
-          )}
-          {book.rating ? <StarRating value={book.rating} readOnly size="text-xs" /> : null}
-        </div>
+      <span
+        className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full"
+        style={{ background: status.color }}
+        title={status.label}
+      />
+      <p className="font-serif text-[15px] leading-tight" style={{ color: fg }}>
+        “{book.title}”
+      </p>
+      <div className="font-mono text-[10px] leading-tight" style={{ color: fg }}>
+        {book.author && <span className="block opacity-80">{book.author}</span>}
+        {book.year && <span className="mt-1 block text-[13px]">{book.year}</span>}
       </div>
     </button>
   );

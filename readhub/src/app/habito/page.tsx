@@ -24,8 +24,8 @@ export default async function HabitoPage({
     <div className="space-y-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold">🔥 Mi hábito de lectura</h1>
-          <p className="text-muted">Marca los días que lees y construye tu racha.</p>
+          <p className="kicker">Marca los días que lees</p>
+          <h1 className="font-serif text-4xl">Hábito de lectura</h1>
         </div>
         <div className="flex items-center gap-2">
           <Link

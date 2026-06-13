@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f3ec;
-  --surface: #fffdf9;
-  --foreground: #2b2622;
-  --muted: #7a7066;
-  --border: #e6ddcf;
-  --primary: #9a6b4f;
-  --primary-soft: #f0e4d8;
-  --accent: #6b9080;
+  --background: #f3eede;   /* crema cálida */
+  --surface: #fbf7ec;      /* tarjeta crema clara */
+  --foreground: #2b241d;   /* casi negro cálido */
+  --muted: #8a7e6c;
+  --border: #e3d9c4;
+  --primary: #bb4a2c;      /* terracota / coral */
+  --primary-soft: #ecdfc7; /* arena */
+  --accent: #6f8f76;       /* verde salvia */
+  --maroon: #5c2e34;       /* burdeos */
 }
 
 @theme inline {
@@ -20,8 +21,10 @@
   --color-primary: var(--primary);
   --color-primary-soft: var(--primary-soft);
   --color-accent: var(--accent);
+  --color-maroon: var(--maroon);
   --font-sans: var(--font-geist-sans);
-  --font-serif: Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-playfair);
+  --font-mono: var(--font-space-mono);
 }
 
 body {
@@ -30,11 +33,15 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-.font-serif {
-  font-family: var(--font-serif);
+/* Etiqueta editorial monoespaciada (kicker) */
+.kicker {
+  font-family: var(--font-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.7rem;
+  color: var(--muted);
 }
 
-/* Oculta scrollbars horizontales del tablero en navegadores webkit */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

@@ -12,8 +12,8 @@ export default async function TableroPage() {
   return (
     <div className="space-y-5">
       <header>
-        <h1 className="font-serif text-2xl font-bold">🗂️ Tablero de lectura</h1>
-        <p className="text-muted">Organiza tus libros entre por leer, leyendo y leídos.</p>
+        <p className="kicker">Por leer · leyendo · leído</p>
+        <h1 className="font-serif text-4xl">Tablero</h1>
       </header>
       <KanbanBoard books={books} />
     </div>

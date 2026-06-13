@@ -4,43 +4,39 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS = [
-  { href: "/", label: "Inicio", emoji: "🏠" },
-  { href: "/biblioteca", label: "Biblioteca", emoji: "📚" },
-  { href: "/agregar", label: "Agregar", emoji: "➕" },
-  { href: "/tablero", label: "Tablero", emoji: "🗂️" },
-  { href: "/habito", label: "Hábito", emoji: "🔥" },
-  { href: "/estadisticas", label: "Estadísticas", emoji: "📊" },
-  { href: "/recomendar", label: "Recomiéndame", emoji: "✨" },
+  { href: "/", label: "Inicio" },
+  { href: "/biblioteca", label: "Biblioteca" },
+  { href: "/agregar", label: "Agregar" },
+  { href: "/tablero", label: "Tablero" },
+  { href: "/habito", label: "Hábito" },
+  { href: "/estadisticas", label: "Estadísticas" },
+  { href: "/recomendar", label: "Recomiéndame" },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-surface/85 backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 font-serif text-xl font-semibold">
-          <span className="text-2xl">📖</span>
-          <span>
-            Read<span className="text-primary">Hub</span>
-          </span>
+    <header className="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur">
+      <nav className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <Link href="/" className="font-serif text-2xl leading-none tracking-tight">
+          bookclub <span className="text-primary italic">de sara</span>
         </Link>
-        <ul className="flex flex-1 flex-wrap items-center justify-end gap-1 text-sm">
-          {LINKS.slice(1).map((l) => {
+        <ul className="flex flex-wrap items-center gap-x-1 gap-y-1">
+          {LINKS.map((l) => {
             const active =
               l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
             return (
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-colors ${
+                  className={`block rounded-full px-3 py-1 font-mono text-[11px] tracking-wide transition-colors ${
                     active
                       ? "bg-primary text-white"
                       : "text-muted hover:bg-primary-soft hover:text-foreground"
                   }`}
                 >
-                  <span aria-hidden>{l.emoji}</span>
-                  <span className="hidden sm:inline">{l.label}</span>
+                  {l.label}
                 </Link>
               </li>
             );

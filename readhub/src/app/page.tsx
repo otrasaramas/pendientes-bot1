@@ -10,8 +10,8 @@ export const dynamic = "force-dynamic";
 function Stat({ label, value, hint }: { label: string; value: string | number; hint?: string }) {
   return (
     <div className="rounded-xl border border-border bg-surface p-4">
-      <p className="text-3xl font-semibold text-foreground">{value}</p>
-      <p className="text-sm text-muted">{label}</p>
+      <p className="font-serif text-3xl">{value}</p>
+      <p className="kicker mt-1">{label}</p>
       {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </div>
   );
@@ -66,7 +66,7 @@ export default async function HomePage() {
 
           {reading.length > 0 && (
             <section>
-              <h2 className="mb-3 font-serif text-lg font-semibold">📖 Leyendo ahora</h2>
+              <h2 className="mb-3 font-serif text-2xl">Leyendo ahora</h2>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {reading.map((b) => (
                   <Link
@@ -89,7 +89,7 @@ export default async function HomePage() {
 
           <section className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2">
-              <h2 className="mb-3 font-serif text-lg font-semibold">🆕 Añadidos recientemente</h2>
+              <h2 className="mb-3 font-serif text-2xl">Añadidos recientemente</h2>
               <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
                 {recent.map((b) => (
                   <Link key={b.id} href="/biblioteca" className="block">
@@ -102,7 +102,7 @@ export default async function HomePage() {
             </div>
 
             <div>
-              <h2 className="mb-3 font-serif text-lg font-semibold">🏷️ Por género</h2>
+              <h2 className="mb-3 font-serif text-2xl">Por género</h2>
               <div className="space-y-1.5">
                 {stats.byGenre.slice(0, 8).map((g) => (
                   <div key={g.name} className="flex items-center justify-between rounded-lg bg-surface px-3 py-1.5 text-sm">
@@ -127,18 +127,27 @@ export default async function HomePage() {
 
 function Hero() {
   return (
-    <section className="rounded-2xl border border-border bg-gradient-to-br from-primary-soft to-surface p-7">
-      <h1 className="font-serif text-3xl font-bold">Tu centro de lecturas 📖</h1>
-      <p className="mt-2 max-w-2xl text-muted">
-        Guarda tus libros, clasifícalos con ayuda de IA, descubre tus hábitos de lectura y deja que
-        ReadHub te sugiera qué leer a continuación.
+    <section className="rounded-2xl border border-border bg-surface p-8 sm:p-10">
+      <p className="kicker">La biblioteca personal de Sara</p>
+      <h1 className="mt-1 font-serif text-5xl leading-none sm:text-6xl">
+        bookclub <span className="text-primary italic">de sara</span>
+      </h1>
+      <p className="mt-4 max-w-2xl text-muted">
+        Guarda tus libros, clasifícalos con ayuda de IA, sigue tu hábito de lectura y descubre
+        qué leer a continuación.
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Link href="/agregar" className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white">
-          ➕ Agregar libro
+      <div className="mt-5 flex flex-wrap gap-2">
+        <Link
+          href="/agregar"
+          className="rounded-full bg-primary px-5 py-2.5 font-mono text-xs tracking-wide text-white"
+        >
+          + AGREGAR LIBRO
         </Link>
-        <Link href="/recomendar" className="rounded-lg border border-primary px-4 py-2 text-sm font-semibold text-primary hover:bg-primary-soft">
-          ✨ Recomiéndame algo
+        <Link
+          href="/recomendar"
+          className="rounded-full border border-primary px-5 py-2.5 font-mono text-xs tracking-wide text-primary hover:bg-primary-soft"
+        >
+          ✦ RECOMIÉNDAME
         </Link>
       </div>
     </section>

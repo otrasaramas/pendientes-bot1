@@ -44,9 +44,9 @@ export const STATUS_META: Record<
   BookStatus,
   { label: string; emoji: string; color: string }
 > = {
-  por_leer: { label: "Por leer", emoji: "📚", color: "#b08968" },
-  leyendo: { label: "Leyendo", emoji: "📖", color: "#6b9080" },
-  leido: { label: "Leído", emoji: "✅", color: "#8e7dbe" },
+  por_leer: { label: "Por leer", emoji: "📚", color: "#a9722e" },
+  leyendo: { label: "Leyendo", emoji: "📖", color: "#6f8f76" },
+  leido: { label: "Leído", emoji: "✅", color: "#bb4a2c" },
 };
 
 export const STATUS_ORDER: BookStatus[] = ["por_leer", "leyendo", "leido"];

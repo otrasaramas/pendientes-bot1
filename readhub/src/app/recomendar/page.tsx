@@ -8,8 +8,9 @@ export default function RecomendarPage() {
   return (
     <div className="space-y-6">
       <header className="text-center">
-        <h1 className="font-serif text-2xl font-bold">✨ ¿Qué leo ahora?</h1>
-        <p className="text-muted">
+        <p className="kicker">Recomiéndame</p>
+        <h1 className="font-serif text-4xl">¿Qué leo ahora?</h1>
+        <p className="mt-1 text-muted">
           Responde 5 preguntas rápidas y te propongo 3 lecturas de tu lista pendiente.
         </p>
       </header>

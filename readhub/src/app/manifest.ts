@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ReadHub · Tu centro de lecturas",
-    short_name: "ReadHub",
-    description: "Tu biblioteca personal: organiza libros, sigue tu hábito de lectura y recibe recomendaciones.",
+    name: "bookclub de sara",
+    short_name: "bookclub",
+    description: "La biblioteca personal de Sara: organiza libros, sigue tu hábito de lectura y recibe recomendaciones.",
     start_url: "/",
     scope: "/",
     display: "standalone",
