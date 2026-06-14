@@ -42,6 +42,7 @@ Comandos disponibles:
 🗑 *borrar [N]* — Eliminar tarea N
 🎯 *plan [minutos]* — Generar plan del día
 🏷 *categorias* — Ver/ajustar prioridad de categorías
+🧭 *mentor* — Hablar con tu mentor personal
 ❓ *ayuda* — Ver este menú`;
 
 const CATEGORIES = ["Trabajo", "Personal", "Salud", "Hogar", "Finanzas", "Educación", "Otro"];
@@ -186,6 +187,134 @@ CONSEJO:
   return response.content[0].text;
 }
 
+// ─── MENTOR PERSONAL ───────────────────────────────────────────────────────
+
+async function getMentorProfile(phone) {
+  const { data } = await supabase
+    .from("mentor")
+    .select("*")
+    .eq("phone", phone)
+    .limit(1);
+  return data?.[0] || null;
+}
+
+// Genera la respuesta del mentor con IA, anclada a la visión y tareas del usuario
+async function generateMentorReply(phone, profile, userMsg) {
+  const tasks = await getTasks(phone);
+  const taskList = tasks.length
+    ? tasks.map(t => `- "${t.name}" (${t.priority}, ${t.category})`).join("\n")
+    : "Sin tareas pendientes registradas.";
+
+  const { data: journal } = await supabase
+    .from("mentor_journal")
+    .select("user_msg, mentor_msg")
+    .eq("phone", phone)
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  const history = (journal || []).length
+    ? (journal || [])
+        .reverse()
+        .map(j => `Ella dijo: ${j.user_msg}\nVos respondiste: ${j.mentor_msg}`)
+        .join("\n\n")
+    : "Sin charlas previas.";
+
+  const prompt = `Sos el mentor personal de Sara. Tu estilo combina lo mejor de los grandes mentores de la historia: hacés preguntas que invitan a pensar (como Sócrates con Platón), das marcos claros y prácticos (como Benjamin Graham con Warren Buffett), sos honesto y exigente con cariño (como Dean Smith con Michael Jordan), y conectás todo con la visión de largo plazo.
+
+Visión de Sara a 12 meses: "${profile.vision}"
+Área en la que quiere foco: ${profile.focus || "general"}
+
+Sus tareas pendientes hoy:
+${taskList}
+
+Charlas recientes:
+${history}
+
+Sara te acaba de decir: "${userMsg}"
+
+Respondé como su mentor en máximo 6 líneas, en español rioplatense, cálido pero directo. Conectá lo que dice con su visión a 12 meses y, cuando aplique, con sus tareas concretas. No la halagues por halagar: si ves un hueco en su razonamiento, decíselo con respeto. Terminá SIEMPRE con UNA sola pregunta poderosa que la haga avanzar o pensar más profundo. No uses encabezados ni listas, escribí como en una conversación de WhatsApp.`;
+
+  const response = await anthropic.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 600,
+    messages: [{ role: "user", content: prompt }]
+  });
+
+  const reply = response.content[0].text.trim();
+
+  await supabase.from("mentor_journal").insert({
+    phone,
+    user_msg: userMsg,
+    mentor_msg: reply
+  });
+
+  return reply;
+}
+
+async function startMentor(phone, session, res) {
+  const profile = await getMentorProfile(phone);
+
+  // Primera vez: arrancamos por la gran pregunta de visión
+  if (!profile || !profile.vision) {
+    session.step = "mentor_vision";
+    return twiReply(res, `🧭 *Tu mentor personal*\n\nAntes de empezar, una pregunta de mentor:\n\n*¿Qué querés que sea diferente en tu vida dentro de 12 meses?*\n\nTomate tu tiempo y respondé con lo que sientas.`);
+  }
+
+  // Ya tiene visión: abrimos la charla del día
+  session.step = "mentor_chat";
+  try {
+    const reply = await generateMentorReply(phone, profile, "Quiero empezar nuestra charla de hoy.");
+    return twiReply(res, `🧭 ${reply}\n\n_(Escribí *salir* para terminar la charla.)_`);
+  } catch {
+    return twiReply(res, `🧭 Acá estoy. Contame cómo venís con tu Norte: "${profile.vision}". ¿Qué hiciste hoy que te acerque a eso?\n\n_(Escribí *salir* para terminar.)_`);
+  }
+}
+
+async function handleMentor(phone, msg, session, res) {
+  const s = session;
+  const low = msg.toLowerCase();
+
+  // Salir de la charla
+  if (s.step === "mentor_chat" && ["salir", "menu", "menú", "chau", "fin"].includes(low)) {
+    clearSession(phone);
+    return twiReply(res, "🧭 Cuando quieras seguir, escribí *mentor*. Acá voy a estar. 💪");
+  }
+
+  // Onboarding paso 1: guardar la visión a 12 meses
+  if (s.step === "mentor_vision") {
+    await supabase.from("mentor").upsert(
+      { phone, vision: msg, updated_at: new Date().toISOString() },
+      { onConflict: "phone" }
+    );
+    s.step = "mentor_focus";
+    return twiReply(res, `Me encanta. 🎯 Lo guardé como tu Norte.\n\n¿En qué área querés que te acompañe sobre todo?\n\n• productividad\n• finanzas\n• decisiones\n• hábitos\n• otro (escribí cuál)`);
+  }
+
+  // Onboarding paso 2: guardar el área de foco y dar la primera reflexión
+  if (s.step === "mentor_focus") {
+    await supabase.from("mentor").update({ focus: msg, updated_at: new Date().toISOString() }).eq("phone", phone);
+    s.step = "mentor_chat";
+    const profile = await getMentorProfile(phone);
+    try {
+      const reply = await generateMentorReply(phone, profile, `Mi visión a 12 meses es: "${profile.vision}". Quiero que me acompañes sobre todo en: ${msg}.`);
+      return twiReply(res, `🧭 ${reply}\n\n_(Escribí *salir* para terminar la charla.)_`);
+    } catch {
+      return twiReply(res, `🧭 Listo, Sara. Tu Norte y tu foco quedaron guardados. Empecemos: de todo lo que querés que cambie, ¿cuál es la primera ficha de dominó que, si cae, mueve todo lo demás?\n\n_(Escribí *salir* para terminar.)_`);
+    }
+  }
+
+  // Charla libre con el mentor
+  if (s.step === "mentor_chat") {
+    const profile = await getMentorProfile(phone);
+    try {
+      const reply = await generateMentorReply(phone, profile, msg);
+      return twiReply(res, `🧭 ${reply}`);
+    } catch {
+      return twiReply(res, "Tuve un problema procesando eso. ¿Me lo repetís?");
+    }
+  }
+}
+
 // ─── WEBHOOK PRINCIPAL ─────────────────────────────────────────────────────
 
 app.post("/webhook", async (req, res) => {
@@ -215,6 +344,10 @@ app.post("/webhook", async (req, res) => {
 
   if (session.step?.startsWith("cat_")) {
     return handleCategorias(phone, msg, session, res);
+  }
+
+  if (session.step?.startsWith("mentor_")) {
+    return handleMentor(phone, msg, session, res);
   }
 
   // Comandos principales
@@ -258,6 +391,10 @@ app.post("/webhook", async (req, res) => {
 
   if (cmd === "categorias" || cmd === "categorías") {
     return handleCategorias(phone, msg, session, res);
+  }
+
+  if (cmd === "mentor" || cmd === "mentora") {
+    return startMentor(phone, session, res);
   }
 
   if (cmd === "ayuda" || cmd === "help" || cmd === "hola" || cmd === "inicio") {
