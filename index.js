@@ -36,7 +36,8 @@ const HELP_MSG = `📋 *Mis Pendientes Bot*
 
 Comandos disponibles:
 
-➕ *agregar* — Agregar nueva tarea
+➕ *agregar* — Agregar una tarea (paso a paso)
+📥 *cargar* — Cargar varias tareas de una vez
 📋 *lista* — Ver todas tus tareas
 ✅ *listo [N]* — Marcar tarea N como hecha (se archiva)
 🗑 *borrar [N]* — Eliminar tarea N
@@ -411,6 +412,76 @@ Al final agregá:
   return response.content[0].text;
 }
 
+// ─── CARGA MASIVA DE TAREAS ─────────────────────────────────────────────────
+
+async function bulkAddTasks(phone, text) {
+  const today = new Date();
+  const todayStr = `${DAY_NAMES[today.getDay()]} ${today.getDate()} de ${MONTH_NAMES[today.getMonth()]} de ${today.getFullYear()} (ISO: ${today.toISOString().slice(0, 10)})`;
+
+  const prompt = `Extraé las tareas de la siguiente lista que escribió el usuario. Cada línea suele ser una tarea.
+
+HOY es ${todayStr}.
+
+Para cada tarea devolvé estos campos:
+- name: nombre corto de la tarea (string)
+- area: una de ["Trabajo", "Creatividad"] (Creatividad = arte/creativo). Si no se entiende, usá "Trabajo".
+- pomodoros: número de pomodoros de 25 min (acepta decimales). Si el usuario dio minutos u horas, convertilo (1 pomodoro = 25 min). Si no se indica, usá 1.
+- priority: una de ["Alta", "Media", "Baja"]. "urgente"→Alta. Si no se indica, "Media".
+- due_date: fecha de entrega en formato YYYY-MM-DD calculada respecto a HOY, o null si no tiene. Interpretá "mañana", "viernes", "20/06", "en 3 dias", etc.
+- category: una de ["Trabajo", "Personal", "Salud", "Hogar", "Finanzas", "Educación", "Otro"]. Si no se entiende, "Otro".
+
+Lista del usuario:
+"""
+${text}
+"""
+
+Respondé ÚNICAMENTE con un array JSON válido, sin texto adicional ni markdown. Ejemplo:
+[{"name":"Diseñar logo","area":"Creatividad","pomodoros":3,"priority":"Alta","due_date":"2026-06-19","category":"Trabajo"}]`;
+
+  const response = await anthropic.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 2000,
+    messages: [{ role: "user", content: prompt }]
+  });
+
+  let raw = response.content[0].text.trim();
+  raw = raw.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  const start = raw.indexOf("["), end = raw.lastIndexOf("]");
+  if (start >= 0 && end >= 0) raw = raw.slice(start, end + 1);
+
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch { return null; }
+  if (!Array.isArray(parsed) || !parsed.length) return null;
+
+  // Prioridad de categoría existente del usuario
+  const { data: existing } = await supabase.from("tasks").select("category, cat_priority").eq("phone", phone);
+  const catPrio = {};
+  (existing || []).forEach(r => { if (catPrio[r.category] === undefined) catPrio[r.category] = r.cat_priority; });
+
+  const rows = parsed.map(t => {
+    const area = AREAS.includes(t.area) ? t.area : "Trabajo";
+    const priority = PRIORITIES.includes(t.priority) ? t.priority : "Media";
+    const category = CATEGORIES.includes(t.category) ? t.category : "Otro";
+    const pomodoros = (!isNaN(parseFloat(t.pomodoros)) && parseFloat(t.pomodoros) > 0) ? parseFloat(t.pomodoros) : 1;
+    const due = (typeof t.due_date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(t.due_date)) ? t.due_date : null;
+    return {
+      phone,
+      name: String(t.name || "Tarea sin nombre").slice(0, 200),
+      pomodoros,
+      minutes: Math.round(pomodoros * POMODORO_WORK),
+      priority,
+      category,
+      cat_priority: catPrio[category] ?? 5,
+      due_date: due,
+      area,
+      done: false
+    };
+  });
+
+  await supabase.from("tasks").insert(rows);
+  return rows;
+}
+
 // ─── WEBHOOK PRINCIPAL ─────────────────────────────────────────────────────
 
 app.post("/webhook", async (req, res) => {
@@ -448,6 +519,25 @@ app.post("/webhook", async (req, res) => {
     }
   }
 
+  if (session.step === "cargar_lista") {
+    clearSession(phone);
+    if (msg.trim() === "-" || cmd === "cancelar") return twiReply(res, "Carga cancelada.");
+    try {
+      const rows = await bulkAddTasks(phone, msg);
+      if (!rows) return twiReply(res, "No pude interpretar la lista 🤔. Asegurate de poner una tarea por línea. Probá de nuevo con *cargar*.");
+      const pomTotal = rows.reduce((s, r) => s + r.pomodoros, 0);
+      let out = `✅ Cargué *${rows.length}* tarea(s):\n\n`;
+      rows.forEach((r, i) => {
+        const f = r.due_date ? ` · 📅 ${formatDate(r.due_date)}` : "";
+        out += `${i + 1}. ${AREA_EMOJI[r.area]} *${r.name}* — 🍅 ${r.pomodoros} · ${r.priority}${f}\n`;
+      });
+      out += `\n🍅 Total: ${+pomTotal.toFixed(1)} (~${(pomTotal / POMODOROS_PER_DAY).toFixed(1)} días)\n\nEscribí *calendario* para tu plan o *lista* para revisarlas.`;
+      return twiReply(res, out);
+    } catch {
+      return twiReply(res, "Error procesando la lista. Intentá de nuevo con *cargar*.");
+    }
+  }
+
   if (session.step?.startsWith("cat_")) {
     return handleCategorias(phone, msg, session, res);
   }
@@ -455,6 +545,12 @@ app.post("/webhook", async (req, res) => {
   // Comandos principales
   if (cmd === "agregar" || cmd === "nueva" || cmd === "add") {
     return handleAgregar(phone, msg, session, res);
+  }
+
+  if (cmd === "cargar" || cmd === "varias" || cmd === "cargar tareas" || cmd === "lote") {
+    session.step = "cargar_lista";
+    session.data = {};
+    return twiReply(res, `📥 *Carga masiva*\n\nPegá todas tus tareas en un mensaje, *una por línea*, con este formato:\n\n*Tarea | área | pomodoros | prioridad | fecha | categoría*\n\nEjemplo:\nDiseñar logo | creatividad | 3 | alta | viernes | Trabajo\nReporte mensual | trabajo | 4 | alta | mañana | Trabajo\nBocetos serie | creatividad | 2 | media | - | Personal\n\n💡 Si te falta algún dato, igual lo entiendo (uso valores por defecto). La fecha podés escribirla como *mañana, viernes, 20/06, en 3 dias* o *-* si no tiene.\n\nEscribí *-* para cancelar.`);
   }
 
   if (cmd === "lista" || cmd === "pendientes" || cmd === "mis pendientes") {
