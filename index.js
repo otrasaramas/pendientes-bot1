@@ -38,14 +38,101 @@ Comandos disponibles:
 
 ➕ *agregar* — Agregar nueva tarea
 📋 *lista* — Ver todas tus tareas
-✅ *listo [N]* — Marcar tarea N como hecha
+✅ *listo [N]* — Marcar tarea N como hecha (se archiva)
 🗑 *borrar [N]* — Eliminar tarea N
-🎯 *plan [minutos]* — Generar plan del día
+📅 *calendario* — Calendario óptimo día por día con horarios
+🎯 *plan [minutos]* — Plan rápido solo para hoy
 🏷 *categorias* — Ver/ajustar prioridad de categorías
 ❓ *ayuda* — Ver este menú`;
 
 const CATEGORIES = ["Trabajo", "Personal", "Salud", "Hogar", "Finanzas", "Educación", "Otro"];
 const PRIORITIES = ["Alta", "Media", "Baja"];
+
+// Disponibilidad por defecto (lunes a viernes, sin fines de semana)
+const AVAILABILITY = {
+  workDays: [1, 2, 3, 4, 5], // 1 = lunes ... 5 = viernes (getDay: 0=domingo)
+  blocks: [
+    { start: "07:30", end: "09:00" }, // 90 min
+    { start: "11:00", end: "13:00" }, // 120 min
+    { start: "14:30", end: "17:00" }  // 150 min
+  ]
+};
+
+const DAY_NAMES = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+const MONTH_NAMES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+// ─── FECHAS ────────────────────────────────────────────────────────────────
+
+// Devuelve una fecha ISO (YYYY-MM-DD) a partir de texto libre, o null.
+function parseDueDate(text) {
+  const t = (text || "").trim().toLowerCase();
+  if (!t || t === "-" || t === "no" || t === "ninguna" || t === "sin fecha") return null;
+
+  const today = new Date();
+  const toISO = d => d.toISOString().slice(0, 10);
+
+  if (t === "hoy") return toISO(today);
+  if (t === "mañana" || t === "manana") {
+    const d = new Date(today); d.setDate(d.getDate() + 1); return toISO(d);
+  }
+  if (t === "pasado mañana" || t === "pasado manana") {
+    const d = new Date(today); d.setDate(d.getDate() + 2); return toISO(d);
+  }
+
+  // "en N dias" / "en N semanas"
+  let m = t.match(/^en\s+(\d+)\s+d[ií]as?$/);
+  if (m) { const d = new Date(today); d.setDate(d.getDate() + parseInt(m[1])); return toISO(d); }
+  m = t.match(/^en\s+(\d+)\s+semanas?$/);
+  if (m) { const d = new Date(today); d.setDate(d.getDate() + parseInt(m[1]) * 7); return toISO(d); }
+
+  // Próximo día de la semana: "lunes", "el viernes", etc.
+  const dayIdx = DAY_NAMES.findIndex(n => t === n || t === `el ${n}` || t === `próximo ${n}` || t === `proximo ${n}`);
+  if (dayIdx >= 0) {
+    const d = new Date(today);
+    let diff = (dayIdx - d.getDay() + 7) % 7;
+    if (diff === 0) diff = 7;
+    d.setDate(d.getDate() + diff);
+    return toISO(d);
+  }
+
+  // YYYY-MM-DD
+  m = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (m) return `${m[1]}-${String(m[2]).padStart(2, "0")}-${String(m[3]).padStart(2, "0")}`;
+
+  // DD/MM o DD/MM/YYYY (también con guiones)
+  m = t.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?$/);
+  if (m) {
+    const day = parseInt(m[1]), month = parseInt(m[2]);
+    let year = m[3] ? parseInt(m[3]) : today.getFullYear();
+    if (year < 100) year += 2000;
+    if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+    // Si la fecha (sin año) ya pasó este año, asumimos el próximo año
+    let d = new Date(year, month - 1, day);
+    if (!m[3] && d < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+      d = new Date(year + 1, month - 1, day);
+    }
+    return toISO(d);
+  }
+
+  return null;
+}
+
+// Muestra una fecha ISO de forma amable: "vie 20 jun"
+function formatDate(iso) {
+  if (!iso) return null;
+  const d = new Date(iso + "T12:00:00");
+  const dow = DAY_NAMES[d.getDay()].slice(0, 3);
+  return `${dow} ${d.getDate()} ${MONTH_NAMES[d.getMonth()].slice(0, 3)}`;
+}
+
+// Días restantes hasta la fecha de entrega (puede ser negativo si venció)
+function daysUntil(iso) {
+  if (!iso) return null;
+  const today = new Date();
+  const t0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const d = new Date(iso + "T12:00:00");
+  return Math.round((d - t0) / (1000 * 60 * 60 * 24));
+}
 
 // ─── TAREAS ────────────────────────────────────────────────────────────────
 
@@ -55,6 +142,7 @@ async function getTasks(phone) {
     .select("*")
     .eq("phone", phone)
     .eq("done", false)
+    .order("due_date", { ascending: true, nullsFirst: false })
     .order("cat_priority", { ascending: true })
     .order("priority", { ascending: true });
   return data || [];
@@ -69,6 +157,15 @@ async function formatTaskList(phone) {
   tasks.forEach((t, i) => {
     msg += `${i + 1}. ${priorityLabel[t.priority]} *${t.name}*\n`;
     msg += `   ⏱ ${t.minutes}min · 📁 ${t.category}\n`;
+    if (t.due_date) {
+      const dias = daysUntil(t.due_date);
+      let aviso = "";
+      if (dias < 0) aviso = ` ⚠️ vencida hace ${Math.abs(dias)}d`;
+      else if (dias === 0) aviso = " ⚠️ ¡es hoy!";
+      else if (dias === 1) aviso = " ⏰ mañana";
+      else if (dias <= 3) aviso = ` ⏰ en ${dias}d`;
+      msg += `   📅 Entrega: ${formatDate(t.due_date)}${aviso}\n`;
+    }
   });
   const total = tasks.reduce((s, t) => s + t.minutes, 0);
   msg += `\n⏳ Total estimado: ${Math.floor(total / 60)}h ${total % 60}m`;
@@ -104,6 +201,15 @@ async function handleAgregar(phone, msg, session, res) {
     const priority = map[msg.toLowerCase()];
     if (!priority) return twiReply(res, "Respondé 1, 2 o 3 (o Alta/Media/Baja).");
     s.data.priority = priority;
+    s.step = "agregar_fecha";
+    return twiReply(res, `📅 ¿Para cuándo es? (fecha de entrega)\n\nEjemplos: *mañana*, *viernes*, *20/06*, *en 3 dias*.\nSi no tiene fecha, escribí *-*.`);
+  }
+
+  if (s.step === "agregar_fecha") {
+    if (msg.trim() !== "-" && parseDueDate(msg) === null) {
+      return twiReply(res, "No entendí la fecha 🤔. Probá con *mañana*, *viernes*, *20/06* o *en 3 dias*. Si no tiene fecha, escribí *-*.");
+    }
+    s.data.due_date = parseDueDate(msg); // null si "-"
     s.step = "agregar_categoria";
     return twiReply(res, `📁 ¿Categoría?\n\n${CATEGORIES.map((c, i) => `${i + 1}. ${c}`).join("\n")}`);
   }
@@ -132,11 +238,13 @@ async function handleAgregar(phone, msg, session, res) {
       priority: s.data.priority,
       category,
       cat_priority: catPriority,
+      due_date: s.data.due_date || null,
       done: false
     });
 
     clearSession(phone);
-    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n⏱ ${s.data.minutes}min · ${s.data.priority} · ${category}\n\nEscribí *lista* para ver todos tus pendientes.`);
+    const fechaTxt = s.data.due_date ? `\n📅 Entrega: ${formatDate(s.data.due_date)}` : "";
+    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n⏱ ${s.data.minutes}min · ${s.data.priority} · ${category}${fechaTxt}\n\nEscribí *lista* para ver tus pendientes o *calendario* para tu plan.`);
   }
 }
 
@@ -186,6 +294,71 @@ CONSEJO:
   return response.content[0].text;
 }
 
+// ─── GENERAR CALENDARIO DIARIO CON HORARIOS ────────────────────────────────
+
+async function generateCalendar(phone, extraContext) {
+  const tasks = await getTasks(phone);
+  if (!tasks.length) return "No tenés tareas pendientes. Usá *agregar* para añadir una.";
+
+  const today = new Date();
+  const todayStr = `${DAY_NAMES[today.getDay()]} ${today.getDate()} de ${MONTH_NAMES[today.getMonth()]} de ${today.getFullYear()}`;
+
+  const taskList = tasks
+    .map(t => {
+      const fecha = t.due_date ? formatDate(t.due_date) : "sin fecha";
+      const dias = t.due_date ? daysUntil(t.due_date) : null;
+      const venc = dias === null ? "" : dias < 0 ? ` (¡VENCIDA hace ${Math.abs(dias)} días!)` : ` (en ${dias} días)`;
+      return `- "${t.name}" | ${t.minutes}min | Prioridad: ${t.priority} | Categoría: ${t.category} | Entrega: ${fecha}${venc}`;
+    })
+    .join("\n");
+
+  const blocksTxt = AVAILABILITY.blocks.map(b => `${b.start}–${b.end}`).join(", ");
+
+  const prompt = `Sos un experto en productividad y planificación. Tu objetivo es armar un CALENDARIO DIARIO con horarios concretos para que el usuario complete sus tareas a tiempo, sin agobiarse.
+
+HOY es ${todayStr}.
+
+DISPONIBILIDAD POR DEFECTO del usuario (de lunes a viernes, NO fines de semana):
+Bloques horarios libres cada día: ${blocksTxt}.
+El usuario aprovecha todo ese tiempo.
+
+${extraContext ? `AVISOS DEL USUARIO PARA ESTA SEMANA (tienen prioridad sobre la disponibilidad por defecto): ${extraContext}\n` : ""}
+Tareas pendientes:
+${taskList}
+
+Reglas para armar el calendario:
+1. RESPETÁ las fechas de entrega: ninguna tarea puede quedar agendada después de su fecha. Las vencidas o más próximas van primero.
+2. Repartí las tareas en los bloques horarios disponibles, asignando una hora concreta a cada una (ej: 07:30–08:15).
+3. No sobrecargues un bloque: si una tarea no entra completa, partila o pasala al siguiente bloque/día.
+4. Agrupá tareas de la misma categoría para evitar cambios de contexto.
+5. Empezá desde HOY. Solo usá días hábiles (lunes a viernes) salvo que el usuario avise lo contrario en sus avisos.
+6. Si el usuario avisó que un día está por fuera o que tiene tiempo extra (ej: un domingo), ajustá ese día.
+7. Si no alcanza el tiempo para entregar algo a tiempo, marcá una ⚠️ ALERTA al final indicando qué tarea está en riesgo.
+
+Respondé en este formato (claro y para WhatsApp, usando *negritas* y emojis con moderación):
+
+📅 *TU CALENDARIO*
+
+*[Día fecha]*
+🕐 HH:MM–HH:MM — Tarea (Xmin)
+🕐 HH:MM–HH:MM — Tarea (Xmin)
+
+*[Día fecha]*
+... (continuá los días necesarios hasta agendar todo)
+
+Al final agregá:
+✅ *Resumen:* cuántos días toma y si llegás a todas las entregas.
+⚠️ *Alertas:* (solo si hay tareas en riesgo de no llegar a tiempo)`;
+
+  const response = await anthropic.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1500,
+    messages: [{ role: "user", content: prompt }]
+  });
+
+  return response.content[0].text;
+}
+
 // ─── WEBHOOK PRINCIPAL ─────────────────────────────────────────────────────
 
 app.post("/webhook", async (req, res) => {
@@ -210,6 +383,16 @@ app.post("/webhook", async (req, res) => {
       return twiReply(res, plan);
     } catch {
       return twiReply(res, "Error generando el plan. Intentá de nuevo.");
+    }
+  }
+
+  if (session.step === "cal_contexto") {
+    clearSession(phone);
+    try {
+      const cal = await generateCalendar(phone, msg.trim() === "-" ? "" : msg);
+      return twiReply(res, cal);
+    } catch (e) {
+      return twiReply(res, "Error generando el calendario. Intentá de nuevo.");
     }
   }
 
@@ -243,6 +426,12 @@ app.post("/webhook", async (req, res) => {
     if (!task) return twiReply(res, `No encontré la tarea número ${n}.`);
     await supabase.from("tasks").delete().eq("id", task.id);
     return twiReply(res, `🗑 *${task.name}* eliminada.`);
+  }
+
+  if (cmd === "calendario" || cmd === "agenda" || cmd === "cal") {
+    session.step = "cal_contexto";
+    session.data = {};
+    return twiReply(res, `📅 Voy a armar tu calendario respetando tus horarios habituales (L–V: 7:30–9, 11–13, 14:30–17).\n\n¿Alguna novedad para estos días? Por ejemplo:\n• "el miércoles estoy por fuera"\n• "el jueves solo en la mañana"\n• "este domingo tengo libre de 9 a 12"\n\nEscribí *-* si tu semana es normal.`);
   }
 
   if (cmd.startsWith("plan")) {
