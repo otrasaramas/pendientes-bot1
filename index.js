@@ -36,16 +36,120 @@ const HELP_MSG = `📋 *Mis Pendientes Bot*
 
 Comandos disponibles:
 
-➕ *agregar* — Agregar nueva tarea
+➕ *agregar* — Agregar una tarea (paso a paso)
+📥 *cargar* — Cargar varias tareas de una vez
 📋 *lista* — Ver todas tus tareas
-✅ *listo [N]* — Marcar tarea N como hecha
+✅ *listo [N]* — Marcar tarea N como hecha (se archiva)
 🗑 *borrar [N]* — Eliminar tarea N
-🎯 *plan [minutos]* — Generar plan del día
+📅 *calendario* — Calendario óptimo día por día con horarios
+🎯 *plan [minutos]* — Plan rápido solo para hoy
 🏷 *categorias* — Ver/ajustar prioridad de categorías
 ❓ *ayuda* — Ver este menú`;
 
 const CATEGORIES = ["Trabajo", "Personal", "Salud", "Hogar", "Finanzas", "Educación", "Otro"];
 const PRIORITIES = ["Alta", "Media", "Baja"];
+
+// Eje de balance de vida: Trabajo vs Creatividad/Arte (meta 70/30)
+const AREAS = ["Trabajo", "Creatividad"];
+const AREA_EMOJI = { Trabajo: "💼", Creatividad: "🎨" };
+const BALANCE_TARGET = { Trabajo: 0.7, Creatividad: 0.3 };
+
+// Pomodoros: 25 min de trabajo + 5 de descanso = 30 min por ciclo
+const POMODORO_WORK = 25;
+const POMODORO_BREAK = 5;
+
+// Disponibilidad por defecto (lunes a viernes, sin fines de semana)
+const AVAILABILITY = {
+  workDays: [1, 2, 3, 4, 5], // 1 = lunes ... 5 = viernes (getDay: 0=domingo)
+  blocks: [
+    { start: "07:30", end: "09:00", pomodoros: 3 }, // 90 min  → 3 🍅
+    { start: "11:00", end: "13:00", pomodoros: 4 }, // 120 min → 4 🍅
+    { start: "14:30", end: "17:00", pomodoros: 5 }  // 150 min → 5 🍅
+  ]
+};
+const POMODOROS_PER_DAY = AVAILABILITY.blocks.reduce((s, b) => s + b.pomodoros, 0); // 12
+
+const DAY_NAMES = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+const MONTH_NAMES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+// ─── FECHAS ────────────────────────────────────────────────────────────────
+
+// Devuelve una fecha ISO (YYYY-MM-DD) a partir de texto libre, o null.
+function parseDueDate(text) {
+  const t = (text || "").trim().toLowerCase();
+  if (!t || t === "-" || t === "no" || t === "ninguna" || t === "sin fecha") return null;
+
+  const today = new Date();
+  const toISO = d => d.toISOString().slice(0, 10);
+
+  if (t === "hoy") return toISO(today);
+  if (t === "mañana" || t === "manana") {
+    const d = new Date(today); d.setDate(d.getDate() + 1); return toISO(d);
+  }
+  if (t === "pasado mañana" || t === "pasado manana") {
+    const d = new Date(today); d.setDate(d.getDate() + 2); return toISO(d);
+  }
+
+  // "en N dias" / "en N semanas"
+  let m = t.match(/^en\s+(\d+)\s+d[ií]as?$/);
+  if (m) { const d = new Date(today); d.setDate(d.getDate() + parseInt(m[1])); return toISO(d); }
+  m = t.match(/^en\s+(\d+)\s+semanas?$/);
+  if (m) { const d = new Date(today); d.setDate(d.getDate() + parseInt(m[1]) * 7); return toISO(d); }
+
+  // Próximo día de la semana: "lunes", "el viernes", etc.
+  const dayIdx = DAY_NAMES.findIndex(n => t === n || t === `el ${n}` || t === `próximo ${n}` || t === `proximo ${n}`);
+  if (dayIdx >= 0) {
+    const d = new Date(today);
+    let diff = (dayIdx - d.getDay() + 7) % 7;
+    if (diff === 0) diff = 7;
+    d.setDate(d.getDate() + diff);
+    return toISO(d);
+  }
+
+  // YYYY-MM-DD
+  m = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (m) return `${m[1]}-${String(m[2]).padStart(2, "0")}-${String(m[3]).padStart(2, "0")}`;
+
+  // DD/MM o DD/MM/YYYY (también con guiones)
+  m = t.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?$/);
+  if (m) {
+    const day = parseInt(m[1]), month = parseInt(m[2]);
+    let year = m[3] ? parseInt(m[3]) : today.getFullYear();
+    if (year < 100) year += 2000;
+    if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+    // Si la fecha (sin año) ya pasó este año, asumimos el próximo año
+    let d = new Date(year, month - 1, day);
+    if (!m[3] && d < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+      d = new Date(year + 1, month - 1, day);
+    }
+    return toISO(d);
+  }
+
+  return null;
+}
+
+// Muestra una fecha ISO de forma amable: "vie 20 jun"
+function formatDate(iso) {
+  if (!iso) return null;
+  const d = new Date(iso + "T12:00:00");
+  const dow = DAY_NAMES[d.getDay()].slice(0, 3);
+  return `${dow} ${d.getDate()} ${MONTH_NAMES[d.getMonth()].slice(0, 3)}`;
+}
+
+// Días restantes hasta la fecha de entrega (puede ser negativo si venció)
+function daysUntil(iso) {
+  if (!iso) return null;
+  const today = new Date();
+  const t0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const d = new Date(iso + "T12:00:00");
+  return Math.round((d - t0) / (1000 * 60 * 60 * 24));
+}
+
+// Muestra una cantidad de pomodoros: "2 pomodoros", "1 pomodoro", "1.5 pomodoros"
+function fmtPomos(n) {
+  if (n == null) return "—";
+  return `${n} pomodoro${n === 1 ? "" : "s"}`;
+}
 
 // ─── TAREAS ────────────────────────────────────────────────────────────────
 
@@ -55,6 +159,7 @@ async function getTasks(phone) {
     .select("*")
     .eq("phone", phone)
     .eq("done", false)
+    .order("due_date", { ascending: true, nullsFirst: false })
     .order("cat_priority", { ascending: true })
     .order("priority", { ascending: true });
   return data || [];
@@ -67,11 +172,25 @@ async function formatTaskList(phone) {
   const priorityLabel = { Alta: "🔴", Media: "🟡", Baja: "🟢" };
   let msg = `📋 *Tus pendientes (${tasks.length})*\n\n`;
   tasks.forEach((t, i) => {
+    const areaTag = t.area ? `${AREA_EMOJI[t.area]} ${t.area} · ` : "";
+    const pomoTag = t.pomodoros ? `🍅 ${t.pomodoros} · ` : "";
     msg += `${i + 1}. ${priorityLabel[t.priority]} *${t.name}*\n`;
-    msg += `   ⏱ ${t.minutes}min · 📁 ${t.category}\n`;
+    msg += `   ${pomoTag}${areaTag}⏱ ${t.minutes}min · 📁 ${t.category}\n`;
+    if (t.due_date) {
+      const dias = daysUntil(t.due_date);
+      let aviso = "";
+      if (dias < 0) aviso = ` ⚠️ vencida hace ${Math.abs(dias)}d`;
+      else if (dias === 0) aviso = " ⚠️ ¡es hoy!";
+      else if (dias === 1) aviso = " ⏰ mañana";
+      else if (dias <= 3) aviso = ` ⏰ en ${dias}d`;
+      msg += `   📅 Entrega: ${formatDate(t.due_date)}${aviso}\n`;
+    }
   });
   const total = tasks.reduce((s, t) => s + t.minutes, 0);
-  msg += `\n⏳ Total estimado: ${Math.floor(total / 60)}h ${total % 60}m`;
+  const totalPomos = tasks.reduce((s, t) => s + (t.pomodoros || 0), 0);
+  const dias = (totalPomos / POMODOROS_PER_DAY).toFixed(1).replace(/\.0$/, "");
+  msg += `\n⏳ Total: ${totalPomos ? `${totalPomos} 🍅 · ` : ""}${Math.floor(total / 60)}h ${total % 60}m`;
+  if (totalPomos) msg += `\n📆 ~${dias} día(s) llenos (${POMODOROS_PER_DAY} 🍅/día)`;
   return msg;
 }
 
@@ -87,14 +206,24 @@ async function handleAgregar(phone, msg, session, res) {
 
   if (s.step === "agregar_nombre") {
     s.data.name = msg;
-    s.step = "agregar_minutos";
-    return twiReply(res, `⏱ ¿Cuántos minutos estimás que toma *${msg}*?`);
+    s.step = "agregar_area";
+    return twiReply(res, `🎯 ¿Es de *trabajo* o de *creatividad/arte*?\n\n1. 💼 Trabajo\n2. 🎨 Creatividad`);
   }
 
-  if (s.step === "agregar_minutos") {
-    const mins = parseInt(msg);
-    if (isNaN(mins) || mins <= 0) return twiReply(res, "Por favor ingresá un número válido de minutos.");
-    s.data.minutes = mins;
+  if (s.step === "agregar_area") {
+    const map = { "1": "Trabajo", "2": "Creatividad", trabajo: "Trabajo", t: "Trabajo", creatividad: "Creatividad", arte: "Creatividad", c: "Creatividad" };
+    const area = map[msg.toLowerCase().trim()];
+    if (!area) return twiReply(res, "Respondé 1 (Trabajo) o 2 (Creatividad).");
+    s.data.area = area;
+    s.step = "agregar_pomodoros";
+    return twiReply(res, `🍅 ¿Cuántos *pomodoros* creés que toma *${s.data.name}*?\n\n(1 pomodoro = 25 min de trabajo. Podés usar medios, ej: 1.5)`);
+  }
+
+  if (s.step === "agregar_pomodoros") {
+    const pomos = parseFloat(msg.replace(",", "."));
+    if (isNaN(pomos) || pomos <= 0) return twiReply(res, "Ingresá un número válido de pomodoros (ej: 1, 2, 1.5).");
+    s.data.pomodoros = pomos;
+    s.data.minutes = Math.round(pomos * POMODORO_WORK); // minutos de trabajo
     s.step = "agregar_prioridad";
     return twiReply(res, `🎯 ¿Qué prioridad tiene?\n\n1. Alta\n2. Media\n3. Baja`);
   }
@@ -104,6 +233,15 @@ async function handleAgregar(phone, msg, session, res) {
     const priority = map[msg.toLowerCase()];
     if (!priority) return twiReply(res, "Respondé 1, 2 o 3 (o Alta/Media/Baja).");
     s.data.priority = priority;
+    s.step = "agregar_fecha";
+    return twiReply(res, `📅 ¿Para cuándo es? (fecha de entrega)\n\nEjemplos: *mañana*, *viernes*, *20/06*, *en 3 dias*.\nSi no tiene fecha, escribí *-*.`);
+  }
+
+  if (s.step === "agregar_fecha") {
+    if (msg.trim() !== "-" && parseDueDate(msg) === null) {
+      return twiReply(res, "No entendí la fecha 🤔. Probá con *mañana*, *viernes*, *20/06* o *en 3 dias*. Si no tiene fecha, escribí *-*.");
+    }
+    s.data.due_date = parseDueDate(msg); // null si "-"
     s.step = "agregar_categoria";
     return twiReply(res, `📁 ¿Categoría?\n\n${CATEGORIES.map((c, i) => `${i + 1}. ${c}`).join("\n")}`);
   }
@@ -129,14 +267,19 @@ async function handleAgregar(phone, msg, session, res) {
       phone,
       name: s.data.name,
       minutes: s.data.minutes,
+      pomodoros: s.data.pomodoros || null,
       priority: s.data.priority,
       category,
       cat_priority: catPriority,
+      due_date: s.data.due_date || null,
+      area: s.data.area || null,
       done: false
     });
 
     clearSession(phone);
-    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n⏱ ${s.data.minutes}min · ${s.data.priority} · ${category}\n\nEscribí *lista* para ver todos tus pendientes.`);
+    const fechaTxt = s.data.due_date ? `\n📅 Entrega: ${formatDate(s.data.due_date)}` : "";
+    const areaTxt = s.data.area ? `${AREA_EMOJI[s.data.area]} ${s.data.area} · ` : "";
+    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n${areaTxt}🍅 ${fmtPomos(s.data.pomodoros)} (${s.data.minutes}min) · ${s.data.priority} · ${category}${fechaTxt}\n\nEscribí *lista* para ver tus pendientes o *calendario* para tu plan.`);
   }
 }
 
@@ -186,6 +329,159 @@ CONSEJO:
   return response.content[0].text;
 }
 
+// ─── GENERAR CALENDARIO DIARIO CON HORARIOS ────────────────────────────────
+
+async function generateCalendar(phone, extraContext) {
+  const tasks = await getTasks(phone);
+  if (!tasks.length) return "No tenés tareas pendientes. Usá *agregar* para añadir una.";
+
+  const today = new Date();
+  const todayStr = `${DAY_NAMES[today.getDay()]} ${today.getDate()} de ${MONTH_NAMES[today.getMonth()]} de ${today.getFullYear()}`;
+
+  const taskList = tasks
+    .map(t => {
+      const fecha = t.due_date ? formatDate(t.due_date) : "sin fecha";
+      const dias = t.due_date ? daysUntil(t.due_date) : null;
+      const venc = dias === null ? "" : dias < 0 ? ` (¡VENCIDA hace ${Math.abs(dias)} días!)` : ` (en ${dias} días)`;
+      const area = t.area || "Sin clasificar";
+      const pomos = t.pomodoros ? `${t.pomodoros} pomodoro(s)` : `${Math.ceil(t.minutes / POMODORO_WORK)} pomodoro(s) aprox`;
+      return `- "${t.name}" | Área: ${area} | ${pomos} (${t.minutes}min) | Prioridad: ${t.priority} | Categoría: ${t.category} | Entrega: ${fecha}${venc}`;
+    })
+    .join("\n");
+
+  // Balance actual por área en pomodoros (meta 70% Trabajo / 30% Creatividad)
+  const pom = { Trabajo: 0, Creatividad: 0 };
+  tasks.forEach(t => { if (t.area && pom[t.area] !== undefined) pom[t.area] += (t.pomodoros || t.minutes / POMODORO_WORK); });
+  const totalAreaPom = pom.Trabajo + pom.Creatividad;
+  const balanceTxt = totalAreaPom === 0
+    ? "Aún no hay tareas clasificadas por área."
+    : `Trabajo: ${Math.round(pom.Trabajo / totalAreaPom * 100)}% (${+pom.Trabajo.toFixed(1)} 🍅) · Creatividad: ${Math.round(pom.Creatividad / totalAreaPom * 100)}% (${+pom.Creatividad.toFixed(1)} 🍅). Meta: 70% Trabajo / 30% Creatividad.`;
+
+  const blocksTxt = AVAILABILITY.blocks.map(b => `${b.start}–${b.end} (${b.pomodoros} 🍅)`).join(", ");
+
+  const prompt = `Sos un experto en productividad y planificación. Tu objetivo es armar un CALENDARIO DIARIO con horarios concretos para que el usuario complete sus tareas a tiempo, sin agobiarse.
+
+HOY es ${todayStr}.
+
+MÉTODO POMODORO: 1 pomodoro = ${POMODORO_WORK} min de trabajo + ${POMODORO_BREAK} min de descanso. Pensá y agendá TODO en pomodoros.
+
+DISPONIBILIDAD POR DEFECTO del usuario (de lunes a viernes, NO fines de semana):
+Bloques libres cada día y cuántos pomodoros entran en cada uno: ${blocksTxt}.
+En total son ${POMODOROS_PER_DAY} pomodoros por día. Dentro de cada bloque, poné un descanso de ${POMODORO_BREAK} min entre pomodoros; los huecos entre bloques son los descansos largos.
+
+${extraContext ? `AVISOS DEL USUARIO PARA ESTA SEMANA (tienen prioridad sobre la disponibilidad por defecto): ${extraContext}\n` : ""}
+BALANCE DE VIDA (importante para el usuario): busca un equilibrio de ~70% Trabajo y ~30% Creatividad/Arte en los pomodoros dedicados.
+Balance actual de tareas pendientes → ${balanceTxt}
+
+Tareas pendientes:
+${taskList}
+
+Reglas para armar el calendario:
+1. RESPETÁ las fechas de entrega: ninguna tarea puede quedar agendada después de su fecha. Las vencidas o más próximas van primero. (Esta regla manda sobre el balance.)
+2. Trabajá en pomodoros: cada tarea ocupa su cantidad de pomodoros. Un bloque no puede tener más pomodoros de los que le caben.
+3. Dentro de lo posible, equilibrá apuntando a 70% Trabajo / 30% Creatividad. Intercalá algo de creatividad la mayoría de los días para que no quede todo trabajo al inicio y arte al final.
+4. Asigná horarios concretos respetando los descansos (ej: 07:30–07:55 trabajo, 07:55–08:00 descanso).
+5. Si una tarea necesita más pomodoros de los que quedan en el día, partila y seguí al día siguiente (indicá "🍅 1 de 3", etc.).
+6. Empezá desde HOY. Solo usá días hábiles (lunes a viernes) salvo que el usuario avise lo contrario en sus avisos.
+7. Si el usuario avisó que un día está por fuera o que tiene tiempo extra (ej: un domingo), ajustá ese día.
+8. Si no alcanzan los pomodoros para entregar algo a tiempo, marcá una ⚠️ ALERTA indicando qué tarea está en riesgo.
+9. Si el balance está muy lejos del 70/30 (ej: no hay tareas de creatividad), mencionalo amablemente y sugerí sumar alguna.
+
+Respondé en este formato (claro y para WhatsApp, usando *negritas* y emojis con moderación):
+
+📅 *TU CALENDARIO*
+
+*[Día fecha]* (X 🍅)
+🍅 HH:MM–HH:MM — Tarea
+🍅 HH:MM–HH:MM — Tarea
+☕ HH:MM–HH:MM — Descanso largo
+
+*[Día fecha]* (X 🍅)
+... (continuá los días necesarios hasta agendar todo)
+
+Al final agregá:
+✅ *Resumen:* cuántos pomodoros en total, cuántos días toma, si llegás a todas las entregas y el balance Trabajo/Creatividad que quedó (ej: 68% / 32%).
+⚠️ *Alertas:* (solo si hay tareas en riesgo de no llegar a tiempo o si el balance quedó lejos del 70/30)`;
+
+  const response = await anthropic.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1500,
+    messages: [{ role: "user", content: prompt }]
+  });
+
+  return response.content[0].text;
+}
+
+// ─── CARGA MASIVA DE TAREAS ─────────────────────────────────────────────────
+
+async function bulkAddTasks(phone, text) {
+  const today = new Date();
+  const todayStr = `${DAY_NAMES[today.getDay()]} ${today.getDate()} de ${MONTH_NAMES[today.getMonth()]} de ${today.getFullYear()} (ISO: ${today.toISOString().slice(0, 10)})`;
+
+  const prompt = `Extraé las tareas de la siguiente lista que escribió el usuario. Cada línea suele ser una tarea.
+
+HOY es ${todayStr}.
+
+Para cada tarea devolvé estos campos:
+- name: nombre corto de la tarea (string)
+- area: una de ["Trabajo", "Creatividad"] (Creatividad = arte/creativo). Si no se entiende, usá "Trabajo".
+- pomodoros: número de pomodoros de 25 min (acepta decimales). Si el usuario dio minutos u horas, convertilo (1 pomodoro = 25 min). Si no se indica, usá 1.
+- priority: una de ["Alta", "Media", "Baja"]. "urgente"→Alta. Si no se indica, "Media".
+- due_date: fecha de entrega en formato YYYY-MM-DD calculada respecto a HOY, o null si no tiene. Interpretá "mañana", "viernes", "20/06", "en 3 dias", etc.
+- category: una de ["Trabajo", "Personal", "Salud", "Hogar", "Finanzas", "Educación", "Otro"]. Si no se entiende, "Otro".
+
+Lista del usuario:
+"""
+${text}
+"""
+
+Respondé ÚNICAMENTE con un array JSON válido, sin texto adicional ni markdown. Ejemplo:
+[{"name":"Diseñar logo","area":"Creatividad","pomodoros":3,"priority":"Alta","due_date":"2026-06-19","category":"Trabajo"}]`;
+
+  const response = await anthropic.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 2000,
+    messages: [{ role: "user", content: prompt }]
+  });
+
+  let raw = response.content[0].text.trim();
+  raw = raw.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  const start = raw.indexOf("["), end = raw.lastIndexOf("]");
+  if (start >= 0 && end >= 0) raw = raw.slice(start, end + 1);
+
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch { return null; }
+  if (!Array.isArray(parsed) || !parsed.length) return null;
+
+  // Prioridad de categoría existente del usuario
+  const { data: existing } = await supabase.from("tasks").select("category, cat_priority").eq("phone", phone);
+  const catPrio = {};
+  (existing || []).forEach(r => { if (catPrio[r.category] === undefined) catPrio[r.category] = r.cat_priority; });
+
+  const rows = parsed.map(t => {
+    const area = AREAS.includes(t.area) ? t.area : "Trabajo";
+    const priority = PRIORITIES.includes(t.priority) ? t.priority : "Media";
+    const category = CATEGORIES.includes(t.category) ? t.category : "Otro";
+    const pomodoros = (!isNaN(parseFloat(t.pomodoros)) && parseFloat(t.pomodoros) > 0) ? parseFloat(t.pomodoros) : 1;
+    const due = (typeof t.due_date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(t.due_date)) ? t.due_date : null;
+    return {
+      phone,
+      name: String(t.name || "Tarea sin nombre").slice(0, 200),
+      pomodoros,
+      minutes: Math.round(pomodoros * POMODORO_WORK),
+      priority,
+      category,
+      cat_priority: catPrio[category] ?? 5,
+      due_date: due,
+      area,
+      done: false
+    };
+  });
+
+  await supabase.from("tasks").insert(rows);
+  return rows;
+}
+
 // ─── WEBHOOK PRINCIPAL ─────────────────────────────────────────────────────
 
 app.post("/webhook", async (req, res) => {
@@ -213,6 +509,35 @@ app.post("/webhook", async (req, res) => {
     }
   }
 
+  if (session.step === "cal_contexto") {
+    clearSession(phone);
+    try {
+      const cal = await generateCalendar(phone, msg.trim() === "-" ? "" : msg);
+      return twiReply(res, cal);
+    } catch (e) {
+      return twiReply(res, "Error generando el calendario. Intentá de nuevo.");
+    }
+  }
+
+  if (session.step === "cargar_lista") {
+    clearSession(phone);
+    if (msg.trim() === "-" || cmd === "cancelar") return twiReply(res, "Carga cancelada.");
+    try {
+      const rows = await bulkAddTasks(phone, msg);
+      if (!rows) return twiReply(res, "No pude interpretar la lista 🤔. Asegurate de poner una tarea por línea. Probá de nuevo con *cargar*.");
+      const pomTotal = rows.reduce((s, r) => s + r.pomodoros, 0);
+      let out = `✅ Cargué *${rows.length}* tarea(s):\n\n`;
+      rows.forEach((r, i) => {
+        const f = r.due_date ? ` · 📅 ${formatDate(r.due_date)}` : "";
+        out += `${i + 1}. ${AREA_EMOJI[r.area]} *${r.name}* — 🍅 ${r.pomodoros} · ${r.priority}${f}\n`;
+      });
+      out += `\n🍅 Total: ${+pomTotal.toFixed(1)} (~${(pomTotal / POMODOROS_PER_DAY).toFixed(1)} días)\n\nEscribí *calendario* para tu plan o *lista* para revisarlas.`;
+      return twiReply(res, out);
+    } catch {
+      return twiReply(res, "Error procesando la lista. Intentá de nuevo con *cargar*.");
+    }
+  }
+
   if (session.step?.startsWith("cat_")) {
     return handleCategorias(phone, msg, session, res);
   }
@@ -220,6 +545,12 @@ app.post("/webhook", async (req, res) => {
   // Comandos principales
   if (cmd === "agregar" || cmd === "nueva" || cmd === "add") {
     return handleAgregar(phone, msg, session, res);
+  }
+
+  if (cmd === "cargar" || cmd === "varias" || cmd === "cargar tareas" || cmd === "lote") {
+    session.step = "cargar_lista";
+    session.data = {};
+    return twiReply(res, `📥 *Carga masiva*\n\nPegá todas tus tareas en un mensaje, *una por línea*, con este formato:\n\n*Tarea | área | pomodoros | prioridad | fecha | categoría*\n\nEjemplo:\nDiseñar logo | creatividad | 3 | alta | viernes | Trabajo\nReporte mensual | trabajo | 4 | alta | mañana | Trabajo\nBocetos serie | creatividad | 2 | media | - | Personal\n\n💡 Si te falta algún dato, igual lo entiendo (uso valores por defecto). La fecha podés escribirla como *mañana, viernes, 20/06, en 3 dias* o *-* si no tiene.\n\nEscribí *-* para cancelar.`);
   }
 
   if (cmd === "lista" || cmd === "pendientes" || cmd === "mis pendientes") {
@@ -243,6 +574,12 @@ app.post("/webhook", async (req, res) => {
     if (!task) return twiReply(res, `No encontré la tarea número ${n}.`);
     await supabase.from("tasks").delete().eq("id", task.id);
     return twiReply(res, `🗑 *${task.name}* eliminada.`);
+  }
+
+  if (cmd === "calendario" || cmd === "agenda" || cmd === "cal") {
+    session.step = "cal_contexto";
+    session.data = {};
+    return twiReply(res, `📅 Voy a armar tu calendario en pomodoros 🍅, respetando tus horarios (L–V: 7:30–9, 11–13, 14:30–17 = 12 🍅/día).\n\n¿Alguna novedad para estos días? Por ejemplo:\n• "el miércoles estoy por fuera"\n• "el jueves solo en la mañana"\n• "este domingo tengo libre de 9 a 12"\n\nEscribí *-* si tu semana es normal.`);
   }
 
   if (cmd.startsWith("plan")) {
