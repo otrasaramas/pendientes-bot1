@@ -48,6 +48,11 @@ Comandos disponibles:
 const CATEGORIES = ["Trabajo", "Personal", "Salud", "Hogar", "Finanzas", "Educación", "Otro"];
 const PRIORITIES = ["Alta", "Media", "Baja"];
 
+// Eje de balance de vida: Trabajo vs Creatividad/Arte (meta 70/30)
+const AREAS = ["Trabajo", "Creatividad"];
+const AREA_EMOJI = { Trabajo: "💼", Creatividad: "🎨" };
+const BALANCE_TARGET = { Trabajo: 0.7, Creatividad: 0.3 };
+
 // Disponibilidad por defecto (lunes a viernes, sin fines de semana)
 const AVAILABILITY = {
   workDays: [1, 2, 3, 4, 5], // 1 = lunes ... 5 = viernes (getDay: 0=domingo)
@@ -155,8 +160,9 @@ async function formatTaskList(phone) {
   const priorityLabel = { Alta: "🔴", Media: "🟡", Baja: "🟢" };
   let msg = `📋 *Tus pendientes (${tasks.length})*\n\n`;
   tasks.forEach((t, i) => {
+    const areaTag = t.area ? `${AREA_EMOJI[t.area]} ${t.area} · ` : "";
     msg += `${i + 1}. ${priorityLabel[t.priority]} *${t.name}*\n`;
-    msg += `   ⏱ ${t.minutes}min · 📁 ${t.category}\n`;
+    msg += `   ${areaTag}⏱ ${t.minutes}min · 📁 ${t.category}\n`;
     if (t.due_date) {
       const dias = daysUntil(t.due_date);
       let aviso = "";
@@ -184,8 +190,17 @@ async function handleAgregar(phone, msg, session, res) {
 
   if (s.step === "agregar_nombre") {
     s.data.name = msg;
+    s.step = "agregar_area";
+    return twiReply(res, `🎯 ¿Es de *trabajo* o de *creatividad/arte*?\n\n1. 💼 Trabajo\n2. 🎨 Creatividad`);
+  }
+
+  if (s.step === "agregar_area") {
+    const map = { "1": "Trabajo", "2": "Creatividad", trabajo: "Trabajo", t: "Trabajo", creatividad: "Creatividad", arte: "Creatividad", c: "Creatividad" };
+    const area = map[msg.toLowerCase().trim()];
+    if (!area) return twiReply(res, "Respondé 1 (Trabajo) o 2 (Creatividad).");
+    s.data.area = area;
     s.step = "agregar_minutos";
-    return twiReply(res, `⏱ ¿Cuántos minutos estimás que toma *${msg}*?`);
+    return twiReply(res, `⏱ ¿Cuántos minutos estimás que toma *${s.data.name}*?`);
   }
 
   if (s.step === "agregar_minutos") {
@@ -239,12 +254,14 @@ async function handleAgregar(phone, msg, session, res) {
       category,
       cat_priority: catPriority,
       due_date: s.data.due_date || null,
+      area: s.data.area || null,
       done: false
     });
 
     clearSession(phone);
     const fechaTxt = s.data.due_date ? `\n📅 Entrega: ${formatDate(s.data.due_date)}` : "";
-    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n⏱ ${s.data.minutes}min · ${s.data.priority} · ${category}${fechaTxt}\n\nEscribí *lista* para ver tus pendientes o *calendario* para tu plan.`);
+    const areaTxt = s.data.area ? `${AREA_EMOJI[s.data.area]} ${s.data.area} · ` : "";
+    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n${areaTxt}⏱ ${s.data.minutes}min · ${s.data.priority} · ${category}${fechaTxt}\n\nEscribí *lista* para ver tus pendientes o *calendario* para tu plan.`);
   }
 }
 
@@ -308,9 +325,18 @@ async function generateCalendar(phone, extraContext) {
       const fecha = t.due_date ? formatDate(t.due_date) : "sin fecha";
       const dias = t.due_date ? daysUntil(t.due_date) : null;
       const venc = dias === null ? "" : dias < 0 ? ` (¡VENCIDA hace ${Math.abs(dias)} días!)` : ` (en ${dias} días)`;
-      return `- "${t.name}" | ${t.minutes}min | Prioridad: ${t.priority} | Categoría: ${t.category} | Entrega: ${fecha}${venc}`;
+      const area = t.area || "Sin clasificar";
+      return `- "${t.name}" | Área: ${area} | ${t.minutes}min | Prioridad: ${t.priority} | Categoría: ${t.category} | Entrega: ${fecha}${venc}`;
     })
     .join("\n");
+
+  // Balance actual de minutos pendientes por área (meta 70% Trabajo / 30% Creatividad)
+  const mins = { Trabajo: 0, Creatividad: 0 };
+  tasks.forEach(t => { if (t.area && mins[t.area] !== undefined) mins[t.area] += t.minutes; });
+  const totalAreaMins = mins.Trabajo + mins.Creatividad;
+  const balanceTxt = totalAreaMins === 0
+    ? "Aún no hay tareas clasificadas por área."
+    : `Trabajo: ${Math.round(mins.Trabajo / totalAreaMins * 100)}% (${mins.Trabajo}min) · Creatividad: ${Math.round(mins.Creatividad / totalAreaMins * 100)}% (${mins.Creatividad}min). Meta: 70% Trabajo / 30% Creatividad.`;
 
   const blocksTxt = AVAILABILITY.blocks.map(b => `${b.start}–${b.end}`).join(", ");
 
@@ -323,17 +349,21 @@ Bloques horarios libres cada día: ${blocksTxt}.
 El usuario aprovecha todo ese tiempo.
 
 ${extraContext ? `AVISOS DEL USUARIO PARA ESTA SEMANA (tienen prioridad sobre la disponibilidad por defecto): ${extraContext}\n` : ""}
+BALANCE DE VIDA (importante para el usuario): busca un equilibrio de ~70% Trabajo y ~30% Creatividad/Arte en el tiempo dedicado.
+Balance actual de tareas pendientes → ${balanceTxt}
+
 Tareas pendientes:
 ${taskList}
 
 Reglas para armar el calendario:
-1. RESPETÁ las fechas de entrega: ninguna tarea puede quedar agendada después de su fecha. Las vencidas o más próximas van primero.
-2. Repartí las tareas en los bloques horarios disponibles, asignando una hora concreta a cada una (ej: 07:30–08:15).
-3. No sobrecargues un bloque: si una tarea no entra completa, partila o pasala al siguiente bloque/día.
-4. Agrupá tareas de la misma categoría para evitar cambios de contexto.
+1. RESPETÁ las fechas de entrega: ninguna tarea puede quedar agendada después de su fecha. Las vencidas o más próximas van primero. (Esta regla manda sobre el balance.)
+2. Dentro de lo posible, equilibrá el tiempo apuntando a 70% Trabajo / 30% Creatividad. Intercalá algo de creatividad la mayoría de los días para que no quede todo trabajo al inicio y arte al final.
+3. Repartí las tareas en los bloques horarios disponibles, asignando una hora concreta a cada una (ej: 07:30–08:15).
+4. No sobrecargues un bloque: si una tarea no entra completa, partila o pasala al siguiente bloque/día.
 5. Empezá desde HOY. Solo usá días hábiles (lunes a viernes) salvo que el usuario avise lo contrario en sus avisos.
 6. Si el usuario avisó que un día está por fuera o que tiene tiempo extra (ej: un domingo), ajustá ese día.
 7. Si no alcanza el tiempo para entregar algo a tiempo, marcá una ⚠️ ALERTA al final indicando qué tarea está en riesgo.
+8. Si el balance está muy lejos del 70/30 (ej: no hay tareas de creatividad), mencionalo amablemente en el resumen y sugerí sumar alguna.
 
 Respondé en este formato (claro y para WhatsApp, usando *negritas* y emojis con moderación):
 
@@ -347,8 +377,8 @@ Respondé en este formato (claro y para WhatsApp, usando *negritas* y emojis con
 ... (continuá los días necesarios hasta agendar todo)
 
 Al final agregá:
-✅ *Resumen:* cuántos días toma y si llegás a todas las entregas.
-⚠️ *Alertas:* (solo si hay tareas en riesgo de no llegar a tiempo)`;
+✅ *Resumen:* cuántos días toma, si llegás a todas las entregas y el balance Trabajo/Creatividad que quedó (ej: 68% / 32%).
+⚠️ *Alertas:* (solo si hay tareas en riesgo de no llegar a tiempo o si el balance quedó lejos del 70/30)`;
 
   const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
