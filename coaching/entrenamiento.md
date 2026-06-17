@@ -68,7 +68,7 @@ Las entradas más recientes van arriba. Energía: 🔋 baja / 🔋🔋 media / �
 
 | Fecha | Tiempo | Energía | Fase ciclo | Rutina planeada | Qué hizo | Notas |
 |-------|--------|---------|------------|-----------------|----------|-------|
-| _(pendiente la primera)_ | | | | | | |
+| 2026-06-17 | ~75 min | 🔋🔋 | Ovulación | — (reporte directo) | Caminata 20 min · intervalos corriendo 5+3+4 min · elíptica 5'@7 + 5'@5 + 5'@3 · yoga/estiramientos 30 min | Venía de 2 días fuera comiendo mal (no dependía de ella). Entrenó **en ayunas** con solo 1 cda de mantequilla de maní. Horario descuadrado, sin desayuno hasta el mediodía. ¡Volvió al gym el mismo día! 💪 |
 
 ---
 
@@ -79,6 +79,7 @@ Las entradas más recientes van arriba. Energía: 🔋 baja / 🔋🔋 media / �
 | 2026-04-22 | 73.0 | con levotiroxina |
 | 2026-05-15 | 69.0 | bajada rápida inicial |
 | 2026-06-10 | 69.0 | retoma levotiroxina |
+| 2026-06-17 | 69.3 | tras 2 días fuera comiendo mal; dentro de fluctuación normal |
 
 ---
 
