@@ -53,15 +53,20 @@ const AREAS = ["Trabajo", "Creatividad"];
 const AREA_EMOJI = { Trabajo: "💼", Creatividad: "🎨" };
 const BALANCE_TARGET = { Trabajo: 0.7, Creatividad: 0.3 };
 
+// Pomodoros: 25 min de trabajo + 5 de descanso = 30 min por ciclo
+const POMODORO_WORK = 25;
+const POMODORO_BREAK = 5;
+
 // Disponibilidad por defecto (lunes a viernes, sin fines de semana)
 const AVAILABILITY = {
   workDays: [1, 2, 3, 4, 5], // 1 = lunes ... 5 = viernes (getDay: 0=domingo)
   blocks: [
-    { start: "07:30", end: "09:00" }, // 90 min
-    { start: "11:00", end: "13:00" }, // 120 min
-    { start: "14:30", end: "17:00" }  // 150 min
+    { start: "07:30", end: "09:00", pomodoros: 3 }, // 90 min  → 3 🍅
+    { start: "11:00", end: "13:00", pomodoros: 4 }, // 120 min → 4 🍅
+    { start: "14:30", end: "17:00", pomodoros: 5 }  // 150 min → 5 🍅
   ]
 };
+const POMODOROS_PER_DAY = AVAILABILITY.blocks.reduce((s, b) => s + b.pomodoros, 0); // 12
 
 const DAY_NAMES = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
 const MONTH_NAMES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
@@ -139,6 +144,12 @@ function daysUntil(iso) {
   return Math.round((d - t0) / (1000 * 60 * 60 * 24));
 }
 
+// Muestra una cantidad de pomodoros: "2 pomodoros", "1 pomodoro", "1.5 pomodoros"
+function fmtPomos(n) {
+  if (n == null) return "—";
+  return `${n} pomodoro${n === 1 ? "" : "s"}`;
+}
+
 // ─── TAREAS ────────────────────────────────────────────────────────────────
 
 async function getTasks(phone) {
@@ -161,8 +172,9 @@ async function formatTaskList(phone) {
   let msg = `📋 *Tus pendientes (${tasks.length})*\n\n`;
   tasks.forEach((t, i) => {
     const areaTag = t.area ? `${AREA_EMOJI[t.area]} ${t.area} · ` : "";
+    const pomoTag = t.pomodoros ? `🍅 ${t.pomodoros} · ` : "";
     msg += `${i + 1}. ${priorityLabel[t.priority]} *${t.name}*\n`;
-    msg += `   ${areaTag}⏱ ${t.minutes}min · 📁 ${t.category}\n`;
+    msg += `   ${pomoTag}${areaTag}⏱ ${t.minutes}min · 📁 ${t.category}\n`;
     if (t.due_date) {
       const dias = daysUntil(t.due_date);
       let aviso = "";
@@ -174,7 +186,10 @@ async function formatTaskList(phone) {
     }
   });
   const total = tasks.reduce((s, t) => s + t.minutes, 0);
-  msg += `\n⏳ Total estimado: ${Math.floor(total / 60)}h ${total % 60}m`;
+  const totalPomos = tasks.reduce((s, t) => s + (t.pomodoros || 0), 0);
+  const dias = (totalPomos / POMODOROS_PER_DAY).toFixed(1).replace(/\.0$/, "");
+  msg += `\n⏳ Total: ${totalPomos ? `${totalPomos} 🍅 · ` : ""}${Math.floor(total / 60)}h ${total % 60}m`;
+  if (totalPomos) msg += `\n📆 ~${dias} día(s) llenos (${POMODOROS_PER_DAY} 🍅/día)`;
   return msg;
 }
 
@@ -199,14 +214,15 @@ async function handleAgregar(phone, msg, session, res) {
     const area = map[msg.toLowerCase().trim()];
     if (!area) return twiReply(res, "Respondé 1 (Trabajo) o 2 (Creatividad).");
     s.data.area = area;
-    s.step = "agregar_minutos";
-    return twiReply(res, `⏱ ¿Cuántos minutos estimás que toma *${s.data.name}*?`);
+    s.step = "agregar_pomodoros";
+    return twiReply(res, `🍅 ¿Cuántos *pomodoros* creés que toma *${s.data.name}*?\n\n(1 pomodoro = 25 min de trabajo. Podés usar medios, ej: 1.5)`);
   }
 
-  if (s.step === "agregar_minutos") {
-    const mins = parseInt(msg);
-    if (isNaN(mins) || mins <= 0) return twiReply(res, "Por favor ingresá un número válido de minutos.");
-    s.data.minutes = mins;
+  if (s.step === "agregar_pomodoros") {
+    const pomos = parseFloat(msg.replace(",", "."));
+    if (isNaN(pomos) || pomos <= 0) return twiReply(res, "Ingresá un número válido de pomodoros (ej: 1, 2, 1.5).");
+    s.data.pomodoros = pomos;
+    s.data.minutes = Math.round(pomos * POMODORO_WORK); // minutos de trabajo
     s.step = "agregar_prioridad";
     return twiReply(res, `🎯 ¿Qué prioridad tiene?\n\n1. Alta\n2. Media\n3. Baja`);
   }
@@ -250,6 +266,7 @@ async function handleAgregar(phone, msg, session, res) {
       phone,
       name: s.data.name,
       minutes: s.data.minutes,
+      pomodoros: s.data.pomodoros || null,
       priority: s.data.priority,
       category,
       cat_priority: catPriority,
@@ -261,7 +278,7 @@ async function handleAgregar(phone, msg, session, res) {
     clearSession(phone);
     const fechaTxt = s.data.due_date ? `\n📅 Entrega: ${formatDate(s.data.due_date)}` : "";
     const areaTxt = s.data.area ? `${AREA_EMOJI[s.data.area]} ${s.data.area} · ` : "";
-    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n${areaTxt}⏱ ${s.data.minutes}min · ${s.data.priority} · ${category}${fechaTxt}\n\nEscribí *lista* para ver tus pendientes o *calendario* para tu plan.`);
+    return twiReply(res, `✅ Tarea guardada:\n\n*${s.data.name}*\n${areaTxt}🍅 ${fmtPomos(s.data.pomodoros)} (${s.data.minutes}min) · ${s.data.priority} · ${category}${fechaTxt}\n\nEscribí *lista* para ver tus pendientes o *calendario* para tu plan.`);
   }
 }
 
@@ -326,30 +343,33 @@ async function generateCalendar(phone, extraContext) {
       const dias = t.due_date ? daysUntil(t.due_date) : null;
       const venc = dias === null ? "" : dias < 0 ? ` (¡VENCIDA hace ${Math.abs(dias)} días!)` : ` (en ${dias} días)`;
       const area = t.area || "Sin clasificar";
-      return `- "${t.name}" | Área: ${area} | ${t.minutes}min | Prioridad: ${t.priority} | Categoría: ${t.category} | Entrega: ${fecha}${venc}`;
+      const pomos = t.pomodoros ? `${t.pomodoros} pomodoro(s)` : `${Math.ceil(t.minutes / POMODORO_WORK)} pomodoro(s) aprox`;
+      return `- "${t.name}" | Área: ${area} | ${pomos} (${t.minutes}min) | Prioridad: ${t.priority} | Categoría: ${t.category} | Entrega: ${fecha}${venc}`;
     })
     .join("\n");
 
-  // Balance actual de minutos pendientes por área (meta 70% Trabajo / 30% Creatividad)
-  const mins = { Trabajo: 0, Creatividad: 0 };
-  tasks.forEach(t => { if (t.area && mins[t.area] !== undefined) mins[t.area] += t.minutes; });
-  const totalAreaMins = mins.Trabajo + mins.Creatividad;
-  const balanceTxt = totalAreaMins === 0
+  // Balance actual por área en pomodoros (meta 70% Trabajo / 30% Creatividad)
+  const pom = { Trabajo: 0, Creatividad: 0 };
+  tasks.forEach(t => { if (t.area && pom[t.area] !== undefined) pom[t.area] += (t.pomodoros || t.minutes / POMODORO_WORK); });
+  const totalAreaPom = pom.Trabajo + pom.Creatividad;
+  const balanceTxt = totalAreaPom === 0
     ? "Aún no hay tareas clasificadas por área."
-    : `Trabajo: ${Math.round(mins.Trabajo / totalAreaMins * 100)}% (${mins.Trabajo}min) · Creatividad: ${Math.round(mins.Creatividad / totalAreaMins * 100)}% (${mins.Creatividad}min). Meta: 70% Trabajo / 30% Creatividad.`;
+    : `Trabajo: ${Math.round(pom.Trabajo / totalAreaPom * 100)}% (${+pom.Trabajo.toFixed(1)} 🍅) · Creatividad: ${Math.round(pom.Creatividad / totalAreaPom * 100)}% (${+pom.Creatividad.toFixed(1)} 🍅). Meta: 70% Trabajo / 30% Creatividad.`;
 
-  const blocksTxt = AVAILABILITY.blocks.map(b => `${b.start}–${b.end}`).join(", ");
+  const blocksTxt = AVAILABILITY.blocks.map(b => `${b.start}–${b.end} (${b.pomodoros} 🍅)`).join(", ");
 
   const prompt = `Sos un experto en productividad y planificación. Tu objetivo es armar un CALENDARIO DIARIO con horarios concretos para que el usuario complete sus tareas a tiempo, sin agobiarse.
 
 HOY es ${todayStr}.
 
+MÉTODO POMODORO: 1 pomodoro = ${POMODORO_WORK} min de trabajo + ${POMODORO_BREAK} min de descanso. Pensá y agendá TODO en pomodoros.
+
 DISPONIBILIDAD POR DEFECTO del usuario (de lunes a viernes, NO fines de semana):
-Bloques horarios libres cada día: ${blocksTxt}.
-El usuario aprovecha todo ese tiempo.
+Bloques libres cada día y cuántos pomodoros entran en cada uno: ${blocksTxt}.
+En total son ${POMODOROS_PER_DAY} pomodoros por día. Dentro de cada bloque, poné un descanso de ${POMODORO_BREAK} min entre pomodoros; los huecos entre bloques son los descansos largos.
 
 ${extraContext ? `AVISOS DEL USUARIO PARA ESTA SEMANA (tienen prioridad sobre la disponibilidad por defecto): ${extraContext}\n` : ""}
-BALANCE DE VIDA (importante para el usuario): busca un equilibrio de ~70% Trabajo y ~30% Creatividad/Arte en el tiempo dedicado.
+BALANCE DE VIDA (importante para el usuario): busca un equilibrio de ~70% Trabajo y ~30% Creatividad/Arte en los pomodoros dedicados.
 Balance actual de tareas pendientes → ${balanceTxt}
 
 Tareas pendientes:
@@ -357,27 +377,29 @@ ${taskList}
 
 Reglas para armar el calendario:
 1. RESPETÁ las fechas de entrega: ninguna tarea puede quedar agendada después de su fecha. Las vencidas o más próximas van primero. (Esta regla manda sobre el balance.)
-2. Dentro de lo posible, equilibrá el tiempo apuntando a 70% Trabajo / 30% Creatividad. Intercalá algo de creatividad la mayoría de los días para que no quede todo trabajo al inicio y arte al final.
-3. Repartí las tareas en los bloques horarios disponibles, asignando una hora concreta a cada una (ej: 07:30–08:15).
-4. No sobrecargues un bloque: si una tarea no entra completa, partila o pasala al siguiente bloque/día.
-5. Empezá desde HOY. Solo usá días hábiles (lunes a viernes) salvo que el usuario avise lo contrario en sus avisos.
-6. Si el usuario avisó que un día está por fuera o que tiene tiempo extra (ej: un domingo), ajustá ese día.
-7. Si no alcanza el tiempo para entregar algo a tiempo, marcá una ⚠️ ALERTA al final indicando qué tarea está en riesgo.
-8. Si el balance está muy lejos del 70/30 (ej: no hay tareas de creatividad), mencionalo amablemente en el resumen y sugerí sumar alguna.
+2. Trabajá en pomodoros: cada tarea ocupa su cantidad de pomodoros. Un bloque no puede tener más pomodoros de los que le caben.
+3. Dentro de lo posible, equilibrá apuntando a 70% Trabajo / 30% Creatividad. Intercalá algo de creatividad la mayoría de los días para que no quede todo trabajo al inicio y arte al final.
+4. Asigná horarios concretos respetando los descansos (ej: 07:30–07:55 trabajo, 07:55–08:00 descanso).
+5. Si una tarea necesita más pomodoros de los que quedan en el día, partila y seguí al día siguiente (indicá "🍅 1 de 3", etc.).
+6. Empezá desde HOY. Solo usá días hábiles (lunes a viernes) salvo que el usuario avise lo contrario en sus avisos.
+7. Si el usuario avisó que un día está por fuera o que tiene tiempo extra (ej: un domingo), ajustá ese día.
+8. Si no alcanzan los pomodoros para entregar algo a tiempo, marcá una ⚠️ ALERTA indicando qué tarea está en riesgo.
+9. Si el balance está muy lejos del 70/30 (ej: no hay tareas de creatividad), mencionalo amablemente y sugerí sumar alguna.
 
 Respondé en este formato (claro y para WhatsApp, usando *negritas* y emojis con moderación):
 
 📅 *TU CALENDARIO*
 
-*[Día fecha]*
-🕐 HH:MM–HH:MM — Tarea (Xmin)
-🕐 HH:MM–HH:MM — Tarea (Xmin)
+*[Día fecha]* (X 🍅)
+🍅 HH:MM–HH:MM — Tarea
+🍅 HH:MM–HH:MM — Tarea
+☕ HH:MM–HH:MM — Descanso largo
 
-*[Día fecha]*
+*[Día fecha]* (X 🍅)
 ... (continuá los días necesarios hasta agendar todo)
 
 Al final agregá:
-✅ *Resumen:* cuántos días toma, si llegás a todas las entregas y el balance Trabajo/Creatividad que quedó (ej: 68% / 32%).
+✅ *Resumen:* cuántos pomodoros en total, cuántos días toma, si llegás a todas las entregas y el balance Trabajo/Creatividad que quedó (ej: 68% / 32%).
 ⚠️ *Alertas:* (solo si hay tareas en riesgo de no llegar a tiempo o si el balance quedó lejos del 70/30)`;
 
   const response = await anthropic.messages.create({
@@ -461,7 +483,7 @@ app.post("/webhook", async (req, res) => {
   if (cmd === "calendario" || cmd === "agenda" || cmd === "cal") {
     session.step = "cal_contexto";
     session.data = {};
-    return twiReply(res, `📅 Voy a armar tu calendario respetando tus horarios habituales (L–V: 7:30–9, 11–13, 14:30–17).\n\n¿Alguna novedad para estos días? Por ejemplo:\n• "el miércoles estoy por fuera"\n• "el jueves solo en la mañana"\n• "este domingo tengo libre de 9 a 12"\n\nEscribí *-* si tu semana es normal.`);
+    return twiReply(res, `📅 Voy a armar tu calendario en pomodoros 🍅, respetando tus horarios (L–V: 7:30–9, 11–13, 14:30–17 = 12 🍅/día).\n\n¿Alguna novedad para estos días? Por ejemplo:\n• "el miércoles estoy por fuera"\n• "el jueves solo en la mañana"\n• "este domingo tengo libre de 9 a 12"\n\nEscribí *-* si tu semana es normal.`);
   }
 
   if (cmd.startsWith("plan")) {
