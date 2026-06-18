@@ -1,6 +1,7 @@
 # 📋 Pendientes de Sara
 
 > Archivo maestro de tareas. Última actualización: **2026-06-18** (jueves).
+> Viernes 19: disponible solo 7–9 y 11–14.
 > Disponibilidad: L–V · 7:30–9:00, 11:00–13:00, 14:30–17:00 = **12 🍅/día** (1 🍅 = 25 min).
 > Balance objetivo: **70% Trabajo / 30% Creatividad**.
 
@@ -90,24 +91,24 @@ Estos son eventos con hora, no pomodoros:
 
 ## 🗓️ Calendario sugerido
 
-### Viernes 19 jun — día con clase + 2 citas (≈ 8 🍅 reales)
-Bloque mediodía ocupado por la clase con Alexa.
+### Viernes 19 jun — disponible solo 7–9 y 11–14 (≈ 6 🍅 reales)
+Disponibilidad real ese día: **7:00–9:00** y **11:00–14:00** (con la clase adentro).
 
-**07:00** · 📨 Enviar papeles a la protocolista *(antes de arrancar)*
+**07:00** · 📨 Enviar papeles a la protocolista *(rápido, primero)*
 
 **07:30–09:00 (3 🍅)**
 - 🍅 Guion de voz para Juanma *(urgente, lo necesitás para la cita de Alado)*
-- 🍅🍅 Pauta (1 de 5)
+- 🍅🍅 Pauta (1 y 2 de 5)
 
-**11:00–12:30** · 🎓 Clase con Alexa
+**11:00–~12:30** · 🎓 Clase con Alexa
 
-**14:30–17:00 (5 🍅)**
-- 🍅🍅🍅 Pauta (2 a 5) → **terminada** ✅
+**12:30–14:00 (3 🍅)**
 - 🍅🍅 Newsletter del viernes
+- 🍅 Calendario de cumpleaños
 
 **18:00** · 📍 Cita en Alado
 
-> ⚠️ **No entra mañana** (pasa al lunes o a un hueco): calendario de cumpleaños (1🍅), hábitos de dibujo/curso/cocina. Si tenés un rato hoy jueves, adelantá el *calendario de cumpleaños* (1🍅) y arrancá la *pauta*.
+> ⚠️ **Queda colgando:** Pauta (faltan 3🍅 → lunes 7:30 o finde) y los hábitos (saltar o versión mínima ese día).
 
 ### Lunes 22 jun (12 🍅) — retomamos full
 - 🍅🍅 Hábito cocina · 🍅 Hábito curso flipping · 🍅🍅🍅 Hábito dibujar
