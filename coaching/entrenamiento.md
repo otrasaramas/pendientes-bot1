@@ -68,6 +68,7 @@ Las entradas más recientes van arriba. Energía: 🔋 baja / 🔋🔋 media / �
 
 | Fecha | Tiempo | Energía | Fase ciclo | Rutina planeada | Qué hizo | Notas |
 |-------|--------|---------|------------|-----------------|----------|-------|
+| 2026-06-18 | tiempo + energía | 🔋🔋🔋 (planeado) | Ovulación tardía | Rutina insignia completa (ver detalle abajo) | _(por reportar)_ | Día de empuje: aprovechar pico de energía de la ovulación. |
 | 2026-06-17 | ~75 min | 🔋🔋 | Ovulación | — (reporte directo) | Caminata 20 min · intervalos corriendo 5+3+4 min · elíptica 5'@7 + 5'@5 + 5'@3 · yoga/estiramientos 30 min | Venía de 2 días fuera comiendo mal (no dependía de ella). Entrenó **en ayunas** con solo 1 cda de mantequilla de maní. Horario descuadrado, sin desayuno hasta el mediodía. ¡Volvió al gym el mismo día! 💪 |
 
 ---
