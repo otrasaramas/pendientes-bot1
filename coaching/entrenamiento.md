@@ -68,7 +68,8 @@ Las entradas más recientes van arriba. Energía: 🔋 baja / 🔋🔋 media / �
 
 | Fecha | Tiempo | Energía | Fase ciclo | Rutina planeada | Qué hizo | Notas |
 |-------|--------|---------|------------|-----------------|----------|-------|
-| 2026-06-18 | tiempo + energía | 🔋🔋🔋 (planeado) | Ovulación tardía | Rutina insignia completa (ver detalle abajo) | _(por reportar)_ | Día de empuje: aprovechar pico de energía de la ovulación. |
+| 2026-06-22 | suave | 🔋 | Lútea | Reinicio suave / recuperación: caminar 15-20' + liberación cuello-trapecios + movilidad torácica + core suave (sin correr, flexiones, plancha ni carga de hombros) | _(por reportar)_ | Retoma tras 3 días difíciles. Dolor entre escápulas y cuello (tensión, distinto del lumbar). Sin mentalidad de "compensar". |
+| 2026-06-18 → 21 | — | 🔋 | Lútea | (insignia planeada) | No realizada | **3 días difíciles** + dolor cuello/escápulas → descanso. Probable fase lútea (energía baja, tensión). Descansar fue escuchar al cuerpo, no fallar. |
 | 2026-06-17 | ~75 min | 🔋🔋 | Ovulación | — (reporte directo) | Caminata 20 min · intervalos corriendo 5+3+4 min · elíptica 5'@7 + 5'@5 + 5'@3 · yoga/estiramientos 30 min | Venía de 2 días fuera comiendo mal (no dependía de ella). Entrenó **en ayunas** con solo 1 cda de mantequilla de maní. Horario descuadrado, sin desayuno hasta el mediodía. ¡Volvió al gym el mismo día! 💪 |
 
 ---
