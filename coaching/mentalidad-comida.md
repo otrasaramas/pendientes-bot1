@@ -55,3 +55,21 @@ Insight de Sara: la mayoría de las veces no es hambre de estómago, es querer *
 - Los días difíciles vacían el tanque de voluntad — pedirse disciplina de hierro ahí es injusto.
 - **Proteína suficiente** = menos antojos de azúcar (la palanca #1).
 - No llegar con hambre de lobo a la tarde/noche.
+
+---
+
+## 🎯 Estrategia mental para la pérdida de peso (inspirada en Eileen Gu)
+**Cambio central:** dejar de depender de la fuerza de voluntad → construir una **identidad nueva con evidencia.**
+
+### Los 5 movimientos
+1. **Decide QUIÉN eres, no qué quieres.** "Soy una mujer activa, fuerte y libre con la comida." Cada acción = un voto a favor de esa identidad. No hay que ganar hoy, solo sumar votos.
+2. **Junta EVIDENCIA, no frases.** La confianza nace de *verte lograrlo* (tu sistema sabe la diferencia entre esperanza y recuerdo). Pon la barra tan baja que no puedas fallar (express 10 min cuenta). El repo es tu pila de pruebas.
+3. **Sé CIENTÍFICA, no jueza.** Un tropiezo es data, no fracaso: "¿qué pasó? ¿hambre real o boca? ¿lútea, cansancio, estrés?" → ajusta sin culpa. La curiosidad mantiene en el carril; la culpa tira a la cuneta.
+4. **Re-encuadra la incomodidad** (el miedo es crecimiento). Hambre leve = usando reservas. Cansancio en subida = estirándome. Báscula +1 kg = agua, ruido, no señal.
+5. **Vive en PRESENTE, un día a la vez.** Solo existe el voto de hoy. Comer presente (la Pausa). Mirar el próximo no-negociable, no los 12 kg.
+
+### En el día real
+Mañana ("hoy soy activa" → no-negociables) · Antojo (Pausa) · Tropiezo ("¿qué me enseña?") · Noche (registrar la evidencia) · Semana (ver crecer la pila de pruebas).
+
+> La meta no es ser perfecta. Es votar más veces por la mujer activa que por la vieja historia. Mayoría simple gana.
+
