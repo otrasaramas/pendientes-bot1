@@ -72,6 +72,20 @@ Frase: **"Gracias, ahora no."** Recibir el cariño sin recibir la comida.
 - No hay que terminar el plato; un plato grande no es un contrato.
 - Proteína y verdura primero.
 
+## 🍫 Cierre Dulce inteligente (antojo de dulce después de comer)
+El antojo post-comida es un **ritual** ("comida terminada = algo dulce = se cierra"), no hambre. Kernel de verdad: el dulce tras una comida (con proteína/grasa/fibra) amortigua el pico de azúcar vs. comerlo solo — pero "mejor que lo peor" ≠ "bueno para la meta". Se cambia el contenido del ritual, sin pelear:
+- 1-2 cuadritos de chocolate oscuro 70%+ saboreados lento · fruta / fruta congelada · té dulce natural (canela, frutos rojos) · yogur griego con canela · 1 dátil con mantequilla de maní.
+- **Porcionar ANTES** (en un plato, no del paquete) → ataca el "no me pude detener".
+- **Señal de cierre:** tras el dulce, té o lavarse los dientes = "el comedor cerró".
+- Más proteína en la comida = menos antojo después.
+- Meta: un cuadrito consciente, no un descontrol.
+
+## ⏳ Para la impaciencia ("lo quiero YA")
+- La velocidad es lo que hace rebotar (ya llegó a 66 antes y volvió). Lento = se queda. Meta: bajar **y que sea la última vez**.
+- La báscula es un indicador **atrasado** (refleja 2-3 semanas atrás) y miente en viaje/lútea (agua, no grasa).
+- El estrés de querer-ya sube **cortisol** → retiene líquido + antojos. Relajarse es parte del plan.
+- Reencuadre: enamorarse del **voto de hoy**, no del número. Los meses pasan igual — comas ansiosa o en paz.
+
 ---
 
 ## Contexto que importa (sin culpa)
