@@ -50,6 +50,30 @@ Insight de Sara: la mayoría de las veces no es hambre de estómago, es querer *
 
 ---
 
+## 🔍 Patrones personales detectados (data de Sara — viaje jun 2026)
+1. **Comida ofrecida = sí automático.** Acepta lo que le ofrecen (papá, regalos) por reflejo social, aunque no lo quiera ni esté rico. → El más fácil de soltar: cero pérdida.
+2. **Lo conocido y disponible no vale la pena.** Mazapán de la nevera, helado que venden en su casa: no es especial, "nada que aprovechar". Su propia mente ya lo sabe.
+3. **La decisión ya estaba tomada.** Cuando decide antes ("iba a la nevera pensando en eso"), las herramientas del momento (lavarse los dientes) no funcionan. Hay que interceptar antes, no en la puerta de la nevera.
+4. **Rico me emociona y no paro.** Porciones grandes, come más allá de la saciedad (incluso estando llena). La comida la emociona.
+
+## 🎯 EL FILTRO DOBLE (antes de comer algo no planeado)
+1. **¿Lo quiero DE VERDAD?** (no por reflejo / porque me lo ofrecieron)
+2. **¿VALE LA PENA / es especial?** (¿o lo puedo comer en casa cualquier día?)
+
+→ Las **dos SÍ** = disfrutar pleno, sentada, sin culpa.
+→ Alguna **NO** = pasar, sin perder nada.
+
+## 🤍 Para comida ofrecida
+Frase: **"Gracias, ahora no."** Recibir el cariño sin recibir la comida.
+
+## 🍽 Para porciones (rico ≠ hambre)
+- **"¿Tengo hambre, o solo está rico?"** — a mitad del plato, soltar el cubierto y pausar 1 min.
+- Comer despacio (la saciedad tarda ~20 min en avisar).
+- No hay que terminar el plato; un plato grande no es un contrato.
+- Proteína y verdura primero.
+
+---
+
 ## Contexto que importa (sin culpa)
 - En **fase lútea** los antojos suben por biología (baja serotonina) — no es debilidad.
 - Los días difíciles vacían el tanque de voluntad — pedirse disciplina de hierro ahí es injusto.
