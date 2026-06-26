@@ -21,7 +21,7 @@
 ## 2. Tiroides (pieza clave del caso) 🔑
 
 - Tiroides un poco **agrandada**.
-- Retomó hace poco **levotiroxina**, en ayunas todas las mañanas.
+- Retomó hace poco **levotiroxina (50 mcg)**, en ayunas todas las mañanas.
 - **Patrón observado:** bajó de 73 → 69 kg con levo → la suspendió ~1 mes → se estancó en 69-70 kg → la retomó el 2026-06-10.
 - **Lectura:** el estancamiento coincide exactamente con el mes sin levotiroxina. No fue falta de voluntad, fue metabólico/hormonal.
 
@@ -30,6 +30,7 @@
 - Tomarla en ayunas y **esperar 30-60 min** antes de comer o tomar café.
 - **Separarla 3-4 h** del calcio, hierro y fermentos con calcio (interfieren con la absorción).
 - Pedir **labs de TSH, T4 libre y anti-TPO** ~6-8 semanas después de retomarla, para confirmar dosis correcta.
+- ⚠️ **NO autoajustar la dosis.** Posible que 50 mcg se quede corto (estreñimiento, estancamiento son pistas), pero solo el médico sube la dosis, con labs y en pasos pequeños (~+25 mcg). Nunca usar la levo como acelerador de dieta (riesgo cardíaco y óseo). Llevar pistas anotadas a la cita.
 
 ---
 
