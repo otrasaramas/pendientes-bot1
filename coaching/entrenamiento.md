@@ -62,7 +62,32 @@ Para días imposibles, para no romper la constancia: caminar 8 min + 1 vuelta de
 
 ---
 
-## Registro diario
+## 🚦 Semáforo de ejercicios para la espalda (lumbar con desgaste)
+Guía para evaluar cada ejercicio. Sara reporta qué hace → se clasifica y se vigila la respuesta de la espalda.
+
+**🟢 VERDE — seguros, protegen la espalda:**
+Caminar (mejor inclinada) · elíptica · puente de glúteo / hip thrust · bird-dog · dead bug · plancha neutra y lateral · sentadilla al cajón/silla · step-ups · clamshell / abducción de cadera · remo con banda (espalda neutra) · Pallof press (anti-rotación) · gato-vaca · paloma con apoyo · pantorrillas.
+
+**🟡 AMARILLO — ok con buena técnica, vigilar:**
+Sentadilla/zancada con peso moderado (sin redondear) · elevación de rodillas apoyada en codos (core firme, SIN balanceo) · peso muerto rumano LIGERO con bisagra de cadera perfecta · correr (intervalos cortos, superficie blanda, solo si la espalda está 100%) · torsiones de yoga suaves · remo inclinado con mancuerna (espalda neutra).
+
+**🔴 ROJO — evitar con tu lumbar:**
+Abdominales tipo crunch / sit-up · elevación de piernas estiradas acostada · sentadilla/peso muerto PESADOS o con mala técnica · saltos / pliometría de alto impacto · russian twists con peso · good mornings pesados · forward folds profundos con piernas estiradas y rebote · hiperextensiones forzadas.
+
+> Regla: 🟢 libre · 🟡 con técnica y vigilando · 🔴 cambiar por su equivalente verde. Si un ejercicio molesta la lumbar al día siguiente → baja un nivel.
+
+## 📅 Plan semanal (semana del 2026-06-29) — back-safe, en rampa
+Vuelve de 1 semana off + lumbar sensible + posible inicio de regla → empezar moderado y subir según responda la espalda y la energía (entrando a folicular = ventana para acelerar).
+
+- **Lun 29 — HECHO:** caminata 40' (alivió espalda) + core + elíptica + yoga. ✅
+- **Mar 30 — Movilidad + glúteo/core:** caminar 30' + yoga-movilidad completa + puente, bird-dog, dead bug, clamshell. Sin correr.
+- **Mié 1 — Fuerza tren inferior (verde):** caminar 20' + sentadilla al cajón, step-ups, puente, pantorrillas, core + elíptica 10'.
+- **Jue 2 — Cardio + movilidad:** caminar 25' (probar 3-5' trote SOLO si espalda 100%) o elíptica intervalos + yoga.
+- **Vie 3 — Fuerza tren superior + core:** caminar + remo con banda, trabajo de brazos, plancha, Pallof + elíptica.
+- **Sáb 4 — Sesión más completa:** si la espalda y la energía acompañan, acercarse a la rutina insignia.
+- **Dom 5 — Descanso activo:** caminata suave + yoga largo.
+
+> Check-in 1 de julio (día de bitácora quincenal) cae esta semana → registramos avances.
 
 Las entradas más recientes van arriba. Energía: 🔋 baja / 🔋🔋 media / 🔋🔋🔋 alta.
 
@@ -83,6 +108,7 @@ Las entradas más recientes van arriba. Energía: 🔋 baja / 🔋🔋 media / �
 | 2026-05-15 | 69.0 | bajada rápida inicial |
 | 2026-06-10 | 69.0 | retoma levotiroxina |
 | 2026-06-17 | 69.3 | tras 2 días fuera comiendo mal; dentro de fluctuación normal |
+| 2026-06-29 | 70.7 | tras 1 semana de viaje — agua/sodio + posible premenstrual + estreñimiento; NO grasa, baja al volver a rutina |
 
 ---
 

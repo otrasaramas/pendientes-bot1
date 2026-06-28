@@ -27,6 +27,34 @@
 
 ---
 
+## 2026-06-29 — Check-in regreso de viaje
+
+**Peso / tendencia:** 70.7 kg (subió desde 69). NO es grasa: agua/sodio del viaje + posible premenstrual + estreñimiento. Baja al volver a rutina e hidratar. Sin drama — ruido esperado.
+
+**Fase del ciclo:** posible premenstrual / inicio de regla → entrando pronto a folicular (ventana para acelerar).
+
+**Alimentación:** Viaje navegado **mucho mejor de lo esperado y SIN "ya qué"** 🎉. Aprendió sus patrones reales: (1) comida ofrecida = sí automático, (2) lo disponible/conocido no vale la pena, (3) la decisión premeditada burla las herramientas del momento, (4) porciones grandes / comer pasada la saciedad. Herramienta nueva: **Filtro Doble** (¿lo quiero de verdad Y vale la pena?). Antojo de dulce post-comida → Cierre Dulce inteligente.
+
+**Entrenamiento:** Volvió hoy tras 1 semana off. Caminata 40' **alivió la espalda** (aprendizaje: movimiento suave > reposo para su lumbar).
+
+**Cuerpo y ánimo:** Espalda mejor tras ejercicio. Estreñimiento (3+ días, tierra caliente) → subir agua. Ánimo bueno, orgullosa y con fuego ("lo quiero ya" trabajado: paciencia = estrategia).
+
+**Mentalidad:** Salto real — primer viaje sin espiral de culpa. Identidad nueva con evidencia. Trabajado: impaciencia (cortisol), la levo NO se autoajusta.
+
+**Wins de la quincena:** 🎉 Viaje sin "ya qué" · volvió al gym con dolor de espalda y mente clara · conciencia alimentaria nueva (patrones + filtros) · constancia tras el viaje.
+
+**Ajustes del coach para los próximos 15 días:**
+1. **Hidratación arriba** (tierra caliente + estreñimiento + bajar el agua de retención).
+2. **Plan semanal back-safe en rampa** hacia folicular (ver `entrenamiento.md`) + Semáforo de espalda.
+3. **Filtro Doble + Cierre Dulce** en lo cotidiano; proteína en cada comida.
+4. Destrabar intestino natural (agua, kiwi/papaya, fermentos, movimiento).
+
+**Pendientes / recordatorios:**
+- 📋 Agendar cita médica + **labs TSH, T4 libre, anti-TPO**; llevar pistas (estreñimiento, estancamiento). NO autoajustar levo.
+- 📏 Tomar **medidas (cintura, cadera, muslo) + foto** base del reto.
+
+---
+
 ## 2026-06-17 — Check-in inicial (línea base)
 
 **Peso / tendencia:** 69 kg (al 2026-06-10). Venía de 73 (abr 22) → 69 (may 15) → estancada en 69-70 durante el mes sin levotiroxina. Acaba de retomar la levo.
