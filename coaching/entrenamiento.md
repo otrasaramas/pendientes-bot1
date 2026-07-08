@@ -109,6 +109,7 @@ Las entradas más recientes van arriba. Energía: 🔋 baja / 🔋🔋 media / �
 | 2026-06-10 | 69.0 | retoma levotiroxina |
 | 2026-06-17 | 69.3 | tras 2 días fuera comiendo mal; dentro de fluctuación normal |
 | 2026-06-29 | 70.7 | tras 1 semana de viaje — agua/sodio + posible premenstrual + estreñimiento; NO grasa, baja al volver a rutina |
+| 2026-07-03 | 68.0 | antes de la regla — ¡por debajo de la línea base (69)! Confirma que el 70.7 era agua. A ~2 kg de la meta de julio (66). |
 
 ---
 

@@ -32,6 +32,20 @@ Viene de ser **drásticamente consistente**: hacer lo correcto el ~95% de los d�
 - **Semana actual — fase LÚTEA:** instalar hábitos no-negociables en modo suave. Cuidar cuello/espalda. Reinicio gentil. NO pelear con la biología.
 - **Próxima regla → FOLICULAR (~inicios julio):** acelerar. Entrenamiento intenso + nutrición más apretada cuando la energía y la voluntad están en su pico natural.
 
+### ✅ ACTIVADO (regla llegó ~2026-07-05, día 3 al reactivar)
+Ventana folicular abierta (~próximos 10 días) = acelerar. Peso: llegó a **68** antes de la regla (bajo la línea base). Meta julio 66 a ~2 kg.
+
+## 🍽 El Plato (cada comida grande) + día ejemplo
+**Fórmula del plato:** ½ verdura/ensalada + fermentos · ¼ proteína (palma) · ¼ carbohidrato bueno (guarnición, no protagonista) · grasa buena moderada (aguacate, aceite oliva, semillas).
+
+**Día ejemplo (adaptado a Sara):**
+- Al despertar: levo + agua (+ jengibre) → esperar 30-60 min.
+- Desayuno: 2-3 huevos + ½ arepa + verdura/aguacate + fermento.
+- Comida grande: pescado o pollo (palma) + ensalada grande + ½ taza arroz/quinua + fermentos.
+- Noche (pequeña): proteína ligera (yogur griego / huevo / sopa con proteína) + verdura.
+- Antojo dulce: Cierre Dulce porcionado.
+- Todo el día: 2-3 L agua · 8-10k pasos.
+
 ---
 
 ## Entrenamiento (semana tipo, al entrar en folicular)
