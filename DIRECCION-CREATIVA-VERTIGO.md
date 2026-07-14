@@ -50,10 +50,13 @@ inventario o recorte-de-archivo. Sí hay collage, pero no por ese lado.
 
 - **Color de marca muy saturado.**
 - **Fucsia como color estrella** (viene del tablero 3).
-- Base sucia / análoga alrededor del fucsia (a definir con muestras físicas y pruebas de impresión).
+- Base sucia / análoga alrededor del fucsia.
 
-> Pendiente: fijar los valores exactos (impreso + pantalla) con pruebas reales de impresión,
-> porque el error de impresión es parte de la identidad.
+> **La revista vive solo en digital** — no hay impresión. El "error de impresión" y la
+> textura análoga se recrean como **textura digital deliberada** (grano, fotocopia simulada,
+> mis-registro), no como proceso físico real.
+>
+> Pendiente: fijar los valores exactos en pantalla (HEX) del fucsia + base.
 
 ---
 
@@ -69,7 +72,7 @@ inventario o recorte-de-archivo. Sí hay collage, pero no por ese lado.
 
 ## 7. Próximos pasos sugeridos
 
-1. **Cerrar paleta** con pruebas de impresión reales (fucsia + base). — _pendiente de muestras_
+1. **Cerrar paleta** en pantalla (HEX del fucsia + base). — _pendiente_
 2. **Elegir tipografía(s)** principal + secundaria.
 3. **Logotipo / wordmark** de "Vertigo" en el tono definido.
 4. **Mini-sistema visual:** cómo se combinan foto análoga + collage + tipografía + fucsia.
