@@ -1,0 +1,385 @@
+<title>Rutina 30 min · Movilidad + Core</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#EDF1E9; --surface:#F8FAF5; --ink:#243128; --muted:#6C7A70;
+    --sage:#7C9E86; --clay:#CF7150; --line:#D7DFCF;
+    --shadow:0 1px 2px rgba(36,49,40,.05),0 10px 26px rgba(36,49,40,.05);
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --ground:#161B17; --surface:#1E241F; --ink:#E7ECE3; --muted:#9BA79D;
+           --sage:#8FB79A; --clay:#E08A69; --line:#2F3830;
+           --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.28); }
+  }
+  :root[data-theme="dark"]{ --ground:#161B17; --surface:#1E241F; --ink:#E7ECE3; --muted:#9BA79D;
+           --sage:#8FB79A; --clay:#E08A69; --line:#2F3830;
+           --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.28); }
+  :root[data-theme="light"]{ --ground:#EDF1E9; --surface:#F8FAF5; --ink:#243128; --muted:#6C7A70;
+           --sage:#7C9E86; --clay:#CF7150; --line:#D7DFCF;
+           --shadow:0 1px 2px rgba(36,49,40,.05),0 10px 26px rgba(36,49,40,.05); }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+       line-height:1.5;-webkit-font-smoothing:antialiased;padding:28px 18px 48px}
+  .wrap{max-width:820px;margin:0 auto}
+
+  .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+           color:var(--sage);font-weight:600;margin:0 0 10px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,7vw,2.9rem);
+     line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:10px 0 0;max-width:56ch;font-size:.98rem}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 4px}
+  .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);
+        background:var(--surface);border-radius:999px;padding:6px 13px;font-size:.8rem;
+        color:var(--ink);font-variant-numeric:tabular-nums}
+  .chip b{color:var(--clay);font-weight:700}
+
+  .block{margin-top:34px}
+  .bhead{display:flex;align-items:baseline;gap:12px;padding-bottom:12px;
+         border-bottom:1px solid var(--line);margin-bottom:16px}
+  .bnum{font-family:var(--serif);font-size:1.05rem;color:var(--clay);font-weight:600;
+        font-variant-numeric:tabular-nums;min-width:1.4em}
+  .btitle{font-family:var(--serif);font-size:1.28rem;font-weight:600;margin:0;flex:1;letter-spacing:-.01em}
+  .btime{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:15px;
+        padding:12px 13px 14px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow)}
+
+  .seq{display:flex;align-items:center;gap:5px}
+  .frame{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .tile{background:var(--ground);border-radius:10px;padding:5px}
+  .pose{display:block;width:100%;height:auto}
+  .pose .fig{fill:none;stroke:var(--ink);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+  .pose .floor{fill:none;stroke:var(--sage);stroke-width:2.6;stroke-linecap:round;opacity:.6}
+  .pose .strap{fill:none;stroke:var(--clay);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:3 4.5}
+  .pose .cue{fill:none;stroke:var(--clay);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .cap{font-size:.62rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);text-align:center;font-weight:600}
+  .mv{flex:0 0 auto;width:20px;height:20px;color:var(--clay)}
+  .mv path{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+  .name{font-weight:650;font-size:.95rem;line-height:1.25}
+  .move{color:var(--muted);font-size:.8rem;line-height:1.35;margin-top:-2px}
+  .reps{color:var(--ink);font-size:.8rem;font-variant-numeric:tabular-nums;font-weight:600}
+  .reps span{color:var(--clay)}
+
+  .safe{margin-top:36px;background:var(--surface);border:1px solid var(--line);
+        border-radius:16px;padding:20px 22px}
+  .safe h2{font-family:var(--serif);font-size:1.15rem;margin:0 0 12px;font-weight:600}
+  .safe ul{margin:0;padding-left:18px;color:var(--ink)}
+  .safe li{margin:7px 0;font-size:.9rem}
+  .safe li b{color:var(--clay)}
+  .signoff{text-align:center;color:var(--muted);font-size:.86rem;margin:26px 0 0;font-style:italic}
+
+  @media (prefers-reduced-motion:no-preference){
+    .card{animation:rise .5s ease both}
+    @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Rutina diaria · Sara</p>
+    <h1>Movilidad + Core</h1>
+    <p class="lede">Cada ejercicio, paso a paso: sigue la flecha para ver cómo se mueve. Fortalece el centro sin comprimir la columna. Ideal después de caminar, cuando ya estás en calor.</p>
+    <div class="chips">
+      <span class="chip">⏱ <b>30</b> min</span>
+      <span class="chip">🛡 Segura para tu lumbar</span>
+      <span class="chip">Sin equipo</span>
+    </div>
+  </header>
+
+  <!-- 01 -->
+  <section class="block">
+    <div class="bhead"><span class="bnum">01</span><h2 class="btitle">Conexión</h2><span class="btime">2 min</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Pelvis neutral">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="20" cy="57" r="6"/>
+            <path class="fig" d="M25 60 Q42 57 56 60"/><path class="fig" d="M56 60 L68 42 L80 62"/>
+          </svg></div><div class="cap">neutral</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M3 12 H19 M14 7 L20 12 L14 17"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Báscula: espalda aplanada">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="20" cy="57" r="6"/>
+            <path class="fig" d="M25 61 H56"/><path class="fig" d="M56 61 L68 42 L80 62"/>
+            <path class="cue" d="M46 52 A7 7 0 1 1 39 52"/><path class="cue" d="M39 52 l-3 -1 M39 52 l1 -3"/>
+          </svg></div><div class="cap">bascula</div></div>
+        </div>
+        <div class="name">Respiración + báscula pélvica</div>
+        <div class="move">Bascula la pelvis para aplanar suave la espalda baja.</div>
+        <div class="reps">6 respiraciones · <span>10</span> básculas</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="block">
+    <div class="bhead"><span class="bnum">02</span><h2 class="btitle">Movilidad</h2><span class="btime">7 min</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Vaca, espalda hundida">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M32 64 V50"/><path class="fig" d="M76 64 V50"/>
+            <path class="fig" d="M32 50 Q54 60 76 50"/><path class="fig" d="M32 50 L25 46"/><circle class="fig" cx="21" cy="42" r="5"/>
+          </svg></div><div class="cap">vaca</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M3 12 H19 M14 7 L20 12 L14 17"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Gato, espalda arqueada">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M32 64 V50"/><path class="fig" d="M76 64 V50"/>
+            <path class="fig" d="M32 50 Q54 36 76 50"/><path class="fig" d="M32 50 L26 54"/><circle class="fig" cx="22" cy="56" r="5"/>
+          </svg></div><div class="cap">gato</div></div>
+        </div>
+        <div class="name">Gato-vaca</div>
+        <div class="move">Hunde la espalda (vaca) y redondéala (gato), lento.</div>
+        <div class="reps"><span>8</span> ciclos</div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Sentada sobre talones">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M50 64 H70"/><path class="fig" d="M60 63 L58 38"/>
+            <circle class="fig" cx="57" cy="32" r="6"/><path class="fig" d="M58 45 L49 52"/>
+          </svg></div><div class="cap">siéntate</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M3 12 H19 M14 7 L20 12 L14 17"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Pliega el torso al frente">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M80 50 L46 63"/><path class="fig" d="M80 50 L88 64"/>
+            <path class="fig" d="M46 63 L22 65"/><circle class="fig" cx="41" cy="60" r="5.5"/>
+          </svg></div><div class="cap">pliega</div></div>
+        </div>
+        <div class="name">Postura del niño</div>
+        <div class="move">Siéntate sobre los talones y pliégate al frente.</div>
+        <div class="reps">45 seg</div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Paso largo, entra">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M40 66 V52"/><path class="fig" d="M40 52 L56 46"/>
+            <path class="fig" d="M56 46 L84 66"/><path class="fig" d="M56 46 L55 26"/><circle class="fig" cx="54" cy="20" r="6"/>
+          </svg></div><div class="cap">entra</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M6 4 V16 M11 11 L6 17 L1 11 M13 6 H21 M13 12 H21"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Hunde la cadera">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M40 66 V45"/><path class="fig" d="M40 45 L56 41"/>
+            <path class="fig" d="M56 41 L86 66"/><path class="fig" d="M56 41 L54 22"/><circle class="fig" cx="53" cy="16" r="6"/>
+          </svg></div><div class="cap">hunde</div></div>
+        </div>
+        <div class="name">Zancada baja</div>
+        <div class="move">Entra en paso largo y hunde despacio la cadera.</div>
+        <div class="reps">45 seg · <span>cada lado</span></div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Cuatro apoyos, mesa">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M32 64 V50"/><path class="fig" d="M70 64 V50"/>
+            <path class="fig" d="M32 50 H70"/><path class="fig" d="M32 50 L26 50"/><circle class="fig" cx="21" cy="50" r="5"/>
+          </svg></div><div class="cap">mesa</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M12 21 V5 M7 10 L12 4 L17 10"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Sube las caderas, perro boca abajo">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M24 66 L56 26 L90 66"/><circle class="fig" cx="30" cy="59" r="5"/>
+          </svg></div><div class="cap">sube</div></div>
+        </div>
+        <div class="name">Perro boca abajo</div>
+        <div class="move">Desde cuatro apoyos, empuja las caderas arriba.</div>
+        <div class="reps">30 seg · rodillas blandas</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="block">
+    <div class="bhead"><span class="bnum">03</span><h2 class="btitle">Core que protege</h2><span class="btime">12 min · 2 rondas</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Cadera abajo">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/>
+            <path class="fig" d="M23 62 H50"/><path class="fig" d="M50 62 L60 48 L74 62"/>
+          </svg></div><div class="cap">abajo</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M12 21 V5 M7 10 L12 4 L17 10"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Sube la cadera, puente">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="62" r="5"/>
+            <path class="fig" d="M24 63 L52 44 L66 44 L82 63"/>
+          </svg></div><div class="cap">sube</div></div>
+        </div>
+        <div class="name">Puente de glúteo</div>
+        <div class="move">Despega la cadera apretando los glúteos.</div>
+        <div class="reps"><span>15</span> reps</div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Cuatro apoyos neutro">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M38 64 V50"/><path class="fig" d="M72 64 V50"/>
+            <path class="fig" d="M38 50 H72"/><path class="fig" d="M38 50 L32 49"/><circle class="fig" cx="27" cy="49" r="5"/>
+          </svg></div><div class="cap">neutro</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M3 12 H19 M14 7 L20 12 L14 17"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Extiende brazo y pierna opuestos">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M42 64 V50"/><path class="fig" d="M74 64 V50"/>
+            <path class="fig" d="M42 50 H74"/><path class="fig" d="M42 50 L22 44"/><path class="fig" d="M74 50 L94 44"/>
+            <circle class="fig" cx="38" cy="47" r="4.6"/>
+          </svg></div><div class="cap">extiende</div></div>
+        </div>
+        <div class="name">Bird-dog</div>
+        <div class="move">Extiende brazo y pierna opuestos, sin arquear.</div>
+        <div class="reps"><span>10</span> · cada lado</div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Brazos y piernas arriba">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H48"/>
+            <path class="fig" d="M31 61 L28 44"/><path class="fig" d="M48 61 L54 44 L66 48"/>
+          </svg></div><div class="cap">arriba</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M3 12 H19 M14 7 L20 12 L14 17"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Baja brazo y pierna opuestos">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H48"/>
+            <path class="fig" d="M31 61 L16 58"/><path class="fig" d="M48 61 L54 44 L66 48"/><path class="fig" d="M40 61 L44 46"/>
+          </svg></div><div class="cap">baja</div></div>
+        </div>
+        <div class="name">Dead bug</div>
+        <div class="move">Baja brazo y pierna opuestos; lumbar pegada al piso.</div>
+        <div class="reps"><span>10</span> · cada lado</div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Plancha de rodillas">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M24 64 H42"/><path class="fig" d="M42 64 V54"/>
+            <path class="fig" d="M42 54 L72 64"/><circle class="fig" cx="37" cy="50" r="5"/>
+          </svg></div><div class="cap">rodillas</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M3 12 H19 M14 7 L20 12 L14 17"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Plancha completa">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M22 64 H40"/><path class="fig" d="M40 64 V54"/>
+            <path class="fig" d="M40 54 L92 64"/><circle class="fig" cx="35" cy="50" r="5"/>
+          </svg></div><div class="cap">completa</div></div>
+        </div>
+        <div class="name">Plancha</div>
+        <div class="move">De rodillas o completa: cuerpo en línea recta.</div>
+        <div class="reps">20–30 seg</div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Lateral apoyada en rodilla">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M34 50 L70 62"/><path class="fig" d="M34 50 L30 64 H42"/>
+            <circle class="fig" cx="34" cy="44" r="5"/><path class="fig" d="M50 55 L55 41"/>
+          </svg></div><div class="cap">rodilla</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M12 21 V5 M7 10 L12 4 L17 10"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Lateral completa, cadera arriba">
+            <path class="floor" d="M8 66 H92"/><path class="fig" d="M34 48 L92 64"/><path class="fig" d="M34 48 L30 64 H42"/>
+            <circle class="fig" cx="34" cy="42" r="5"/><path class="fig" d="M54 53 L59 39"/>
+          </svg></div><div class="cap">sube</div></div>
+        </div>
+        <div class="name">Plancha lateral</div>
+        <div class="move">Apila la cadera y despégala del piso.</div>
+        <div class="reps">15–20 seg · lado</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="block">
+    <div class="bhead"><span class="bnum">04</span><h2 class="btitle">Estiramiento</h2><span class="btime">7 min</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Rodilla doblada con toalla">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 62 H52"/>
+            <path class="fig" d="M52 62 L60 44 L52 54"/><path class="fig" d="M52 62 L74 62"/><path class="strap" d="M56 48 L46 56"/>
+          </svg></div><div class="cap">dobla</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M12 21 V5 M7 10 L12 4 L17 10"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Pierna estirada arriba con toalla">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 62 H52"/>
+            <path class="fig" d="M52 62 L68 32"/><path class="fig" d="M52 62 L74 62"/><path class="strap" d="M68 32 L48 52"/>
+          </svg></div><div class="cap">estira</div></div>
+        </div>
+        <div class="name">Isquios con toalla</div>
+        <div class="move">Estira la pierna hacia el techo tirando de la toalla.</div>
+        <div class="reps">45 seg · <span>cada lado</span></div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Tobillo cruzado sobre la rodilla">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H50"/>
+            <path class="fig" d="M50 61 L58 46 L70 56"/><path class="fig" d="M53 52 L66 48"/>
+          </svg></div><div class="cap">cruza</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M21 12 H5 M10 7 L4 12 L10 17"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Acerca la rodilla al pecho">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H48"/>
+            <path class="fig" d="M48 61 L50 42 L64 50"/><path class="fig" d="M46 52 L58 46"/><path class="fig" d="M40 58 L50 46"/>
+          </svg></div><div class="cap">acerca</div></div>
+        </div>
+        <div class="name">Figura-4 (glúteo)</div>
+        <div class="move">Cruza el tobillo y acerca la rodilla al pecho.</div>
+        <div class="reps">45 seg · <span>cada lado</span></div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Plantas juntas, rodillas arriba">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H62"/>
+            <path class="fig" d="M62 61 L58 44 L52 46"/><path class="fig" d="M62 61 L66 44 L52 46"/>
+          </svg></div><div class="cap">junta</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M4 6 L4 12 M4 12 L9 8 M20 6 L20 12 M20 12 L15 8 M4 12 H20"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Rodillas abren hacia los lados">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H60"/>
+            <path class="fig" d="M60 61 L50 52 L64 56"/><path class="fig" d="M60 61 L82 52 L64 56"/>
+          </svg></div><div class="cap">abre</div></div>
+        </div>
+        <div class="name">Mariposa acostada</div>
+        <div class="move">Plantas juntas; deja caer las rodillas a los lados.</div>
+        <div class="reps">45 seg</div>
+      </div>
+
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Rodillas al pecho">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H52"/>
+            <path class="fig" d="M52 61 L48 44 L36 48"/><path class="fig" d="M34 58 L48 46"/>
+          </svg></div><div class="cap">al pecho</div></div>
+          <svg class="mv" viewBox="0 0 24 24"><path d="M4 8 Q12 20 20 8 M20 8 L20 13 M20 8 L15 9"/></svg>
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Deja caer las rodillas a un lado, torsión">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="18" cy="60" r="5"/><path class="fig" d="M23 61 H54"/>
+            <path class="fig" d="M54 61 L58 50 L72 46"/><path class="fig" d="M28 58 L16 55"/>
+          </svg></div><div class="cap">gira</div></div>
+        </div>
+        <div class="name">Rodillas al pecho + torsión</div>
+        <div class="move">Abraza las rodillas y déjalas caer a un lado.</div>
+        <div class="reps">30 seg · <span>cada lado</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="block">
+    <div class="bhead"><span class="bnum">05</span><h2 class="btitle">Cierre</h2><span class="btime">2 min</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="seq">
+          <div class="frame"><div class="tile"><svg class="pose" viewBox="0 0 100 78" aria-label="Savasana, cuerpo relajado">
+            <path class="floor" d="M8 66 H92"/><circle class="fig" cx="22" cy="60" r="6"/><path class="fig" d="M28 63 H86"/>
+            <path class="fig" d="M40 63 L36 56"/><path class="fig" d="M86 63 L91 59"/>
+          </svg></div><div class="cap">afloja</div></div>
+        </div>
+        <div class="name">Savasana</div>
+        <div class="move">Suelta todo el cuerpo y respira en calma.</div>
+        <div class="reps">1–2 min</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="safe">
+    <h2>Cuida tu espalda 🛡</h2>
+    <ul>
+      <li><b>Bird-dog y dead bug</b> lentos, con la zona baja pegada al piso — ahí está el fortalecimiento real.</li>
+      <li><b>Nunca</b> rebotar ni forzar rango. Solo tensión suave, nunca dolor punzante.</li>
+      <li>Si el dolor <b>baja por la pierna</b> u hormiguea → para. Eso no es estiramiento.</li>
+    </ul>
+  </div>
+
+  <p class="signoff">Un voto más por la mujer activa que ya eres. 🌱</p>
+</div>

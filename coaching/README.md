@@ -8,6 +8,7 @@
 - [`reto-30-dias.md`](./reto-30-dias.md) — protocolo Quantum Jump + tracker.
 - [`entrenamiento.md`](./entrenamiento.md) — bitácora diaria + biblioteca de rutinas.
 - [`yoga-movilidad.md`](./yoga-movilidad.md) — movilidad diaria segura para la lumbar.
+- [`rutina-infografia.html`](./rutina-infografia.html) — infografía visual paso a paso (movilidad + core, 30 min). Ábrela en el navegador.
 - [`mentalidad-comida.md`](./mentalidad-comida.md) — La Pausa, Kit Renueva-Sabor, estrategia mental.
 - [`modo-viaje.md`](./modo-viaje.md) — viajar como terreno de entrenamiento.
 - [`diario.md`](./diario.md) — check-in quincenal (días 1 y 15).
