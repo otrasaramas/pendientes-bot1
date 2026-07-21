@@ -11,6 +11,7 @@
 - [`rutina-infografia.html`](./rutina-infografia.html) — infografía visual paso a paso (movilidad + core, 30 min). Ábrela en el navegador.
 - [`mentalidad-comida.md`](./mentalidad-comida.md) — La Pausa, Kit Renueva-Sabor, estrategia mental.
 - [`modo-viaje.md`](./modo-viaje.md) — viajar como terreno de entrenamiento.
+- [`manana-5am.md`](./manana-5am.md) — ritual matutino estilo Club de las 5 AM (20/20/20) + rutina corta diaria.
 - [`diario.md`](./diario.md) — check-in quincenal (días 1 y 15).
 - [`proteinas.txt`](./proteinas.txt) — lista de proteínas.
 
