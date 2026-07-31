@@ -68,6 +68,13 @@
 - 🚩 **Señal de alarma:** dolor que baja por la pierna, hormigueo o adormecimiento → parar y consultar.
 - 💡 Recomendación pendiente: **valoración con fisioterapeuta** para un programa de fuerza específico para su lumbar.
 
+### Consulta médica — 2026-07-31
+- Fue al médico por el dolor de espalda y le recetaron:
+  - **Celecoxib 200 mg**, 1 cápsula cada 12 horas, por 10 días (20 cápsulas).
+  - **Tizanidina 2 mg**, 1 comprimido cada noche, por 20 días (20 comprimidos).
+- Celecoxib es antiinflamatorio (AINE); tomar con alimento para cuidar el estómago.
+- Tizanidina es relajante muscular; puede dar somnolencia — tomarla en la noche.
+
 ---
 
 ## 5. Digestión
@@ -95,8 +102,10 @@
 | Medicación | Dosis | Indicación |
 |------------|-------|------------|
 | Levotiroxina | 50 mcg | tiroides (en ayunas, diaria) |
+| Celecoxib | 200 mg cada 12h | dolor lumbar (10 días, desde 2026-07-31) |
+| Tizanidina | 2 mg cada noche | relajante muscular / dolor lumbar (20 días, desde 2026-07-31) |
 
-*(Sin otros medicamentos ni suplementos reportados. Si añade magnesio para el tránsito: tomarlo en la noche, separado 3–4 h de la levotiroxina.)*
+*(Si añade magnesio para el tránsito: tomarlo en la noche, separado 3–4 h de la levotiroxina y de la tizanidina.)*
 
 ---
 
