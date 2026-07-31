@@ -72,8 +72,10 @@
 - Fue al médico por el dolor de espalda y le recetaron:
   - **Celecoxib 200 mg**, 1 cápsula cada 12 horas, por 10 días (20 cápsulas).
   - **Tizanidina 2 mg**, 1 comprimido cada noche, por 20 días (20 comprimidos).
-- Celecoxib es antiinflamatorio (AINE); tomar con alimento para cuidar el estómago.
-- Tizanidina es relajante muscular; puede dar somnolencia — tomarla en la noche.
+- Celecoxib es antiinflamatorio (AINE, inhibidor COX-2); tomar con alimento para cuidar el estómago.
+- Tizanidina es relajante muscular de acción central; puede dar somnolencia — tomarla en la noche.
+- **Ordenaron 10 sesiones de terapia física** para la lumbar — pendiente autorizarlas.
+- **Control médico en 6 meses** (~enero 2027) — pendiente agendar la cita.
 
 ---
 
@@ -111,7 +113,8 @@
 
 ## 9. Resumen de pendientes médicos
 - [ ] Cita médica + labs de tiroides (TSH, T4 libre, anti-TPO).
-- [ ] Valoración con fisioterapeuta por la lumbar.
+- [ ] Autorizar las 10 sesiones de terapia física para la lumbar.
+- [ ] Agendar control médico en ~6 meses (enero 2027).
 - [ ] Comentar al médico el estreñimiento y el estancamiento (pistas de posible ajuste de dosis).
 - [ ] Subir la hidratación diaria (2–3 L).
 
