@@ -48,5 +48,18 @@ Para NUNCA romper la cadena:
 
 Hecho > perfecto. La cadena sigue viva.
 
+## 🌅 Versión al aire libre (evolución — 2026-08)
+Idea clave: **mover el ejercicio al frente**, antes de que el trabajo la atrape (el problema era: tras trabajar + desayunar, cuesta salir al gym).
+
+| Hora | Qué |
+|------|-----|
+| 6:00 | Despertar · levo + agua |
+| 6:05–6:45 | 🚶 **Caminata exterior 40 min** (en ayunas, la levo absorbe) — ANCLA diaria + pasos |
+| 6:45–7:15 | ✍️ Páginas matutinas (15') + formación (15') · desayuno + café aquí |
+| ~9:00 | 💪 Gym vacío: fuerza (días de fuerza) → cerrar con estiramiento |
+| casa | 🧘 Yoga (los días que toca, o tras el gym) |
+
+**Sostenibilidad:** la caminata matutina es el ANCLA que nunca falla (aunque el resto se caiga, ya te moviste → la cadena no se rompe). Fuerza y yoga siguen la rotación semanal, NO las tres cosas cada día.
+
 ## Regla de oro
 Es votar por la mujer activa **primero, antes que nada.** Ganar la mañana = ganar el día.
