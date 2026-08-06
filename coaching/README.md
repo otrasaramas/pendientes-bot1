@@ -14,6 +14,8 @@
 - [`manana-5am.md`](./manana-5am.md) — ritual matutino estilo Club de las 5 AM (20/20/20) + rutina corta diaria.
 - [`manana-infografia.html`](./manana-infografia.html) — infografía visual de la mañana 20/20/20 con ilustraciones. Ábrela en el navegador/celular.
 - [`diario.md`](./diario.md) — check-in quincenal (días 1 y 15).
+- [`progreso.md`](./progreso.md) — datos diarios de entrenamiento (fuente del dashboard).
+- [`progreso-dashboard.html`](./progreso-dashboard.html) — panel visual con gráficas (racha, minutos, peso, récords).
 - [`proteinas.txt`](./proteinas.txt) — lista de proteínas.
 
 ---

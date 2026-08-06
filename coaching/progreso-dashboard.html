@@ -1,0 +1,231 @@
+<title>Mi Progreso · Sara</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#EDF1E9; --surface:#F8FAF5; --ink:#243128; --muted:#6C7A70;
+    --sage:#6F9A7C; --clay:#CF7150; --line:#D7DFCF; --rest:#DDE4D6;
+    --shadow:0 1px 2px rgba(36,49,40,.05),0 10px 26px rgba(36,49,40,.05);
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --ground:#161B17; --surface:#1E241F; --ink:#E7ECE3; --muted:#9BA79D;
+           --sage:#84B392; --clay:#E08A69; --line:#2F3830; --rest:#2A322B;
+           --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.28); }
+  }
+  :root[data-theme="dark"]{ --ground:#161B17; --surface:#1E241F; --ink:#E7ECE3; --muted:#9BA79D;
+           --sage:#84B392; --clay:#E08A69; --line:#2F3830; --rest:#2A322B;
+           --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.28); }
+  :root[data-theme="light"]{ --ground:#EDF1E9; --surface:#F8FAF5; --ink:#243128; --muted:#6C7A70;
+           --sage:#6F9A7C; --clay:#CF7150; --line:#D7DFCF; --rest:#DDE4D6;
+           --shadow:0 1px 2px rgba(36,49,40,.05),0 10px 26px rgba(36,49,40,.05); }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;padding:26px 16px 46px}
+  .wrap{max-width:760px;margin:0 auto}
+  .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);font-weight:700;margin:0 0 8px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,7vw,2.8rem);line-height:1.05;margin:0;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:9px 0 0;max-width:54ch;font-size:.96rem}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:11px;margin:22px 0 4px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 15px;box-shadow:var(--shadow)}
+  .stat .k{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .stat .v{font-family:var(--serif);font-size:2rem;line-height:1.1;margin-top:5px;font-variant-numeric:tabular-nums}
+  .stat .v small{font-size:.9rem;color:var(--muted)}
+  .stat .d{font-size:.76rem;margin-top:3px;font-variant-numeric:tabular-nums}
+  .up{color:var(--clay)} .down{color:var(--sage)}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--shadow);margin-top:16px}
+  .card h2{font-family:var(--serif);font-size:1.18rem;margin:0 0 3px;font-weight:600}
+  .card p.sub{margin:0 0 14px;color:var(--muted);font-size:.82rem}
+
+  .gridwrap{overflow-x:auto}
+  .weekhead{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px;min-width:280px}
+  .weekhead span{font-size:.62rem;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.05em}
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;min-width:280px}
+  .cell{aspect-ratio:1;border-radius:5px;background:var(--rest)}
+  .cell.trained{background:var(--sage)}
+  .cell.future{background:transparent;border:1px dashed var(--line)}
+  .legend{display:flex;gap:16px;margin-top:12px;font-size:.75rem;color:var(--muted);flex-wrap:wrap}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+
+  .chartbox{overflow-x:auto}
+  svg.chart{display:block;width:100%;height:auto;min-width:300px}
+  .chart .bar{fill:var(--sage)}
+  .chart .bar.today{fill:var(--clay)}
+  .chart .grid{stroke:var(--line);stroke-width:1}
+  .chart .axis{fill:var(--muted);font-size:9px;font-family:var(--sans)}
+  .chart .lbl{fill:var(--muted);font-size:9px;font-family:var(--sans)}
+  .chart .wline{fill:none;stroke:var(--clay);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+  .chart .wdot{fill:var(--surface);stroke:var(--clay);stroke-width:2}
+  .chart .wdot.last{fill:var(--clay)}
+  .chart .goal{stroke:var(--sage);stroke-width:1.5;stroke-dasharray:4 4}
+  .chart .goaltx{fill:var(--sage);font-size:8.5px;font-family:var(--sans)}
+
+  .prs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px}
+  .pr{border:1px solid var(--line);border-radius:12px;padding:12px}
+  .pr .n{font-size:.82rem;font-weight:650}
+  .pr .cur{font-family:var(--serif);font-size:1.35rem;margin-top:3px}
+  .pr .g{font-size:.72rem;color:var(--muted);margin-top:2px}
+
+  .fire{margin-top:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--clay) 12%,var(--surface)),var(--surface));
+        border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+  .fire h2{font-family:var(--serif);font-size:1.2rem;margin:0 0 8px}
+  .fire p{margin:0;font-size:.92rem;color:var(--ink)}
+  .fire b{color:var(--clay)}
+  .signoff{text-align:center;color:var(--muted);font-size:.84rem;margin:24px 0 0;font-style:italic}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Panel de progreso · Sara</p>
+    <h1>Medir para avanzar</h1>
+    <p class="lede">Tu progreso, visible. Cada día que reportas, esto crece. Como una atleta — a tu nivel, pero con datos.</p>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="card">
+    <h2>No rompas la cadena 🔗</h2>
+    <p class="sub">Cada cuadrito verde = un día que te moviste. La meta: llenar la fila.</p>
+    <div class="gridwrap">
+      <div class="weekhead"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+      <div class="cal" id="cal"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--sage)"></i>Entrenaste</span>
+      <span><i style="background:var(--rest)"></i>Sin registro</span>
+      <span><i style="background:transparent;border:1px dashed var(--line)"></i>Por venir</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Minutos por sesión</h2>
+    <p class="sub">Tu volumen de movimiento en cada entreno registrado.</p>
+    <div class="chartbox" id="bars"></div>
+  </div>
+
+  <div class="card">
+    <h2>Tendencia de peso</h2>
+    <p class="sub">Mira la tendencia, no el dato de un día. Línea punteada = meta de julio (66 kg).</p>
+    <div class="chartbox" id="weight"></div>
+  </div>
+
+  <div class="card">
+    <h2>Récords a batir 🏅</h2>
+    <p class="sub">Tus marcas de atleta. Vamos subiéndolas juntas.</p>
+    <div class="prs" id="prs"></div>
+  </div>
+
+  <div class="fire">
+    <h2>Recuerda esto 🔥</h2>
+    <p>Cuando sientes que "ya no das más", en realidad estás apenas al <b>30-40%</b> de todo lo que puedes dar. Queda muchísimo en el tanque. La pereza no es una señal de parar — es la puerta que cruzas para volver a tu racha. <b>Un día activo a la vez.</b></p>
+  </div>
+
+  <p class="signoff">La motivación llega DESPUÉS de moverte, no antes. Empieza y ella te alcanza. 🌱</p>
+</div>
+
+<script>
+  // ====== DATOS (editar aquí para actualizar) ======
+  const sessions = [
+    {d:'2026-06-17', min:75},
+    {d:'2026-06-29', min:50},
+    {d:'2026-07-08', min:75},
+    {d:'2026-07-29', min:90},
+    {d:'2026-07-30', min:80},
+    {d:'2026-07-31', min:50},
+    {d:'2026-08-01', min:65},
+  ];
+  const weights = [
+    {d:'2026-04-22', kg:73.0},
+    {d:'2026-05-15', kg:69.0},
+    {d:'2026-06-10', kg:69.0},
+    {d:'2026-06-17', kg:69.3},
+    {d:'2026-06-29', kg:70.7},
+    {d:'2026-07-03', kg:68.0},
+  ];
+  const prs = [
+    {n:'Plancha', cur:'—', g:'meta 60 seg'},
+    {n:'Trote continuo', cur:'~5 min', g:'meta 10 min'},
+    {n:'Flexiones', cur:'pared', g:'meta 5 completas'},
+    {n:'Split (apoyo)', cur:'—', g:'meta al piso'},
+  ];
+  const GRID_END = '2026-08-10';
+  // ==================================================
+
+  const trained = new Set(sessions.map(s=>s.d));
+  const lastData = sessions[sessions.length-1].d;
+  const fmt = d => { const [y,m,dd]=d.split('-'); return `${+dd}/${+m}`; };
+  const addDays = (d,n)=>{ const t=new Date(d+'T00:00:00'); t.setDate(t.getDate()+n);
+    return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); };
+  const dow = d => { const w=new Date(d+'T00:00:00').getDay(); return (w+6)%7; }; // 0=Mon
+
+  // streak: días consecutivos hasta la última sesión
+  let streak=1;
+  for(let i=sessions.length-1;i>0;i--){
+    if(sessions[i].d===addDays(sessions[i-1].d,1)) streak++; else break;
+  }
+  const active30 = sessions.filter(s=> s.d>addDays(lastData,-30)).length;
+  const weekMin = sessions.filter(s=> s.d>addDays(lastData,-7)).reduce((a,s)=>a+s.min,0);
+  const w0=weights[0].kg, wNow=weights[weights.length-1].kg, dw=(wNow-w0);
+
+  // ----- stat tiles -----
+  document.getElementById('stats').innerHTML = [
+    `<div class="stat"><div class="k">Racha actual</div><div class="v">${streak}<small> días</small></div><div class="d up">🔥 en marcha</div></div>`,
+    `<div class="stat"><div class="k">Días activos (30d)</div><div class="v">${active30}</div><div class="d">últimos 30 días</div></div>`,
+    `<div class="stat"><div class="k">Min últimos 7 días</div><div class="v">${weekMin}</div><div class="d">de movimiento</div></div>`,
+    `<div class="stat"><div class="k">Peso actual</div><div class="v">${wNow.toFixed(1)}<small> kg</small></div><div class="d down">${dw<=0?'▼':'▲'} ${Math.abs(dw).toFixed(1)} kg desde abril</div></div>`,
+  ].join('');
+
+  // ----- calendar -----
+  let start = GRID_END; // retroceder ~7 semanas a un lunes
+  start = addDays(GRID_END,-48);
+  while(dow(start)!==0) start=addDays(start,-1);
+  let cells='';
+  for(let d=start; d<=GRID_END; d=addDays(d,1)){
+    let cls='cell';
+    if(trained.has(d)) cls+=' trained';
+    else if(d>lastData) cls+=' future';
+    cells+=`<div class="${cls}" title="${d}"></div>`;
+  }
+  document.getElementById('cal').innerHTML=cells;
+
+  // ----- bar chart -----
+  (function(){
+    const W=340,H=175, pl=28,pr=8,pt=12,pb=26;
+    const pw=W-pl-pr, ph=H-pt-pb, max=100;
+    let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Minutos por sesión">`;
+    [0,50,100].forEach(v=>{ const y=pt+ph*(1-v/max);
+      s+=`<line class="grid" x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}"/><text class="axis" x="${pl-5}" y="${y+3}" text-anchor="end">${v}</text>`; });
+    const band=pw/sessions.length;
+    sessions.forEach((se,i)=>{ const bw=band*0.5, x=pl+band*i+(band-bw)/2, h=ph*se.min/max, y=pt+ph-h;
+      const cls = se.d===lastData?'bar today':'bar';
+      s+=`<rect class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="3"/>`;
+      s+=`<text class="lbl" x="${(x+bw/2).toFixed(1)}" y="${(y-4).toFixed(1)}" text-anchor="middle">${se.min}</text>`;
+      s+=`<text class="lbl" x="${(pl+band*i+band/2).toFixed(1)}" y="${H-9}" text-anchor="middle">${fmt(se.d)}</text>`; });
+    s+=`</svg>`; document.getElementById('bars').innerHTML=s;
+  })();
+
+  // ----- weight line -----
+  (function(){
+    const W=340,H=175, pl=30,pr=12,pt=12,pb=24;
+    const pw=W-pl-pr, ph=H-pt-pb, lo=66, hi=74;
+    const yOf=v=>pt+ph*(1-(v-lo)/(hi-lo));
+    const xOf=i=>pl+ (weights.length>1? pw*i/(weights.length-1):0);
+    let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tendencia de peso">`;
+    [66,68,70,72,74].forEach(v=>{ const y=yOf(v);
+      s+=`<line class="grid" x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}"/><text class="axis" x="${pl-5}" y="${y+3}" text-anchor="end">${v}</text>`; });
+    // goal line 66
+    s+=`<line class="goal" x1="${pl}" y1="${yOf(66)}" x2="${W-pr}" y2="${yOf(66)}"/><text class="goaltx" x="${W-pr}" y="${yOf(66)-3}" text-anchor="end">meta jul 66</text>`;
+    const pts=weights.map((w,i)=>`${xOf(i).toFixed(1)},${yOf(w.kg).toFixed(1)}`).join(' ');
+    s+=`<polyline class="wline" points="${pts}"/>`;
+    weights.forEach((w,i)=>{ const last=i===weights.length-1;
+      s+=`<circle class="wdot${last?' last':''}" cx="${xOf(i).toFixed(1)}" cy="${yOf(w.kg).toFixed(1)}" r="${last?4:3}"/>`;
+      s+=`<text class="lbl" x="${xOf(i).toFixed(1)}" y="${H-8}" text-anchor="middle">${fmt(w.d)}</text>`; });
+    s+=`</svg>`; document.getElementById('weight').innerHTML=s;
+  })();
+
+  // ----- PRs -----
+  document.getElementById('prs').innerHTML = prs.map(p=>
+    `<div class="pr"><div class="n">${p.n}</div><div class="cur">${p.cur}</div><div class="g">${p.g}</div></div>`).join('');
+</script>
