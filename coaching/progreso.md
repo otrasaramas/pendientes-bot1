@@ -50,6 +50,23 @@ Tipo: 🚶 caminata · 🏃 trote · 🚴 elíptica · 💪 fuerza · 🧘 yoga 
 | 2026-06-29 | 70.7 | | | |
 | 2026-07-03 | 68.0 | | | |
 
+## 🎯 RETO ACTIVO: 7 días de caminata
+- **Fechas:** lunes 10 → domingo 16 de agosto 2026.
+- **Regla:** una caminata cada día. Mínimo 20 min; ideal ~40-60 min / ~4 km.
+- **Progreso:** 0/7 (se marca en el dashboard al reportar cada día).
+- **Caminata tipo:** ~4 km, ~60 min, +142 m de desnivel, ~5.000-6.000 pasos.
+- **Premio al 7/7:** _(por elegir — algo NO comida: ropa deportiva, un masaje, un plan que ame)_.
+
+| Día | Fecha | ✅ |
+|-----|-------|:--:|
+| Lun | 08-10 | ⬜ |
+| Mar | 08-11 | ⬜ |
+| Mié | 08-12 | ⬜ |
+| Jue | 08-13 | ⬜ |
+| Vie | 08-14 | ⬜ |
+| Sáb | 08-15 | ⬜ |
+| Dom | 08-16 | ⬜ |
+
 ## 🎯 Métricas que seguimos
 **Esenciales (empezar solo con estas):**
 1. ¿Me moví hoy? (sí/no) — constancia / racha.

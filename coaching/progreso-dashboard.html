@@ -73,6 +73,15 @@
   .fire h2{font-family:var(--serif);font-size:1.2rem;margin:0 0 8px}
   .fire p{margin:0;font-size:.92rem;color:var(--ink)}
   .fire b{color:var(--clay)}
+  .challenge{margin-top:16px}
+  .chhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .chprog{font-family:var(--serif);font-size:1.4rem;color:var(--clay);font-variant-numeric:tabular-nums;font-weight:600}
+  .chrow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px}
+  .chday{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .chcirc{width:100%;aspect-ratio:1;max-width:48px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--muted);background:var(--ground)}
+  .chcirc.done{background:var(--sage);border-color:var(--sage);color:#fff}
+  .chcirc.today{border-color:var(--clay);border-style:dashed}
+  .chlbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;font-variant-numeric:tabular-nums;text-align:center}
   .signoff{text-align:center;color:var(--muted);font-size:.84rem;margin:24px 0 0;font-style:italic}
 </style>
 
@@ -82,6 +91,12 @@
     <h1>Medir para avanzar</h1>
     <p class="lede">Tu progreso, visible. Cada día que reportas, esto crece. Como una atleta — a tu nivel, pero con datos.</p>
   </header>
+
+  <div class="card challenge">
+    <div class="chhead"><h2>🎯 Reto: 7 días de caminata</h2><span class="chprog" id="chprog">0/7</span></div>
+    <p class="sub">Del lunes 10 al domingo 16 de agosto · una caminata cada día. Mínimo 20 min; ideal ~40-60 min / 4 km.</p>
+    <div class="chrow" id="chrow"></div>
+  </div>
 
   <div class="stats" id="stats"></div>
 
@@ -228,4 +243,20 @@
   // ----- PRs -----
   document.getElementById('prs').innerHTML = prs.map(p=>
     `<div class="pr"><div class="n">${p.n}</div><div class="cur">${p.cur}</div><div class="g">${p.g}</div></div>`).join('');
+
+  // ----- reto 7 días -----
+  const CH_START='2026-08-10', CH_DAYS=7;
+  const challengeDone = []; // agregar 'YYYY-MM-DD' al completarse cada día
+  const DOW=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  let todayStr=''; try{ const t=new Date();
+    todayStr=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); }catch(e){}
+  let ch='';
+  for(let i=0;i<CH_DAYS;i++){ const d=addDays(CH_START,i);
+    const done=challengeDone.includes(d);
+    const wd=new Date(d+'T00:00:00').getDay(), dd=+d.split('-')[2];
+    const cls='chcirc'+(done?' done':'')+(d===todayStr?' today':'');
+    ch+=`<div class="chday"><div class="${cls}">${done?'✓':''}</div><div class="chlbl">${DOW[wd]} ${dd}</div></div>`;
+  }
+  document.getElementById('chrow').innerHTML=ch;
+  document.getElementById('chprog').textContent=challengeDone.length+'/7';
 </script>
