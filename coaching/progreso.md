@@ -35,6 +35,11 @@ Tipo: 🚶 caminata · 🏃 trote · 🚴 elíptica · 💪 fuerza · 🧘 yoga 
 | Flexiones | nivel pared/rodillas | 5 completas |
 | Split (altura del apoyo) | por medir | piso |
 
+## 🎯 Meta de peso
+- **Ritmo objetivo:** 0,8 kg/semana.
+- **Meta:** **60 kg en noviembre 2026** (desde 68 = 8 kg → ~10 semanas → margen de sobra).
+- Reportar el peso cada vez que se pese; se mira la **tendencia mensual**, no la semana suelta (las semanas lútea/retención pesan más y es normal).
+
 ## Medidas corporales
 | Fecha | Peso (kg) | Cintura | Cadera | Muslo |
 |-------|----------:|--------:|-------:|------:|
@@ -45,5 +50,31 @@ Tipo: 🚶 caminata · 🏃 trote · 🚴 elíptica · 💪 fuerza · 🧘 yoga 
 | 2026-06-29 | 70.7 | | | |
 | 2026-07-03 | 68.0 | | | |
 
+## 🎯 Métricas que seguimos
+**Esenciales (empezar solo con estas):**
+1. ¿Me moví hoy? (sí/no) — constancia / racha.
+2. Minutos de movimiento.
+3. Pasos + distancia (meta inicial ~8.000/día; medir con app Salud / Google Fit).
+4. Peso (tendencia semanal) + medidas cada 2-4 semanas.
+
+**De atleta (elegir 1-2):** plancha (seg) · flexiones (reps) · trote continuo (min) · ritmo de caminata (min/km) · altura del apoyo en el split · energía (1-5) y espalda.
+
+## 🔗 Rotación semanal (algo TODOS los días, así sea mínimo)
+Herramientas de Sara: caminata/sprint · elíptica · fuerza (5 ejercicios) · yoga/estiramiento.
+
+| Día | Foco | Mínimo si hay pereza |
+|-----|------|----------------------|
+| Lun | Caminata + sprints | caminar 15 min |
+| Mar | Fuerza + core | 1 ronda |
+| Mié | Yoga + estiramiento (recupera) | 10 min |
+| Jue | Elíptica + caminata | elíptica 10 min |
+| Vie | Fuerza + core | 1 ronda |
+| Sáb | Caminata larga exterior | caminar 20 min |
+| Dom | Yoga suave / descanso activo | estiramiento 5 min |
+
+> Regla: todos los días algo. La versión mínima cuenta igual — la cadena no se rompe.
+
 ## Meta de constancia
-Reconstruir la racha: objetivo **5 días activos / semana**, con 2 descansos. (Antes lo tenía — se recupera.)
+Reconstruir la racha: objetivo **6-7 días activos / semana** (con la rotación de arriba, la mayoría suaves). Antes lo tenía — se recupera.
+
+*(Reportar cada día incluye, cuando puedas: pasos y distancia del celular.)*

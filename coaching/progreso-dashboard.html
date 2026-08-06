@@ -107,7 +107,7 @@
 
   <div class="card">
     <h2>Tendencia de peso</h2>
-    <p class="sub">Mira la tendencia, no el dato de un día. Línea punteada = meta de julio (66 kg).</p>
+    <p class="sub">Mira la tendencia, no el dato de un día. Línea punteada = meta 60 kg (nov), a ~0,8 kg/semana.</p>
     <div class="chartbox" id="weight"></div>
   </div>
 
@@ -209,14 +209,14 @@
   // ----- weight line -----
   (function(){
     const W=340,H=175, pl=30,pr=12,pt=12,pb=24;
-    const pw=W-pl-pr, ph=H-pt-pb, lo=66, hi=74;
+    const pw=W-pl-pr, ph=H-pt-pb, lo=59, hi=74;
     const yOf=v=>pt+ph*(1-(v-lo)/(hi-lo));
     const xOf=i=>pl+ (weights.length>1? pw*i/(weights.length-1):0);
     let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tendencia de peso">`;
-    [66,68,70,72,74].forEach(v=>{ const y=yOf(v);
+    [62,66,70,74].forEach(v=>{ const y=yOf(v);
       s+=`<line class="grid" x1="${pl}" y1="${y}" x2="${W-pr}" y2="${y}"/><text class="axis" x="${pl-5}" y="${y+3}" text-anchor="end">${v}</text>`; });
-    // goal line 66
-    s+=`<line class="goal" x1="${pl}" y1="${yOf(66)}" x2="${W-pr}" y2="${yOf(66)}"/><text class="goaltx" x="${W-pr}" y="${yOf(66)-3}" text-anchor="end">meta jul 66</text>`;
+    // goal line 60
+    s+=`<line class="goal" x1="${pl}" y1="${yOf(60)}" x2="${W-pr}" y2="${yOf(60)}"/><text class="goaltx" x="${W-pr}" y="${yOf(60)-3}" text-anchor="end">meta nov 60</text>`;
     const pts=weights.map((w,i)=>`${xOf(i).toFixed(1)},${yOf(w.kg).toFixed(1)}`).join(' ');
     s+=`<polyline class="wline" points="${pts}"/>`;
     weights.forEach((w,i)=>{ const last=i===weights.length-1;
