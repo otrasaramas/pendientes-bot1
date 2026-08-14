@@ -164,6 +164,50 @@
 
 ---
 
+## 10. Plan general de estilo de vida (2026-08-14)
+
+> Orientación general/educativa para acompañar el criterio médico — no reemplaza indicación profesional.
+
+### Cuadro general
+| Área | Estado | Comentario |
+|---|---|---|
+| Tiroides (TSH) | 🟡 Mejorando | 4.35→2.43, sigue con levotiroxina |
+| LDL | 🔴 Alto y persistente | 122→121, dos tomas seguidas altas |
+| Triglicéridos | 🔴 Subió fuerte | 69→223 — lo más urgente a trabajar |
+| HDL | 🟡 Bajo en 2025, sin repetir | Reconfirmar |
+| Glucosa | 🟢 Normal | cerca del límite alto, vigilar |
+| Hierro/B12/Vit D | 🟢 Normal | sin déficits |
+| Columna lumbar | 🟡 Manejable | protrusiones pequeñas, sin compresión franca, en tratamiento |
+| Digestión | 🟡 Mejorando | ligada a tiroides |
+| Peso/IMC | 🟡 ~27.6 | sobrepeso leve, en descenso gradual |
+| Sueño | 🟢 Bueno | |
+| Estrés | 🟢 Bajó a ~4/10 | |
+
+**Prioridad actual: bajar triglicéridos y LDL** — es lo que más responde a cambios de estilo de vida ahora mismo.
+
+### Dieta
+- Proteína ~100-110 g/día (saciedad, masa muscular, no eleva triglicéridos).
+- Bajar harinas/azúcares refinados (mayor conductor de triglicéridos altos) → preferir integrales, tubérculos, legumbres.
+- Grasas buenas (aguacate, oliva, frutos secos, pescado azul/omega-3 — ayuda también piel/queratosis pilaris).
+- Mantener fermentados y fibra (kiwi, chía, linaza) para el tránsito.
+- Revisar frecuencia de alcohol (dispara triglicéridos).
+- Hidratación 2-3 L/día.
+- Mantener horario levotiroxina separado de comidas/calcio/hierro/fermentos con calcio.
+
+### Movimiento y terapia
+- Fisioterapia (10 sesiones ordenadas) — prioridad #1, fortalecer core y proteger L5-S1.
+- Fuerza general 2-3x/semana (sentadilla, peso muerto rumano, remo, técnica controlada) evitando lo ya señalado en cuidados de columna (flexión con carga, crunches, saltos).
+- Cardio suave-moderado 3-4x/semana (caminar, bici, nadar) — de lo más efectivo para bajar triglicéridos.
+- Movilidad/yoga suave, evitando forward folds profundos.
+
+### Complementario / estilo de vida
+- Vitamina D: mantener niveles actuales (buenos).
+- Manejo de estrés: seguir bajando (ya en 4/10), sumar respiración/mindfulness si quiere.
+- Proteger el sueño (ya está bien).
+- Opciones a preguntar con médico/nutricionista/fitoterapeuta con licencia (no automedicarse): omega-3 en suplemento, psyllium/fibra soluble, berberina (interactúa con medicamentos, requiere supervisión).
+
+---
+
 ## 9. Resumen de pendientes médicos
 - [ ] Cita médica + labs de tiroides (TSH, T4 libre, anti-TPO).
 - [ ] Autorizar las 10 sesiones de terapia física para la lumbar.
