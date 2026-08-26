@@ -50,6 +50,23 @@ Tipo: 🚶 caminata · 🏃 trote · 🚴 elíptica · 💪 fuerza · 🧘 yoga 
 | 2026-06-29 | 70.7 | | | |
 | 2026-07-03 | 68.0 | | | |
 
+## 🔗 Rotación semanal (mes de gimnasio — ancla: 7am con mamá, Mar-Jue)
+Recurso por función: **gimnasio = fuerza** (necesita equipo) · **caminata/yoga = gratis y cerca**.
+
+| Día | Plan | Dónde | Mínimo si hay pereza |
+|-----|------|-------|----------------------|
+| Lun | Caminata + yoga/movilidad | casa/exterior | caminar 15 min |
+| Mar | 💪 Fuerza full-body + core (7am, mamá) | gimnasio | ir = ganar |
+| Mié | 💪 Fuerza full-body + core (7am, mamá) | gimnasio | ir = ganar |
+| Jue | 💪 Fuerza full-body + core (7am, mamá) | gimnasio | ir = ganar |
+| Vie | Cardio suave + core, o caminata | gym unidad | caminar 20 min |
+| Sáb | Caminata larga (4 km) | exterior | caminar 20 min |
+| Dom | Yoga + estiramiento / descanso | casa | estirar 5 min |
+
+**Sesión de fuerza (los 3 días, back-safe, progresar +1 rep/semana, sin fallo):**
+calentar 5-8' → prensa/sentadilla al cajón 3×10 → hip thrust/puente 3×12 → remo o jalón 3×10 → press pecho/hombro máquina 3×10 → plancha + bird-dog 2 rondas → pantorrillas + estiramiento.
+🛑 Máquinas con respaldo, técnica antes que peso, sin flexión de columna cargada.
+
 ## 🎯 RETO ACTIVO: 7 días de caminata
 - **Fechas:** lunes 10 → domingo 16 de agosto 2026.
 - **Regla:** una caminata cada día. Mínimo 20 min; ideal ~40-60 min / ~4 km.
