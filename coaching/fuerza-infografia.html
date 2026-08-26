@@ -1,0 +1,318 @@
+<title>Plan de Fuerza · Sara</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#EDF1E9; --surface:#F8FAF5; --ink:#243128; --muted:#6C7A70;
+    --sage:#7C9E86; --clay:#CF7150; --line:#D7DFCF;
+    --shadow:0 1px 2px rgba(36,49,40,.05),0 10px 26px rgba(36,49,40,.05);
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --ground:#161B17; --surface:#1E241F; --ink:#E7ECE3; --muted:#9BA79D;
+           --sage:#8FB79A; --clay:#E08A69; --line:#2F3830;
+           --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.28); }
+  }
+  :root[data-theme="dark"]{ --ground:#161B17; --surface:#1E241F; --ink:#E7ECE3; --muted:#9BA79D;
+           --sage:#8FB79A; --clay:#E08A69; --line:#2F3830;
+           --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px rgba(0,0,0,.28); }
+  :root[data-theme="light"]{ --ground:#EDF1E9; --surface:#F8FAF5; --ink:#243128; --muted:#6C7A70;
+           --sage:#7C9E86; --clay:#CF7150; --line:#D7DFCF;
+           --shadow:0 1px 2px rgba(36,49,40,.05),0 10px 26px rgba(36,49,40,.05); }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;padding:28px 16px 46px}
+  .wrap{max-width:860px;margin:0 auto}
+  .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);font-weight:700;margin:0 0 8px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,7vw,2.9rem);line-height:1.05;margin:0;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:10px 0 0;max-width:56ch;font-size:.98rem}
+
+  .week{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:9px;margin:22px 0 6px}
+  .wd{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:11px 10px;box-shadow:var(--shadow)}
+  .wd.gym{border-color:var(--clay);border-width:1.5px}
+  .wd .dn{font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .wd .da{font-size:.86rem;font-weight:600;margin-top:4px;line-height:1.25}
+  .wd .tag{display:inline-block;margin-top:6px;font-size:.64rem;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--ground);color:var(--muted)}
+  .wd.gym .tag{background:color-mix(in srgb,var(--clay) 16%,var(--surface));color:var(--clay)}
+
+  .block{margin-top:32px}
+  .bhead{display:flex;align-items:baseline;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--line);margin-bottom:15px}
+  .btitle{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin:0;flex:1;letter-spacing:-.01em}
+  .btag{font-size:.72rem;color:var(--clay);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:11px 12px 13px;display:flex;flex-direction:column;gap:7px;box-shadow:var(--shadow)}
+  .tile{background:var(--ground);border-radius:10px;padding:5px}
+  .pose{display:block;width:100%;height:auto}
+  .pose .fig{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+  .pose .eq{fill:none;stroke:var(--sage);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  .pose .db{fill:none;stroke:var(--clay);stroke-width:6;stroke-linecap:round}
+  .pose .bar{fill:none;stroke:var(--clay);stroke-width:4;stroke-linecap:round}
+  .pose .cable{fill:none;stroke:var(--sage);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:2 3}
+  .pose .cue{fill:none;stroke:var(--clay);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .pose .floor{fill:none;stroke:var(--sage);stroke-width:2.5;stroke-linecap:round;opacity:.5}
+  .name{font-weight:650;font-size:.92rem;line-height:1.22}
+  .how{color:var(--muted);font-size:.78rem;line-height:1.34}
+  .reps{color:var(--ink);font-size:.8rem;font-variant-numeric:tabular-nums;font-weight:700}
+  .reps span{color:var(--clay)}
+
+  .safe{margin-top:32px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+  .safe h2{font-family:var(--serif);font-size:1.12rem;margin:0 0 10px;font-weight:600}
+  .safe ul{margin:0;padding-left:18px}
+  .safe li{margin:6px 0;font-size:.88rem}
+  .safe li b{color:var(--clay)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 0;font-size:.74rem;color:var(--muted)}
+  .legend i{display:inline-block;width:20px;height:0;border-top-width:3px;border-top-style:solid;vertical-align:4px;margin-right:6px;border-radius:2px}
+  .signoff{text-align:center;color:var(--muted);font-size:.86rem;margin:24px 0 0;font-style:italic}
+  @media (prefers-reduced-motion:no-preference){ .card,.wd{animation:rise .5s ease both} @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}} }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Plan de fuerza · Sara</p>
+    <h1>Semana de Fuerza</h1>
+    <p class="lede">Tu calendario + cada ejercicio dibujado con una explicación corta de cómo se hace, para que reconozcas los movimientos y las máquinas aunque sean nuevos.</p>
+  </header>
+
+  <div class="week">
+    <div class="wd"><div class="dn">Lun</div><div class="da">Caminata + yoga</div><span class="tag">suave</span></div>
+    <div class="wd gym"><div class="dn">Mar · 7am</div><div class="da">Día A · Piernas y glúteos</div><span class="tag">gym 💪</span></div>
+    <div class="wd gym"><div class="dn">Mié · 7am</div><div class="da">Día B · Espalda y bíceps</div><span class="tag">gym 💪</span></div>
+    <div class="wd gym"><div class="dn">Jue · 7am</div><div class="da">Día C · Pecho, hombros, tríceps</div><span class="tag">gym 💪</span></div>
+    <div class="wd"><div class="dn">Vie</div><div class="da">Cardio suave + core</div><span class="tag">unidad</span></div>
+    <div class="wd"><div class="dn">Sáb</div><div class="da">Caminata larga 4 km</div><span class="tag">exterior</span></div>
+    <div class="wd"><div class="dn">Dom</div><div class="da">Yoga / descanso</div><span class="tag">recupera</span></div>
+  </div>
+
+  <p class="legend"><span><i style="border-color:var(--ink)"></i>tú</span><span><i style="border-color:var(--sage)"></i>máquina/banco</span><span><i style="border-color:var(--clay)"></i>peso/agarre</span></p>
+
+  <!-- DÍA A -->
+  <section class="block">
+    <div class="bhead"><h2 class="btitle">Día A — Piernas y Glúteos</h2><span class="btag">+ core · martes</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Prensa de piernas">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M16 88 H40 M18 88 L18 66 L34 58"/>
+          <path class="eq" d="M78 40 L88 52"/><path class="cable" d="M83 30 V46"/>
+          <circle class="fig" cx="33" cy="54" r="5"/><path class="fig" d="M35 58 L50 70"/><path class="fig" d="M50 70 L64 58 L80 48"/>
+        </svg></div>
+        <div class="name">Prensa de piernas</div>
+        <div class="how">Sentada, empuja la plataforma con los pies hasta casi estirar (sin bloquear rodillas).</div>
+        <div class="reps">3 × <span>10-12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Hip thrust">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M12 66 H32 M14 66 V78 M30 66 V78"/>
+          <circle class="fig" cx="14" cy="62" r="5"/><path class="fig" d="M20 66 L48 54"/><path class="fig" d="M48 54 L60 56"/>
+          <path class="fig" d="M60 56 L64 88"/><path class="bar" d="M42 50 H58"/>
+        </svg></div>
+        <div class="name">Hip thrust</div>
+        <div class="how">Espalda alta en el banco, sube la cadera apretando glúteos; peso sobre la cadera.</div>
+        <div class="reps">3 × <span>12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Zancadas">
+          <path class="floor" d="M8 90 H92"/><circle class="fig" cx="52" cy="30" r="6"/><path class="fig" d="M52 36 V56"/>
+          <path class="fig" d="M52 56 L44 72 L44 90"/><path class="fig" d="M52 56 L66 72 L74 88"/>
+          <path class="fig" d="M52 40 L44 54"/><path class="fig" d="M52 40 L60 54"/><path class="db" d="M40 55 H48"/><path class="db" d="M56 55 H64"/>
+        </svg></div>
+        <div class="name">Zancadas</div>
+        <div class="how">Paso largo al frente y baja la rodilla de atrás hacia el piso; alterna piernas.</div>
+        <div class="reps">3 × <span>10</span>/lado</div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Curl femoral">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M14 74 H66 M18 74 V86 M62 74 V86"/>
+          <circle class="fig" cx="18" cy="70" r="5"/><path class="fig" d="M24 72 H60"/><path class="fig" d="M60 72 L72 72 L76 56"/>
+          <circle class="eq" cx="78" cy="54" r="4"/>
+        </svg></div>
+        <div class="name">Curl femoral</div>
+        <div class="how">Tumbada en la máquina, flexiona las rodillas llevando el talón hacia atrás contra el rodillo.</div>
+        <div class="reps">3 × <span>12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Pantorrillas">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M40 86 H60"/>
+          <circle class="fig" cx="50" cy="26" r="6"/><path class="fig" d="M50 32 V58"/><path class="fig" d="M50 58 L47 82"/><path class="fig" d="M50 58 L53 82"/>
+          <path class="fig" d="M43 36 L50 46"/><path class="fig" d="M57 36 L50 46"/><path class="cue" d="M68 42 V30 M64 34 L68 28 L72 34"/>
+        </svg></div>
+        <div class="name">Pantorrillas</div>
+        <div class="how">De pie, sube en puntas de pie lo más alto y baja lento.</div>
+        <div class="reps">3 × <span>15-20</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DÍA B -->
+  <section class="block">
+    <div class="bhead"><h2 class="btitle">Día B — Espalda y Bíceps</h2><span class="btag">+ core · miércoles</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Jalón al pecho">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M20 14 H80"/><circle class="eq" cx="50" cy="16" r="3"/>
+          <path class="cable" d="M50 19 V34"/><path class="bar" d="M36 34 H64"/>
+          <circle class="fig" cx="50" cy="52" r="6"/><path class="fig" d="M50 58 V74"/><path class="fig" d="M50 60 L40 40"/><path class="fig" d="M50 60 L60 40"/>
+          <path class="fig" d="M50 74 L40 82"/><path class="fig" d="M50 74 L62 78 L62 88"/><path class="eq" d="M38 82 H56"/>
+        </svg></div>
+        <div class="name">Jalón al pecho</div>
+        <div class="how">Sentada, agarra la barra ancha de arriba y bájala al pecho apretando la espalda.</div>
+        <div class="reps">3 × <span>10-12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Remo sentado">
+          <path class="floor" d="M8 90 H92"/><circle class="fig" cx="34" cy="46" r="6"/><path class="fig" d="M34 52 L36 72"/>
+          <path class="fig" d="M34 54 L54 58"/><path class="fig" d="M36 72 H54"/><path class="fig" d="M54 72 V66"/>
+          <path class="cable" d="M56 58 H84"/><path class="eq" d="M84 50 V78"/><path class="bar" d="M54 54 V62"/><path class="eq" d="M28 72 H44"/>
+        </svg></div>
+        <div class="name">Remo sentado</div>
+        <div class="how">Sentada, jala el agarre hacia el abdomen, codos pegados y pecho firme.</div>
+        <div class="reps">3 × <span>10-12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Remo con mancuerna">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M18 70 H50 M22 70 V84 M46 70 V84"/>
+          <circle class="fig" cx="26" cy="56" r="5"/><path class="fig" d="M30 58 L58 62"/><path class="fig" d="M40 60 L38 70"/>
+          <path class="fig" d="M58 62 L58 90"/><path class="fig" d="M52 61 L52 74"/><path class="db" d="M48 75 H56"/>
+        </svg></div>
+        <div class="name">Remo con mancuerna</div>
+        <div class="how">Una rodilla y mano en el banco; jala la mancuerna hacia la cadera, espalda plana.</div>
+        <div class="reps">3 × <span>10</span>/lado</div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Face pulls">
+          <path class="floor" d="M8 90 H92"/><circle class="fig" cx="40" cy="26" r="6"/><path class="fig" d="M40 32 V60"/>
+          <path class="fig" d="M40 60 L34 88"/><path class="fig" d="M40 60 L46 88"/><path class="fig" d="M40 38 L52 34"/><path class="fig" d="M40 38 L52 44"/>
+          <path class="bar" d="M52 32 V46"/><path class="cable" d="M54 39 H86"/><path class="eq" d="M86 30 V50"/>
+        </svg></div>
+        <div class="name">Face pulls</div>
+        <div class="how">Jala la cuerda/banda hacia tu cara abriendo los codos. Trabaja la postura.</div>
+        <div class="reps">3 × <span>15</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Curl de bíceps">
+          <path class="floor" d="M8 90 H92"/><circle class="fig" cx="50" cy="24" r="6"/><path class="fig" d="M50 30 V58"/>
+          <path class="fig" d="M50 58 L45 86"/><path class="fig" d="M50 58 L55 86"/>
+          <path class="fig" d="M50 36 L43 48 L47 40"/><path class="fig" d="M50 36 L57 48 L53 40"/><path class="db" d="M43 40 H51"/>
+        </svg></div>
+        <div class="name">Curl de bíceps</div>
+        <div class="how">De pie, sube las mancuernas doblando el codo, sin balancear el cuerpo.</div>
+        <div class="reps">3 × <span>12</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DÍA C -->
+  <section class="block">
+    <div class="bhead"><h2 class="btitle">Día C — Pecho, Hombros y Tríceps</h2><span class="btag">+ core · jueves</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Press de pecho">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M24 84 H40 M30 84 V50 L38 46"/>
+          <circle class="fig" cx="36" cy="44" r="5"/><path class="fig" d="M36 48 L36 66"/><path class="fig" d="M36 52 H56"/>
+          <path class="fig" d="M36 66 L48 70"/><path class="bar" d="M56 46 V58"/><path class="eq" d="M64 40 V70"/><path class="cable" d="M58 52 H64"/>
+        </svg></div>
+        <div class="name">Press de pecho</div>
+        <div class="how">Sentada en la máquina, empuja los agarres al frente hasta casi estirar los brazos.</div>
+        <div class="reps">3 × <span>10-12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Press de hombro">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M26 84 H42 M32 84 V52 L40 48"/>
+          <circle class="fig" cx="40" cy="46" r="5"/><path class="fig" d="M40 50 V68"/><path class="fig" d="M40 52 L32 36"/><path class="fig" d="M40 52 L48 36"/>
+          <path class="db" d="M28 34 H36"/><path class="db" d="M44 34 H52"/>
+        </svg></div>
+        <div class="name">Press de hombro</div>
+        <div class="how">Sentada con respaldo, empuja el peso por encima de la cabeza y baja controlando.</div>
+        <div class="reps">3 × <span>10</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Pec deck aperturas">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M38 84 H54 M44 84 V52 L52 48"/>
+          <circle class="fig" cx="50" cy="46" r="5"/><path class="fig" d="M50 50 V68"/><path class="fig" d="M50 54 L34 50"/><path class="fig" d="M50 54 L66 50"/>
+          <path class="bar" d="M32 44 V56"/><path class="bar" d="M68 44 V56"/>
+        </svg></div>
+        <div class="name">Aperturas (pec deck)</div>
+        <div class="how">Sentada, junta los brazos al frente con los codos suaves; abre despacio.</div>
+        <div class="reps">3 × <span>12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Elevaciones laterales">
+          <path class="floor" d="M8 90 H92"/><circle class="fig" cx="50" cy="24" r="6"/><path class="fig" d="M50 30 V58"/>
+          <path class="fig" d="M50 58 L45 86"/><path class="fig" d="M50 58 L55 86"/><path class="fig" d="M50 36 L34 36"/><path class="fig" d="M50 36 L66 36"/>
+          <path class="db" d="M30 36 H38"/><path class="db" d="M62 36 H70"/>
+        </svg></div>
+        <div class="name">Elevaciones laterales</div>
+        <div class="how">De pie, sube las mancuernas a los lados hasta la altura de los hombros.</div>
+        <div class="reps">3 × <span>15</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Extensión de tríceps">
+          <path class="floor" d="M8 90 H92"/><path class="eq" d="M60 12 H80"/><path class="cable" d="M70 14 V40"/><path class="bar" d="M62 40 H78"/>
+          <circle class="fig" cx="46" cy="30" r="6"/><path class="fig" d="M46 36 V64"/><path class="fig" d="M46 42 L56 48 L68 40"/>
+          <path class="fig" d="M46 64 L40 88"/><path class="fig" d="M46 64 L52 88"/>
+        </svg></div>
+        <div class="name">Extensión de tríceps</div>
+        <div class="how">En la polea alta, empuja la cuerda hacia abajo estirando los codos; pegados al cuerpo.</div>
+        <div class="reps">3 × <span>12</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Flexiones">
+          <path class="floor" d="M8 88 H92"/><path class="fig" d="M26 86 V68"/><path class="fig" d="M26 68 L70 80"/><path class="fig" d="M70 80 L82 86"/><circle class="fig" cx="22" cy="64" r="5"/>
+        </svg></div>
+        <div class="name">Flexiones</div>
+        <div class="how">En pared o de rodillas según tu nivel; baja el pecho controlado. Camino a tus 5.</div>
+        <div class="reps">3 × <span>máx</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE -->
+  <section class="block">
+    <div class="bhead"><h2 class="btitle">Core — en CADA día</h2><span class="btag">elige 3 · al final</span></div>
+    <div class="grid">
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Plancha">
+          <path class="floor" d="M8 88 H92"/><path class="fig" d="M22 86 H42"/><path class="fig" d="M42 86 V72"/><path class="fig" d="M42 72 L86 86"/><circle class="fig" cx="37" cy="67" r="5"/>
+        </svg></div>
+        <div class="name">Plancha</div><div class="how">Antebrazos y puntas, cuerpo en línea, abdomen firme.</div><div class="reps">3 × <span>30 s</span></div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Plancha lateral">
+          <path class="floor" d="M8 88 H92"/><path class="fig" d="M34 64 L92 84"/><path class="fig" d="M34 64 L30 88 H42"/><circle class="fig" cx="34" cy="58" r="5"/><path class="fig" d="M54 71 L58 54"/>
+        </svg></div>
+        <div class="name">Plancha lateral</div><div class="how">De lado sobre el antebrazo; sube y sostén la cadera.</div><div class="reps">3 × <span>20 s</span>/lado</div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Bird-dog">
+          <path class="floor" d="M8 88 H92"/><path class="fig" d="M40 86 V68"/><path class="fig" d="M74 86 V68"/><path class="fig" d="M40 68 H74"/><path class="fig" d="M40 68 L20 60"/><path class="fig" d="M74 68 L94 60"/><circle class="fig" cx="36" cy="64" r="5"/>
+        </svg></div>
+        <div class="name">Bird-dog</div><div class="how">En cuatro apoyos, estira brazo y pierna opuestos sin arquear.</div><div class="reps">3 × <span>10</span>/lado</div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Dead bug">
+          <path class="floor" d="M8 88 H92"/><circle class="fig" cx="20" cy="80" r="5"/><path class="fig" d="M26 82 H54"/><path class="fig" d="M38 82 L34 62"/><path class="fig" d="M54 82 L60 62 L74 68"/>
+        </svg></div>
+        <div class="name">Dead bug</div><div class="how">Boca arriba, baja brazo y pierna opuestos; lumbar pegada al piso.</div><div class="reps">3 × <span>10</span>/lado</div>
+      </div>
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Pallof press">
+          <path class="floor" d="M8 90 H92"/><circle class="fig" cx="40" cy="26" r="6"/><path class="fig" d="M40 32 V60"/><path class="fig" d="M40 60 L34 88"/><path class="fig" d="M40 60 L46 88"/><path class="fig" d="M40 40 L58 44"/><path class="cable" d="M58 44 H86"/><path class="eq" d="M86 32 V54"/><path class="bar" d="M56 40 V48"/>
+        </svg></div>
+        <div class="name">Pallof press</div><div class="how">Con la polea al lado, empuja el agarre al frente sin dejar que te gire.</div><div class="reps">3 × <span>10</span>/lado</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="safe">
+    <h2>Cómo empezar (importante) 💡</h2>
+    <ul>
+      <li><b>Peso ligero primero:</b> elige uno que te deje 2-3 reps de sobra. Primero dominas la técnica, luego subes.</li>
+      <li><b>Máquinas con respaldo</b> y columna neutra. Técnica antes que peso.</li>
+      <li><b>NO:</b> peso muerto/sentadilla pesados con la espalda redondeada, crunches ni giros cargados.</li>
+      <li><b>Progresa</b> +1 rep o algo de peso cada semana. Sin llegar al fallo.</li>
+      <li>Si dudas de una máquina, pídele a tu mamá o a alguien del gym que te la muestre una vez. 🙂</li>
+    </ul>
+  </div>
+
+  <p class="signoff">Cada serie es un voto por la mujer fuerte que estás construyendo. 💪🌱</p>
+</div>

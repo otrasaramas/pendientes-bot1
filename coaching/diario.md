@@ -1,0 +1,86 @@
+# Diario de Coaching — Sara
+
+> Bitácora de seguimiento. Se actualiza **2 veces al mes: los días 1 y 15**.
+> Documento base: [`perfil.md`](./perfil.md).
+>
+> **Cómo usarlo:** en cada check-in registramos peso (tendencia, no el número de un día),
+> fase del ciclo, cómo fue la alimentación y el entrenamiento, ánimo/mentalidad, y los
+> ajustes del coach para la quincena siguiente. Las entradas más nuevas van arriba.
+
+---
+
+## Plantilla de entrada
+
+```
+## AAAA-MM-DD — Check-in
+
+**Peso / tendencia:**
+**Fase del ciclo:**
+**Alimentación (qué funcionó / qué costó):**
+**Entrenamiento (rutina, progresión, energía):**
+**Cuerpo y ánimo (cómo se siente, ropa, confianza):**
+**Mentalidad / relación con la comida:**
+**Wins de la quincena:** 🎉
+**Ajustes del coach para los próximos 15 días:**
+**Pendientes / recordatorios:** (labs, médico, etc.)
+```
+
+---
+
+## 2026-06-29 — Check-in regreso de viaje
+
+**Peso / tendencia:** 70.7 kg (subió desde 69). NO es grasa: agua/sodio del viaje + posible premenstrual + estreñimiento. Baja al volver a rutina e hidratar. Sin drama — ruido esperado.
+
+**Fase del ciclo:** posible premenstrual / inicio de regla → entrando pronto a folicular (ventana para acelerar).
+
+**Alimentación:** Viaje navegado **mucho mejor de lo esperado y SIN "ya qué"** 🎉. Aprendió sus patrones reales: (1) comida ofrecida = sí automático, (2) lo disponible/conocido no vale la pena, (3) la decisión premeditada burla las herramientas del momento, (4) porciones grandes / comer pasada la saciedad. Herramienta nueva: **Filtro Doble** (¿lo quiero de verdad Y vale la pena?). Antojo de dulce post-comida → Cierre Dulce inteligente.
+
+**Entrenamiento:** Volvió hoy tras 1 semana off. Caminata 40' **alivió la espalda** (aprendizaje: movimiento suave > reposo para su lumbar).
+
+**Cuerpo y ánimo:** Espalda mejor tras ejercicio. Estreñimiento (3+ días, tierra caliente) → subir agua. Ánimo bueno, orgullosa y con fuego ("lo quiero ya" trabajado: paciencia = estrategia).
+
+**Mentalidad:** Salto real — primer viaje sin espiral de culpa. Identidad nueva con evidencia. Trabajado: impaciencia (cortisol), la levo NO se autoajusta.
+
+**Wins de la quincena:** 🎉 Viaje sin "ya qué" · volvió al gym con dolor de espalda y mente clara · conciencia alimentaria nueva (patrones + filtros) · constancia tras el viaje.
+
+**Ajustes del coach para los próximos 15 días:**
+1. **Hidratación arriba** (tierra caliente + estreñimiento + bajar el agua de retención).
+2. **Plan semanal back-safe en rampa** hacia folicular (ver `entrenamiento.md`) + Semáforo de espalda.
+3. **Filtro Doble + Cierre Dulce** en lo cotidiano; proteína en cada comida.
+4. Destrabar intestino natural (agua, kiwi/papaya, fermentos, movimiento).
+
+**Pendientes / recordatorios:**
+- 📋 Agendar cita médica + **labs TSH, T4 libre, anti-TPO**; llevar pistas (estreñimiento, estancamiento). NO autoajustar levo.
+- 📏 Tomar **medidas (cintura, cadera, muslo) + foto** base del reto.
+
+---
+
+## 2026-06-17 — Check-in inicial (línea base)
+
+**Peso / tendencia:** 69 kg (al 2026-06-10). Venía de 73 (abr 22) → 69 (may 15) → estancada en 69-70 durante el mes sin levotiroxina. Acaba de retomar la levo.
+
+**Fase del ciclo:** Ovulación (última regla: 1-5 jun). Fase de más energía → buena ventana para intensidad.
+
+**Alimentación:** Buena base — fermentos, mucha verdura/ensalada. A trabajar: bajar volumen de harina/carbohidrato y **subir proteína**. Entre semana ordenada (2 comidas grandes + 1 pequeña, solo fruta de snack); fines de semana/salidas son el reto.
+
+**Entrenamiento:** Práctica constante desde el 8 de abril. Rutina sólida y variada (caminar/correr + fuerza + elíptica + yoga). Ya maneja el dolor de pantorrilla. Metas: split, forward fold abrazando piernas, 5 lagartijas, velita.
+
+**Cuerpo y ánimo:** Estrés 4/10, duerme muy bien. Le molesta el roce de muslos, no usar shorts/sin mangas, cansarse en subidas. La motiva la ropa suelta, su cara y la confianza.
+
+**Mentalidad:** Patrón todo-o-nada con el postre. Reencuadre en marcha: ya es una persona activa, construyendo un cuerpo fuerte para los próximos 60 años.
+
+**Wins de la quincena:** 🎉 ¡Bajó 4 kg desde abril y construyó desde cero una práctica de ejercicio que ama y mantiene! Primera vez con báscula y con estructura.
+
+**Ajustes del coach para los próximos 15 días:**
+1. **Levotiroxina religiosa**, en ayunas, 30-60 min antes de comer/café.
+2. **Proteína del tamaño de la palma en las 2 comidas grandes.** Nada más por ahora.
+3. **Pesarse 1 vez por semana** (mismo día, ayunas) y anotar la tendencia.
+
+**Pendientes / recordatorios:**
+- 📋 Agendar con el médico **labs de TSH, T4 libre y anti-TPO** (~6-8 semanas tras retomar la levo → apuntar a finales de julio / principios de agosto 2026).
+- Ojo a la fase lútea (≈ tercera/cuarta semana del ciclo): planear antojos, no pelearlos.
+
+---
+```
+(Las próximas entradas se agregan aquí arriba, los días 1 y 15 de cada mes.)
+```

@@ -1,0 +1,193 @@
+<title>Mi Mañana · Hora de la Victoria</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#EEF0F7; --surface:#F9F9FD; --ink:#2A2740; --muted:#6B6885;
+    --sun:#E1954A; --peri:#6E7CBE; --line:#DCDDEC;
+    --shadow:0 1px 2px rgba(42,39,64,.05),0 10px 26px rgba(42,39,64,.06);
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --ground:#14141E; --surface:#1D1D2A; --ink:#E9E9F4; --muted:#9A98B4;
+           --sun:#EFA85E; --peri:#8E9AD6; --line:#2B2B3B;
+           --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 26px rgba(0,0,0,.3); }
+  }
+  :root[data-theme="dark"]{ --ground:#14141E; --surface:#1D1D2A; --ink:#E9E9F4; --muted:#9A98B4;
+           --sun:#EFA85E; --peri:#8E9AD6; --line:#2B2B3B;
+           --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 26px rgba(0,0,0,.3); }
+  :root[data-theme="light"]{ --ground:#EEF0F7; --surface:#F9F9FD; --ink:#2A2740; --muted:#6B6885;
+           --sun:#E1954A; --peri:#6E7CBE; --line:#DCDDEC;
+           --shadow:0 1px 2px rgba(42,39,64,.05),0 10px 26px rgba(42,39,64,.06); }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+       line-height:1.5;-webkit-font-smoothing:antialiased;padding:26px 16px 44px}
+  .wrap{max-width:640px;margin:0 auto}
+
+  .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--peri);font-weight:600;margin:0 0 8px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,7vw,2.7rem);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:9px 0 0;font-size:.96rem;max-width:52ch}
+
+  .zero{display:flex;align-items:center;gap:12px;margin:20px 0 4px;background:var(--surface);
+        border:1px solid var(--line);border-left:3px solid var(--sun);border-radius:12px;padding:13px 15px}
+  .zero .dot{font-family:var(--serif);color:var(--sun);font-weight:700;font-size:1.1rem;line-height:1}
+  .zero b{color:var(--ink)}
+  .zero small{color:var(--muted);display:block;font-size:.82rem;margin-top:2px}
+
+  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 6px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px}
+  .step .ic{width:30px;height:30px;color:var(--peri)}
+  .step .ic path,.step .ic circle{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .step .t{font-family:var(--serif);font-weight:600;font-size:1rem}
+  .step .m{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sun);font-weight:700;font-variant-numeric:tabular-nums}
+  .step .d{font-size:.76rem;color:var(--muted);line-height:1.3}
+
+  .sec{margin-top:30px}
+  .sechead{display:flex;align-items:baseline;gap:10px;padding-bottom:11px;border-bottom:1px solid var(--line);margin-bottom:15px}
+  .sechead h2{font-family:var(--serif);font-size:1.3rem;margin:0;font-weight:600;flex:1;letter-spacing:-.01em}
+  .sechead span{font-size:.78rem;color:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:11px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px 11px 13px;display:flex;flex-direction:column;gap:7px;box-shadow:var(--shadow)}
+  .tile{background:var(--ground);border-radius:10px;padding:5px}
+  .pose{display:block;width:100%;height:auto}
+  .pose .fig{fill:none;stroke:var(--ink);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+  .pose .floor{fill:none;stroke:var(--peri);stroke-width:2.6;stroke-linecap:round;opacity:.55}
+  .pose .cue{fill:none;stroke:var(--sun);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .name{font-weight:650;font-size:.9rem;line-height:1.22}
+  .reps{color:var(--sun);font-size:.8rem;font-variant-numeric:tabular-nums;font-weight:700}
+
+  .mini{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:18px 20px}
+  .mini h3{font-family:var(--serif);font-size:1.08rem;margin:0 0 6px;font-weight:600}
+  .mini p{margin:0 0 10px;color:var(--muted);font-size:.86rem}
+  .mini ul{margin:0;padding-left:18px}
+  .mini li{margin:5px 0;font-size:.88rem}
+  .note{margin-top:16px;font-size:.82rem;color:var(--muted);background:var(--ground);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
+  .note b{color:var(--sun)}
+  .signoff{text-align:center;color:var(--muted);font-size:.86rem;margin:24px 0 0;font-style:italic}
+
+  @media (prefers-reduced-motion:no-preference){
+    .card,.step{animation:rise .5s ease both}
+    @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Mi mañana · Sara</p>
+    <h1>La Hora de la Victoria</h1>
+    <p class="lede">Gana la mañana y ganas el día. Estilo Club de las 5 AM, hecho a tu medida — la hora exacta es tuya; la magia es la constancia.</p>
+  </header>
+
+  <div class="zero">
+    <span class="dot">0'</span>
+    <div><b>Al despertar: levo 💊 + un vaso grande de agua.</b>
+      <small>Sin celular, sin café todavía. Tu ritual pasa mientras la levo se absorbe (30–60 min).</small></div>
+  </div>
+
+  <div class="flow">
+    <div class="step">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="14" cy="5" r="2.2"/><path d="M13 9 L9 13 M13 9 L17 12 M13 9 L11 15 L14 20 M11 15 L6 16"/></svg>
+      <span class="m">20 min</span><span class="t">Move</span><span class="d">Mover el cuerpo</span>
+    </div>
+    <div class="step">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 12 C7 8 7 16 12 12 M12 12 C17 8 17 16 12 12"/></svg>
+      <span class="m">20 min</span><span class="t">Reflect</span><span class="d">Silencio · plan</span>
+    </div>
+    <div class="step">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6 C7 4 10 4 12 6 C14 4 17 4 20 6 V18 C17 16 14 16 12 18 C10 16 7 16 4 18 Z M12 6 V18"/></svg>
+      <span class="m">20 min</span><span class="t">Grow</span><span class="d">Aprender</span>
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="sechead"><h2>Bloque Move</h2><span>10–15 min · todos los días</span></div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Marcha en el sitio">
+          <path class="floor" d="M12 86 H88"/><circle class="fig" cx="48" cy="18" r="7"/>
+          <path class="fig" d="M48 25 V54"/><path class="fig" d="M48 54 L45 86"/>
+          <path class="fig" d="M48 54 L62 52 L60 68"/><path class="fig" d="M48 31 L39 43"/><path class="fig" d="M48 31 L58 40"/>
+        </svg></div>
+        <div class="name">Marcha en el sitio</div><div class="reps">2–3 min</div>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Gato-vaca">
+          <path class="floor" d="M12 86 H88"/><path class="fig" d="M34 84 V66"/><path class="fig" d="M74 84 V66"/>
+          <path class="fig" d="M34 66 Q54 52 74 66"/><path class="fig" d="M34 66 L28 70"/><circle class="fig" cx="24" cy="72" r="5.5"/>
+        </svg></div>
+        <div class="name">Gato-vaca</div><div class="reps">8 ciclos</div>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Balanceo de pierna">
+          <path class="floor" d="M12 86 H88"/><circle class="fig" cx="42" cy="18" r="7"/>
+          <path class="fig" d="M42 25 V56"/><path class="fig" d="M42 56 L42 86"/><path class="fig" d="M42 56 L64 62"/>
+          <path class="fig" d="M42 32 L33 44"/><path class="cue" d="M58 74 Q68 66 66 56"/><path class="cue" d="M66 56 l-3 2 M66 56 l2 3"/>
+        </svg></div>
+        <div class="name">Balanceo de pierna</div><div class="reps">10 · cada lado</div>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Puente de glúteo">
+          <path class="floor" d="M12 86 H88"/><circle class="fig" cx="22" cy="80" r="5"/>
+          <path class="fig" d="M28 82 L54 60 L70 60 L86 82"/>
+        </svg></div>
+        <div class="name">Puente de glúteo</div><div class="reps">12 reps</div>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Bird-dog">
+          <path class="floor" d="M12 86 H88"/><path class="fig" d="M42 84 V66"/><path class="fig" d="M76 84 V66"/>
+          <path class="fig" d="M42 66 H76"/><path class="fig" d="M42 66 L22 58"/><path class="fig" d="M76 66 L96 58"/><circle class="fig" cx="38" cy="62" r="5"/>
+        </svg></div>
+        <div class="name">Bird-dog</div><div class="reps">8 · cada lado</div>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Dead bug">
+          <path class="floor" d="M12 86 H88"/><circle class="fig" cx="22" cy="78" r="5"/><path class="fig" d="M28 80 H56"/>
+          <path class="fig" d="M40 80 L36 60"/><path class="fig" d="M56 80 L62 60 L76 66"/>
+        </svg></div>
+        <div class="name">Dead bug</div><div class="reps">8 · cada lado</div>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Clamshell, apertura de cadera">
+          <path class="floor" d="M12 86 H88"/><circle class="fig" cx="22" cy="66" r="5.5"/><path class="fig" d="M27 70 L52 74"/>
+          <path class="fig" d="M52 74 L66 68 L60 80"/><path class="fig" d="M52 74 L66 58 L60 70"/>
+          <path class="cue" d="M72 60 Q78 54 76 47"/><path class="cue" d="M76 47 l-3 2 M76 47 l3 2"/>
+        </svg></div>
+        <div class="name">Clamshell</div><div class="reps">10 · cada lado</div>
+      </div>
+
+      <div class="card">
+        <div class="tile"><svg class="pose" viewBox="0 0 100 100" aria-label="Sentadilla">
+          <path class="floor" d="M12 86 H88"/><circle class="fig" cx="46" cy="20" r="7"/>
+          <path class="fig" d="M48 27 L40 52"/><path class="fig" d="M40 52 L60 58"/><path class="fig" d="M60 58 L58 86"/>
+          <path class="fig" d="M40 52 L40 86"/><path class="fig" d="M46 33 L64 45"/>
+        </svg></div>
+        <div class="name">Sentadilla</div><div class="reps">15 reps</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="mini">
+    <h3>⚡ Mini Victoria (días sin tiempo · 5 min)</h3>
+    <p>Para NUNCA romper la cadena:</p>
+    <ul>
+      <li>Levo + agua</li>
+      <li>15 sentadillas + 1 min de marcha</li>
+      <li>3 gratitudes</li>
+      <li>Leer 1 página / 2 min de podcast</li>
+    </ul>
+  </div>
+
+  <p class="note">🌅 <b>Ojo de mañana:</b> al despertar tus discos están más hidratados — <b>evita flexiones profundas y tocarte los pies la primera hora.</b> Movilidad suave y activación, sí.</p>
+
+  <p class="signoff">Votar por la mujer activa, primero, antes que nada. 🌱</p>
+</div>
