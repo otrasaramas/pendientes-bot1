@@ -8,6 +8,7 @@
 - [`reto-30-dias.md`](./reto-30-dias.md) — protocolo Quantum Jump + tracker.
 - [`entrenamiento.md`](./entrenamiento.md) — bitácora diaria + biblioteca de rutinas.
 - [`fuerza-plan.md`](./fuerza-plan.md) — plan de fuerza por áreas (3 días) + core, back-safe.
+- [`fuerza-infografia.html`](./fuerza-infografia.html) — calendario semanal ilustrado con cada ejercicio y máquina explicados.
 - [`yoga-movilidad.md`](./yoga-movilidad.md) — movilidad diaria segura para la lumbar.
 - [`rutina-infografia.html`](./rutina-infografia.html) — infografía visual paso a paso (movilidad + core, 30 min). Ábrela en el navegador.
 - [`mentalidad-comida.md`](./mentalidad-comida.md) — La Pausa, Kit Renueva-Sabor, estrategia mental.
