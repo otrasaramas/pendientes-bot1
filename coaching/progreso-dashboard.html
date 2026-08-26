@@ -92,12 +92,6 @@
     <p class="lede">Tu progreso, visible. Cada día que reportas, esto crece. Como una atleta — a tu nivel, pero con datos.</p>
   </header>
 
-  <div class="card challenge">
-    <div class="chhead"><h2>🎯 Reto: 7 días de caminata</h2><span class="chprog" id="chprog">0/7</span></div>
-    <p class="sub">Del lunes 10 al domingo 16 de agosto · una caminata cada día. Mínimo 20 min; ideal ~40-60 min / 4 km.</p>
-    <div class="chrow" id="chrow"></div>
-  </div>
-
   <div class="stats" id="stats"></div>
 
   <div class="card">
@@ -243,20 +237,4 @@
   // ----- PRs -----
   document.getElementById('prs').innerHTML = prs.map(p=>
     `<div class="pr"><div class="n">${p.n}</div><div class="cur">${p.cur}</div><div class="g">${p.g}</div></div>`).join('');
-
-  // ----- reto 7 días -----
-  const CH_START='2026-08-10', CH_DAYS=7;
-  const challengeDone = []; // agregar 'YYYY-MM-DD' al completarse cada día
-  const DOW=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-  let todayStr=''; try{ const t=new Date();
-    todayStr=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); }catch(e){}
-  let ch='';
-  for(let i=0;i<CH_DAYS;i++){ const d=addDays(CH_START,i);
-    const done=challengeDone.includes(d);
-    const wd=new Date(d+'T00:00:00').getDay(), dd=+d.split('-')[2];
-    const cls='chcirc'+(done?' done':'')+(d===todayStr?' today':'');
-    ch+=`<div class="chday"><div class="${cls}">${done?'✓':''}</div><div class="chlbl">${DOW[wd]} ${dd}</div></div>`;
-  }
-  document.getElementById('chrow').innerHTML=ch;
-  document.getElementById('chprog').textContent=challengeDone.length+'/7';
 </script>

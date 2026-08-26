@@ -67,22 +67,8 @@ Recurso por función: **gimnasio = fuerza** (necesita equipo) · **caminata/yoga
 calentar 5-8' → prensa/sentadilla al cajón 3×10 → hip thrust/puente 3×12 → remo o jalón 3×10 → press pecho/hombro máquina 3×10 → plancha + bird-dog 2 rondas → pantorrillas + estiramiento.
 🛑 Máquinas con respaldo, técnica antes que peso, sin flexión de columna cargada.
 
-## 🎯 RETO ACTIVO: 7 días de caminata
-- **Fechas:** lunes 10 → domingo 16 de agosto 2026.
-- **Regla:** una caminata cada día. Mínimo 20 min; ideal ~40-60 min / ~4 km.
-- **Progreso:** 0/7 (se marca en el dashboard al reportar cada día).
-- **Caminata tipo:** ~4 km, ~60 min, +142 m de desnivel, ~5.000-6.000 pasos.
-- **Premio al 7/7:** _(por elegir — algo NO comida: ropa deportiva, un masaje, un plan que ame)_.
-
-| Día | Fecha | ✅ |
-|-----|-------|:--:|
-| Lun | 08-10 | ⬜ |
-| Mar | 08-11 | ⬜ |
-| Mié | 08-12 | ⬜ |
-| Jue | 08-13 | ⬜ |
-| Vie | 08-14 | ⬜ |
-| Sáb | 08-15 | ⬜ |
-| Dom | 08-16 | ⬜ |
+## ✅ Reto de caminata — COMPLETADO
+Sara completó el reto de caminata. Nuevo foco: **plan de fuerza** (ver [`fuerza-plan.md`](./fuerza-plan.md)).
 
 ## 🎯 Métricas que seguimos
 **Esenciales (empezar solo con estas):**
