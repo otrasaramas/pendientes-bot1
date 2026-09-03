@@ -1,0 +1,768 @@
+<title>Brújula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<style>
+  :root{
+    --paper:#F6F5F2;
+    --surface:#FFFFFF;
+    --ink:#16161A;
+    --muted:#6E6B66;
+    --rule:#E0DCD5;
+    --red:#C0362C;
+    --red-soft:rgba(192,54,44,.09);
+    --shadow:0 1px 2px rgba(22,22,26,.05);
+    --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+    --body:"Literata",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#131316;
+      --surface:#1B1B20;
+      --ink:#ECE8E1;
+      --muted:#9B968E;
+      --rule:#2F2F35;
+      --red:#E9736A;
+      --red-soft:rgba(233,115,106,.12);
+      --shadow:0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#131316;
+    --surface:#1B1B20;
+    --ink:#ECE8E1;
+    --muted:#9B968E;
+    --rule:#2F2F35;
+    --red:#E9736A;
+    --red-soft:rgba(233,115,106,.12);
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1020px;margin:0 auto;padding:0 28px 96px}
+  p{margin:0 0 .9em}
+  a{color:var(--red)}
+  :focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
+
+  /* ── Cabecera ─────────────────────────────── */
+  header.top{padding:64px 0 40px;border-bottom:2px solid var(--ink)}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--red);
+    margin:0 0 18px;
+  }
+  h1{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(3rem,9vw,5.4rem);line-height:.94;
+    letter-spacing:-.035em;margin:0 0 20px;text-wrap:balance;
+  }
+  .dek{
+    font-size:clamp(1.05rem,2.3vw,1.28rem);line-height:1.5;
+    max-width:36em;color:var(--ink);margin:0;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:28px;
+    font-family:var(--mono);font-size:12px;color:var(--muted);
+    letter-spacing:.04em;
+  }
+  .meta-row b{color:var(--ink);font-weight:600}
+
+  /* ── Secciones ────────────────────────────── */
+  section{padding:56px 0;border-bottom:1px solid var(--rule)}
+  section:last-of-type{border-bottom:none}
+  .sec-label{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 14px;
+  }
+  h2{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.08;
+    letter-spacing:-.025em;margin:0 0 16px;text-wrap:balance;
+  }
+  .lede{max-width:62ch;color:var(--muted);font-size:1.02rem;margin-bottom:0}
+  .lede strong{color:var(--ink);font-weight:600}
+
+  /* ── Las dos leyes ────────────────────────── */
+  .leyes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:32px}
+  .ley-card{
+    background:var(--surface);border:1px solid var(--rule);
+    border-top:3px solid var(--red);padding:26px 24px 22px;box-shadow:var(--shadow);
+  }
+  .ley-card .n{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--red);display:block;margin-bottom:10px;
+  }
+  .ley-card h3{
+    font-family:var(--display);font-weight:700;font-size:1.5rem;
+    letter-spacing:-.02em;margin:0 0 10px;
+  }
+  .ley-card p{font-size:.98rem;margin-bottom:.7em}
+  .ley-card p:last-child{margin-bottom:0}
+  .caso{
+    font-style:italic;color:var(--muted);font-size:.92rem;
+    border-left:2px solid var(--red);padding-left:12px;margin-top:14px;
+  }
+
+  /* ── Índice de trampas ────────────────────── */
+  .indice{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .chip{
+    display:inline-flex;align-items:baseline;gap:7px;
+    font-family:var(--mono);font-size:12px;
+    border:1px solid var(--rule);background:var(--surface);
+    padding:6px 11px;text-decoration:none;color:var(--ink);
+    transition:border-color .15s,color .15s;
+  }
+  .chip b{color:var(--red);font-weight:600}
+  .chip:hover{border-color:var(--red)}
+
+  /* ── Trampa ───────────────────────────────── */
+  .trampa{
+    display:grid;grid-template-columns:132px minmax(0,1fr);gap:28px;
+    padding:38px 0;border-top:1px solid var(--rule);
+  }
+  .trampa:first-of-type{border-top:2px solid var(--ink)}
+  .t-meta{position:sticky;top:22px;align-self:start}
+  .t-code{
+    font-family:var(--display);font-weight:800;font-size:2.1rem;
+    letter-spacing:-.03em;color:var(--red);line-height:1;display:block;
+  }
+  .t-ley{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);display:block;margin-top:8px;line-height:1.5;
+  }
+  .trampa h3{
+    font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,3vw,1.85rem);
+    letter-spacing:-.022em;line-height:1.12;margin:0 0 18px;text-wrap:balance;
+  }
+  .suena{
+    background:var(--red-soft);border-left:3px solid var(--red);
+    padding:14px 18px;margin:0 0 22px;
+  }
+  .suena p{
+    font-style:italic;font-size:1.04rem;line-height:1.5;margin:0 0 .45em;
+  }
+  .suena p:last-child{margin-bottom:0}
+  h4{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 8px;
+  }
+  .trampa .bloque{margin-bottom:22px}
+  .trampa .bloque:last-child{margin-bottom:0}
+  ol.movs{margin:0;padding-left:0;list-style:none;counter-reset:m}
+  ol.movs li{
+    counter-increment:m;position:relative;padding-left:30px;margin-bottom:.55em;
+  }
+  ol.movs li::before{
+    content:counter(m);position:absolute;left:0;top:.15em;
+    font-family:var(--mono);font-size:11px;font-weight:600;color:var(--red);
+    border:1px solid var(--red);width:19px;height:19px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .con-ia{
+    font-size:.94rem;color:var(--muted);border-top:1px dashed var(--rule);
+    padding-top:12px;margin:0;
+  }
+  .con-ia b{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink);margin-right:8px;
+  }
+
+  /* ── Tu turno ─────────────────────────────── */
+  .turno{
+    background:var(--surface);border:1px dashed var(--red);
+    padding:26px 24px;margin-top:38px;
+  }
+  .turno h3{font-family:var(--display);font-weight:700;font-size:1.3rem;margin:0 0 8px;letter-spacing:-.02em}
+  .turno p{font-size:.97rem;color:var(--muted);max-width:56ch}
+  .slot{
+    display:flex;align-items:baseline;gap:14px;
+    border-bottom:1px solid var(--rule);padding:14px 0 8px;
+  }
+  .slot span{font-family:var(--mono);font-size:12px;color:var(--red);font-weight:600}
+
+  /* ── Cuestionario ─────────────────────────── */
+  .preguntas{margin-top:32px;display:grid;gap:2px;background:var(--rule);border:1px solid var(--rule)}
+  .pregunta{background:var(--surface);padding:24px 24px 22px}
+  .p-num{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;
+    color:var(--red);display:block;margin-bottom:8px;
+  }
+  .pregunta h3{
+    font-family:var(--display);font-weight:600;font-size:1.2rem;line-height:1.28;
+    letter-spacing:-.015em;margin:0 0 14px;
+  }
+  ul.opts{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:6px}
+  ul.opts li{
+    font-size:.95rem;padding-left:26px;position:relative;color:var(--ink);
+  }
+  ul.opts li::before{
+    content:"";position:absolute;left:0;top:.42em;width:12px;height:12px;
+    border:1.5px solid var(--muted);border-radius:50%;
+  }
+  .libre{
+    font-family:var(--mono);font-size:11.5px;color:var(--muted);
+    letter-spacing:.06em;margin-bottom:14px;
+  }
+  .detecta{
+    font-size:.92rem;color:var(--muted);border-left:2px solid var(--red);
+    padding-left:12px;margin:0;
+  }
+  .detecta b{color:var(--ink);font-weight:600}
+
+  .devuelve{margin-top:36px}
+  ol.salida{margin:16px 0 0;padding-left:0;list-style:none;counter-reset:s;display:grid;gap:12px}
+  ol.salida li{counter-increment:s;padding-left:34px;position:relative;font-size:1rem}
+  ol.salida li::before{
+    content:counter(s);position:absolute;left:0;top:0;
+    font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--red);
+  }
+  ol.salida b{font-weight:600}
+
+  /* ── Estados ──────────────────────────────── */
+  .estados{margin-top:32px;display:grid;gap:0}
+  .estado{
+    display:grid;grid-template-columns:96px minmax(0,1fr);gap:24px;
+    padding:24px 0;border-top:1px solid var(--rule);
+  }
+  .estado:first-child{border-top:2px solid var(--ink)}
+  .e-code{
+    font-family:var(--mono);font-size:13px;font-weight:600;color:var(--red);
+    letter-spacing:.08em;
+  }
+  .estado h3{font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:-.02em;margin:0 0 8px}
+  .estado p{font-size:.97rem;margin-bottom:.5em}
+  .estado p:last-child{margin-bottom:0}
+  .estado .tag{
+    font-family:var(--mono);font-size:11px;color:var(--muted);
+    display:block;margin-top:8px;letter-spacing:.04em;
+  }
+  .estado .tag b{color:var(--red);font-weight:600}
+  .nota{
+    margin-top:28px;background:var(--red-soft);padding:18px 20px;
+    border-left:3px solid var(--red);font-size:.97rem;
+  }
+  .nota b{font-weight:600}
+
+  /* ── Pasos ────────────────────────────────── */
+  .pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:30px}
+  .paso{border-top:2px solid var(--red);padding-top:16px}
+  .paso .n{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--red);display:block;margin-bottom:8px;
+  }
+  .paso h3{font-family:var(--display);font-weight:700;font-size:1.2rem;margin:0 0 8px;letter-spacing:-.02em}
+  .paso p{font-size:.95rem;color:var(--muted);margin:0}
+
+  footer{padding:44px 0 0;border-top:2px solid var(--ink);margin-top:56px;
+    font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em;line-height:1.7}
+
+  @media (max-width:720px){
+    .wrap{padding:0 20px 72px}
+    .trampa{grid-template-columns:1fr;gap:14px}
+    .t-meta{position:static;display:flex;align-items:baseline;gap:12px}
+    .t-code{font-size:1.5rem}
+    .t-ley{margin-top:0}
+    .estado{grid-template-columns:1fr;gap:6px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Borrador para corregir · v0</p>
+  <h1>Brújula</h1>
+  <p class="dek">Un diagnóstico corto para gente que tiene tiempo y ganas pero no sabe dónde está parada. No genera ideas: detecta en qué trampa estás y te devuelve tres movimientos para esta semana.</p>
+  <div class="meta-row">
+    <span><b>Para</b> la clase de IA — médicos, psicólogos, fotógrafos, chefs de chorizos</span>
+    <span><b>7</b> preguntas · <b>6</b> minutos</span>
+    <span><b>11</b> trampas · <b>2</b> leyes · <b>5</b> estados</span>
+  </div>
+</header>
+
+<section>
+  <p class="sec-label">Por qué no es un generador de ideas</p>
+  <h2>El salón no está atascado por falta de ideas</h2>
+  <p class="lede">Está atascado por falta de criterio para elegir una y permiso para empezar pequeño. Un generador entrega diez opciones y sube la parálisis. La <strong>generación de ideas existe aquí, pero solo como una rama</strong>: la de quien todavía no tiene nada. Todos los demás necesitan lo contrario — que les quiten opciones.</p>
+</section>
+
+<section>
+  <p class="sec-label">El fondo de todo</p>
+  <h2>Las dos leyes</h2>
+  <p class="lede">Casi todos los errores del salón son una de estas dos, disfrazada. Los dos casos que ya tenías son una cada uno.</p>
+  <div class="leyes">
+    <article class="ley-card">
+      <span class="n">Ley 1</span>
+      <h3>Orden</h3>
+      <p>La prueba va antes que la marca. Todo lo que construyes antes de que alguien te pague es decoración, no conocimiento.</p>
+      <p class="caso">«Creen que necesitan marca wow en vez de una prueba de producto primero.»</p>
+    </article>
+    <article class="ley-card">
+      <span class="n">Ley 2</span>
+      <h3>Cancha</h3>
+      <p>Si compites en la dimensión donde el otro es imbatible, pierdes, aunque tu trabajo sea mejor. Lo hecho a mano tiene que vender lo que la máquina no puede vender. Si vende lo mismo, es una copia cara.</p>
+      <p class="caso">«Hacen a mano los sobres copiados de China: el chino vale 1.000 y el de ellos 3.000.»</p>
+    </article>
+  </div>
+</section>
+
+<section>
+  <p class="sec-label">El producto de verdad</p>
+  <h2>Catálogo de trampas</h2>
+  <p class="lede">Cada trampa se reconoce por <strong>la frase literal</strong> que dice la persona — eso es lo que el cuestionario detecta. Las dos primeras son tuyas; el resto las inferí. Borra las que no hayas visto y agrega las que sí.</p>
+  <nav class="indice">
+    <a class="chip" href="#t1"><b>T1</b> Marca antes que prueba</a>
+    <a class="chip" href="#t2"><b>T2</b> La copia cara</a>
+    <a class="chip" href="#t3"><b>T3</b> Es para todo el mundo</a>
+    <a class="chip" href="#t4"><b>T4</b> Todavía no está listo</a>
+    <a class="chip" href="#t5"><b>T5</b> A mi mamá le encantó</a>
+    <a class="chip" href="#t6"><b>T6</b> Cobro lo que me costó</a>
+    <a class="chip" href="#t7"><b>T7</b> Primero la página</a>
+    <a class="chip" href="#t8"><b>T8</b> Hago de todo un poco</a>
+    <a class="chip" href="#t9"><b>T9</b> Primero seguidores</a>
+    <a class="chip" href="#t10"><b>T10</b> Mi caso es distinto</a>
+    <a class="chip" href="#t11"><b>T11</b> La IA me arma el negocio</a>
+  </nav>
+
+  <article class="trampa" id="t1">
+    <div class="t-meta"><span class="t-code">T1</span><span class="t-ley">Ley 1 · Orden</span></div>
+    <div>
+      <h3>Marca antes que prueba</h3>
+      <div class="suena">
+        <p>«Antes de salir necesito el logo, el nombre, la paleta, el Instagram bonito.»</p>
+        <p>«Es que si no se ve profesional nadie me va a comprar.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>La marca se siente productiva y no da miedo, porque nadie te puede decir que no. Vender da miedo porque sí te pueden decir que no. Diseñar marca antes de vender no es preparación: es aplazamiento con buena excusa. Y encima estás diseñando la marca de un producto que todavía no sabes cuál es, así que casi seguro la vas a botar.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Véndelo feo, esta semana, a 3 personas que no te quieran.</li>
+          <li>Marca mínima = nombre pronunciable + una foto decente + una frase que diga qué haces. Nada más. Dos horas, no dos meses.</li>
+          <li>Vuelve a la marca cuando sepas qué te compran y por qué. Ahí sí tienes con qué diseñar.</li>
+        </ol>
+      </div>
+      <p class="con-ia"><b>Con IA</b>Los 20 nombres candidatos y el primer texto de venta salen en 10 minutos. El diseño «definitivo» no lo hagas todavía, ni con IA ni sin ella.</p>
+    </div>
+  </article>
+
+  <article class="trampa" id="t2">
+    <div class="t-meta"><span class="t-code">T2</span><span class="t-ley">Ley 2 · Cancha</span></div>
+    <div>
+      <h3>La copia cara</h3>
+      <div class="suena">
+        <p>«Hago los sobres a mano, mucho mejores, pero la gente prefiere el chino de 1.000.»</p>
+        <p>«Es que no valoran el trabajo hecho a mano.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Copiaste el objeto. Si tu producto es el mismo objeto que hace una máquina, el cliente compara en la única dimensión donde son comparables: el precio. Y ahí la máquina gana siempre. No es que no valoren lo hecho a mano — es que no les diste nada que valorar además del sobre.</p>
+        <p>Lo hecho a mano solo se paga cuando vende algo que la máquina <em>no puede</em> vender: que sea único, que sea tuyo, que diga algo del que lo regala, que llegue en dos horas, que venga con el nombre de la persona, que exista en cantidad de 12 y no de 1.000.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Escribe qué dimensión estás perdiendo (casi siempre: precio) y cuál puedes ganar. Elige una sola.</li>
+          <li>Rediseña el producto para esa dimensión: personalizado, hiperlocal, urgente, por encargo, serie corta, con historia. Si no cambia el producto, no cambia nada.</li>
+          <li>Súbele el precio, no se lo bajes. Bajarlo te mete en la cancha de China.</li>
+        </ol>
+      </div>
+      <p class="con-ia"><b>Con IA</b>Pídele las 10 dimensiones en las que compite tu categoría y en cuáles el competidor grande es imbatible. Elegir la cancha sigue siendo tuyo.</p>
+    </div>
+  </article>
+
+  <article class="trampa" id="t3">
+    <div class="t-meta"><span class="t-code">T3</span><span class="t-ley">Ley 2 · Cancha</span></div>
+    <div>
+      <h3>Es para todo el mundo</h3>
+      <div class="suena">
+        <p>«Le sirve a cualquiera.»</p>
+        <p>«Mi público es hombres y mujeres de 18 a 65.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Sin un cliente concreto no puedes decidir nada: ni precio, ni canal, ni qué quitar. «Para todos» no es amplitud, es que todavía no has elegido — y sin elegir no hay producto que se pueda hacer.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Nombre propio: escribe 5 personas reales que lo comprarían. Con nombre.</li>
+          <li>Si no logras las 5, ese es el hallazgo, no un fracaso.</li>
+          <li>Diseña para el primero de la lista. Los demás llegan después, o no llegan.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="trampa" id="t4">
+    <div class="t-meta"><span class="t-code">T4</span><span class="t-ley">Ley 1 · Orden</span></div>
+    <div>
+      <h3>Todavía no está listo</h3>
+      <div class="suena">
+        <p>«Le falta poquito.»</p>
+        <p>«Cuando termine esto ya salgo.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Mientras no salga, no puede fallar. El «poquito» es infinito por diseño. Lo que llamas perfeccionismo casi siempre es miedo al veredicto — y el veredicto es justo la información que necesitas.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Ponle fecha de salida antes de seguir trabajando. Fecha, no condición.</li>
+          <li>Define qué es lo mínimo que ya resuelve el problema, aunque te dé pena.</li>
+          <li>Sal con eso. La pena se pasa; el año perdido no.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="trampa" id="t5">
+    <div class="t-meta"><span class="t-code">T5</span><span class="t-ley">Ley 1 · Orden</span></div>
+    <div>
+      <h3>A mi mamá le encantó</h3>
+      <div class="suena">
+        <p>«Ya lo mostré y todos dijeron que está buenísimo.»</p>
+        <p>«Tengo mucha gente interesada.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Te dieron cariño, no información. Nadie que te quiere te va a decir que no. «Interesado» es la palabra que usa la gente para no decir que no va a comprar. La única señal que no miente es plata que cambia de manos.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>A los «interesados», pásales el precio y la forma de pago. Hoy.</li>
+          <li>Cuenta cuántos pagan. Ese número es tu validación; el resto es ruido.</li>
+          <li>A los que no pagan, pregúntales qué habrían necesitado. Esa respuesta vale más que el sí de tu mamá.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="trampa" id="t6">
+    <div class="t-meta"><span class="t-code">T6</span><span class="t-ley">Ley 2 · Cancha</span></div>
+    <div>
+      <h3>Cobro lo que me costó</h3>
+      <div class="suena">
+        <p>«Me salió en 8.000, lo vendo en 12.000.»</p>
+        <p>«Cobro mis horas.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Estás poniendo precio desde tu lado del mostrador. Al cliente no le importa cuánto te costó: le importa cuánto vale el resultado para él. Cobrar por costo además te castiga justo cuando mejoras — entre más rápido y mejor lo haces, menos ganas.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Escribe qué le pasa al cliente después de comprarte. Ese es el precio.</li>
+          <li>Prueba tres precios distintos con tres clientes distintos. Te vas a sorprender con cuál pasa.</li>
+          <li>Si te compran todos sin dudar, estás barato.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="trampa" id="t7">
+    <div class="t-meta"><span class="t-code">T7</span><span class="t-ley">Ley 1 · Orden</span></div>
+    <div>
+      <h3>Primero la página, la app, el sistema</h3>
+      <div class="suena">
+        <p>«Cuando tenga la página web ya arranco.»</p>
+        <p>«Necesito una app para esto.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Es la T1 con ropa de tecnología. Un WhatsApp y un link de pago venden exactamente igual que una plataforma, y cuestan cero. La plataforma se construye cuando el proceso manual ya te esté doliendo de tantas ventas — ese dolor es la señal, y es un lujo.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Vende manual hasta que te duela. Mensaje por mensaje.</li>
+          <li>Anota qué se repite y te quita tiempo. Eso, y solo eso, se automatiza.</li>
+          <li>Construye la versión más chiquita de eso.</li>
+        </ol>
+      </div>
+      <p class="con-ia"><b>Con IA</b>Aquí sí, de una: lo que se repite es exactamente lo que la IA hace bien. Pero primero hay que tener el «lo que se repite».</p>
+    </div>
+  </article>
+
+  <article class="trampa" id="t8">
+    <div class="t-meta"><span class="t-code">T8</span><span class="t-ley">Ley 2 · Cancha</span></div>
+    <div>
+      <h3>Hago de todo un poco</h3>
+      <div class="suena">
+        <p>«Ofrezco consultoría, talleres, sesiones, contenido y acompañamiento.»</p>
+        <p>«Depende de lo que necesite el cliente.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Eso es un catálogo de tus capacidades, no una oferta. Obliga al cliente a hacer el trabajo de averiguar qué pedirte, y frente a la duda la gente no pide nada. Una oferta es una sola cosa, con un precio, para un problema que el cliente ya sabe que tiene.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Elige una: la que más te han pedido sin que la ofrecieras.</li>
+          <li>Escríbela en una frase — para quién, qué le resuelve, cuánto vale.</li>
+          <li>Lo demás no se borra, solo se calla por ahora.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="trampa" id="t9">
+    <div class="t-meta"><span class="t-code">T9</span><span class="t-ley">Ley 1 · Orden</span></div>
+    <div>
+      <h3>Primero necesito seguidores</h3>
+      <div class="suena">
+        <p>«Cuando tenga más comunidad ya lanzo.»</p>
+        <p>«Necesito crecer el Instagram primero.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Audiencia no es demanda. Se puede tener 10.000 seguidores y cero compradores, y se puede facturar con 40 contactos de WhatsApp. Además el contenido, como la marca, se siente productivo y no te expone a un no.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Cuenta cuántas personas ya te conocen y podrían comprar. Casi siempre son más de las que crees.</li>
+          <li>Escríbeles una por una. Sin post, sin campaña.</li>
+          <li>Crece la audiencia después de saber qué vendes, no antes.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="trampa" id="t10">
+    <div class="t-meta"><span class="t-code">T10</span><span class="t-ley">Ley 2 · Cancha</span></div>
+    <div>
+      <h3>Yo soy médico, psicólogo, chef — mi caso es distinto</h3>
+      <div class="suena">
+        <p>«Es que en mi profesión no se puede vender así.»</p>
+        <p>«Yo tengo dos especializaciones.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>Dos cosas a la vez. Una: la credencial es tu insumo, no tu oferta — al cliente le importa el resultado, y el título solo sirve para que te crea que lo puedes lograr. Dos: la excepción profesional suele ser una forma elegante de no hacer lo incómodo. Sí hay reglas reales — ética, publicidad sanitaria, habeas data — y esas se respetan; el resto es miedo con bata.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Traduce credencial a resultado: no «psicóloga con maestría en X» sino «en 6 semanas dejas de pelear con tu hijo por las tareas».</li>
+          <li>Anota qué de tu regulación es real y qué te lo inventaste. Sé honesta en esa lista.</li>
+          <li>Lo real se cumple. Lo inventado se hace esta semana.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <article class="trampa" id="t11">
+    <div class="t-meta"><span class="t-code">T11</span><span class="t-ley">Ley 1 · Orden</span></div>
+    <div>
+      <h3>La IA me va a armar el negocio</h3>
+      <div class="suena">
+        <p>«Con IA monto esto en un fin de semana.»</p>
+        <p>«Le pedí a la IA el plan de negocio.»</p>
+      </div>
+      <div class="bloque">
+        <h4>Qué pasa en realidad</h4>
+        <p>La IA ejecuta rapidísimo, pero no decide. Multiplica lo que le pongas al frente: si la dirección está mal, llegas al lugar equivocado más rápido y con mejor presentación. La IA no puede llamar a tu primer cliente ni decirte a qué te vas a dedicar.</p>
+      </div>
+      <div class="bloque">
+        <h4>El movimiento</h4>
+        <ol class="movs">
+          <li>Separa en dos listas: decisiones (tuyas) y ejecución (de la IA).</li>
+          <li>Usa la IA solo en la segunda.</li>
+          <li>Cuando la IA te dé un plan, busca en él dónde tomó una decisión que era tuya. Siempre hay una.</li>
+        </ol>
+      </div>
+    </div>
+  </article>
+
+  <div class="turno">
+    <h3>Tu turno</h3>
+    <p>Las trampas que faltan son las que ya viste en persona y yo no puedo inventar. Anótalas con la frase literal que dice la gente — esa frase es lo que hace que el diagnóstico funcione.</p>
+    <div class="slot"><span>T12</span></div>
+    <div class="slot"><span>T13</span></div>
+    <div class="slot"><span>T14</span></div>
+  </div>
+</section>
+
+<section>
+  <p class="sec-label">Seis minutos</p>
+  <h2>El cuestionario</h2>
+  <p class="lede">Ninguna pregunta es sobre la industria, para que le sirva igual a un médico y al de los chorizos. Cada una tiene un trabajo: <strong>o ubica el estado, o delata una trampa</strong>.</p>
+
+  <div class="preguntas">
+    <div class="pregunta">
+      <span class="p-num">01</span>
+      <h3>¿Qué tienes hoy, exactamente?</h3>
+      <ul class="opts">
+        <li>Una idea en la cabeza, no he hecho nada</li>
+        <li>Lo hice al menos una vez, para mí</li>
+        <li>Se lo di o se lo hice a alguien, gratis</li>
+        <li>Alguien me pagó por esto, al menos una vez</li>
+        <li>Ya me pagan y se repite</li>
+      </ul>
+      <p class="detecta"><b>Ubica el estado.</b> Es la columna vertebral: define todo lo que viene después.</p>
+    </div>
+
+    <div class="pregunta">
+      <span class="p-num">02</span>
+      <h3>¿Quién te ha pagado?</h3>
+      <ul class="opts">
+        <li>Nadie todavía</li>
+        <li>Familia o amigos</li>
+        <li>Conocidos, pero pagaron precio completo</li>
+        <li>Desconocidos</li>
+      </ul>
+      <p class="detecta"><b>Trampa T5.</b> «Nadie» junto con mucho entusiasmo alrededor es la señal más común del salón.</p>
+    </div>
+
+    <div class="pregunta">
+      <span class="p-num">03</span>
+      <h3>Si mañana tuvieras que vender uno, ¿a quién le escribirías?</h3>
+      <p class="libre">Texto libre</p>
+      <p class="detecta"><b>Trampa T3.</b> Nombres propios: bien. Una categoría («mujeres emprendedoras»): todavía no ha elegido. «No sé»: ese es el trabajo de esta semana.</p>
+    </div>
+
+    <div class="pregunta">
+      <span class="p-num">04</span>
+      <h3>¿Qué crees que te falta para arrancar en serio?</h3>
+      <p class="libre">Texto libre</p>
+      <p class="detecta"><b>La pregunta clave.</b> Aquí la trampa sale casi siempre literal: «el logo», «la página», «más seguidores», «que quede bien». Esta respuesta es la que se compara contra el catálogo.</p>
+    </div>
+
+    <div class="pregunta">
+      <span class="p-num">05</span>
+      <h3>Lo que haces, ¿ya lo hace alguien más?</h3>
+      <ul class="opts">
+        <li>No, que yo sepa</li>
+        <li>Sí, y es más barato que lo mío</li>
+        <li>Sí, y es más caro que lo mío</li>
+        <li>Sí, y cuesta más o menos igual</li>
+      </ul>
+      <p class="detecta"><b>Trampa T2.</b> «Más barato» enciende la alarma de cancha. «No, que yo sepa» casi siempre significa que no ha buscado.</p>
+    </div>
+
+    <div class="pregunta">
+      <span class="p-num">06</span>
+      <h3>¿Cuántas horas de verdad tienes por semana, y cuánta plata puedes perder sin que te duela?</h3>
+      <p class="libre">Horas: ____ · Plata: ____</p>
+      <p class="detecta"><b>Realidad.</b> Sin esto el plan es fantasía. A alguien con 3 horas no se le manda lo mismo que a alguien con 20.</p>
+    </div>
+
+    <div class="pregunta">
+      <span class="p-num">07</span>
+      <h3>¿Qué sabes hacer que a la gente de tu alrededor le cuesta?</h3>
+      <p class="libre">Texto libre</p>
+      <p class="detecta"><b>El activo.</b> Para quien no tiene idea todavía, esta respuesta es la materia prima de los proyectos que se le proponen. Para los demás, sirve para ver si lo que está haciendo aprovecha lo que tiene.</p>
+    </div>
+  </div>
+
+  <div class="devuelve">
+    <h4>Lo que devuelve</h4>
+    <p class="lede">Una sola pantalla, sin scroll infinito.</p>
+    <ol class="salida">
+      <li><b>Dónde estás.</b> El estado, dicho en una frase sin eufemismos.</li>
+      <li><b>En qué trampa estás.</b> Una, la más fuerte. Máximo dos. Con su nombre, para que se acuerde.</li>
+      <li><b>Tres movimientos</b> para esta semana, ajustados a las horas que puso en la 6.</li>
+      <li><b>Las dos objeciones</b> que la gente pone justo ahí, ya respondidas. Preescritas por trampa, no conversacionales — eso reemplaza el chat abierto en la primera versión.</li>
+      <li><b>Qué parte se hace con IA</b>, que para eso es la clase.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <p class="sec-label">De la pregunta 01</p>
+  <h2>Los cinco estados</h2>
+  <p class="lede">Cada uno recibe algo distinto — y <strong>solo el primero recibe ideas</strong>.</p>
+
+  <div class="estados">
+    <div class="estado">
+      <div class="e-code">E0</div>
+      <div>
+        <h3>No tengo idea todavía</h3>
+        <p>Tiene tiempo y ganas, no tiene qué hacer.</p>
+        <p><em>Recibe:</em> 3 proyectos posibles construidos desde su respuesta a la pregunta 07 cruzada con lo que ya lo rodea, más el primer movimiento de cada uno. No diez ideas: tres. Diez es parálisis con otro nombre.</p>
+        <span class="tag"><b>Riesgo:</b> que se enamore de la idea más grande. El plan tiene que empujar a la más chiquita.</span>
+      </div>
+    </div>
+    <div class="estado">
+      <div class="e-code">E1</div>
+      <div>
+        <h3>Tengo la idea, no he hecho nada</h3>
+        <p><em>Recibe:</em> cómo hacerlo existir una vez, esta semana, en su versión más fea.</p>
+        <span class="tag"><b>Trampas frecuentes:</b> T4, T1</span>
+      </div>
+    </div>
+    <div class="estado">
+      <div class="e-code">E2</div>
+      <div>
+        <h3>Lo hice, pero no lo he mostrado</h3>
+        <p><em>Recibe:</em> el guion para dárselo a 3 personas que no lo quieran, y qué mirar mientras lo usan.</p>
+        <span class="tag"><b>Trampas frecuentes:</b> T4, T8</span>
+      </div>
+    </div>
+    <div class="estado">
+      <div class="e-code">E3</div>
+      <div>
+        <h3>Lo mostré, nadie ha pagado</h3>
+        <p>El estado más poblado del salón, y el más doloroso.</p>
+        <p><em>Recibe:</em> cómo pasar de «me encantó» a un cobro. Precio, forma de pago, y a quién exactamente.</p>
+        <span class="tag"><b>Trampas frecuentes:</b> T5, T6, T3</span>
+      </div>
+    </div>
+    <div class="estado">
+      <div class="e-code">E4</div>
+      <div>
+        <h3>Ya me pagaron, pero no se repite</h3>
+        <p><em>Recibe:</em> qué del proceso repetir, qué cobrar más caro, qué dejar de hacer.</p>
+        <span class="tag"><b>Trampas frecuentes:</b> T2, T6, T7</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="nota"><b>Nota de diseño:</b> la trampa importa más que el estado. Dos personas en E3 pueden necesitar cosas opuestas según estén en T5 o en T2. El estado define el tono; la trampa define el contenido.</p>
+</section>
+
+<section>
+  <p class="sec-label">Cómo seguimos</p>
+  <h2>Tres pasos, en este orden</h2>
+  <div class="pasos">
+    <div class="paso">
+      <span class="n">Paso 1 · ahora</span>
+      <h3>Corregir el catálogo</h3>
+      <p>Cada trampa que agregues de tu experiencia sube el valor de la herramienta más que cualquier línea de código. Aquí es donde entra tu conocimiento de marca y producto.</p>
+    </div>
+    <div class="paso">
+      <span class="n">Paso 2 · esta semana</span>
+      <h3>Probarlo a mano</h3>
+      <p>Las 7 preguntas por WhatsApp o en papel, con 5 personas del salón de áreas distintas a propósito. 20 minutos cada uno. De ahí salen las trampas reales y el lenguaje con el que la gente las describe.</p>
+    </div>
+    <div class="paso">
+      <span class="n">Paso 3 · después</span>
+      <h3>Construirla</h3>
+      <p>Página publicada con Claude adentro: contesta las 7 preguntas, diagnostica contra el catálogo, devuelve el plan. Sin servidor, sin desplegar, se comparte con un link.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Brújula · borrador v0 para corregir<br>
+  El contenido editable vive en <code>brujula/</code> — 00-plan, 01-trampas, 02-cuestionario, 03-estados
+</footer>
+
+</div>
